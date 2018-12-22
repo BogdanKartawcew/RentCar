@@ -3,7 +3,6 @@ package rentcar.service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import rentcar.dao.user.UserDao;
 import rentcar.dao.user.UserImageDao;
 import rentcar.model.UserImage;
 
@@ -13,8 +12,6 @@ public class UserImageServiceImpl implements UserImageService {
 
     @Autowired
     UserImageDao userImageDao;
-
-    private UserDao userDao;
 
     @Override
     public UserImage findByLogin(String login) {

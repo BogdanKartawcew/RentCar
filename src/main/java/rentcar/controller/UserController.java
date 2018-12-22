@@ -21,9 +21,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by a261711 on 2017-12-24.
- */
+
 @Controller
 @RequestMapping("/")
 public class UserController extends AbstractController {

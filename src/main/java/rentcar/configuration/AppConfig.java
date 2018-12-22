@@ -31,49 +31,50 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "rentcar")
-public class AppConfig extends WebMvcConfigurerAdapter{
+public class AppConfig extends WebMvcConfigurerAdapter {
 
-	//without it uploading files doesn't works
-	@Bean(name="multipartResolver")
-	public StandardServletMultipartResolver resolver(){
-		return new StandardServletMultipartResolver();
-	}
-	
-	@Autowired
-	RoleToUserProfileConverter roleToUserProfileConverter;
-	
+    //without it uploading files doesn't works
+    @Bean(name = "multipartResolver")
+    public StandardServletMultipartResolver resolver() {
+        return new StandardServletMultipartResolver();
+    }
 
-	@Override
-	public void configureViewResolvers(ViewResolverRegistry registry) {
+    @Autowired
+    RoleToUserProfileConverter roleToUserProfileConverter;
 
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
-		registry.viewResolver(viewResolver);
-	}
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+        registry.viewResolver(viewResolver);
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
-	/*convertor of roles from createuser.jsp from ID to TYPE*/
+    /*convertor of roles from createuser.jsp from ID to TYPE*/
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(roleToUserProfileConverter);
     }
-	
+
 
     /*messages.properties*/
     @Bean
-	public MessageSource messageSource() {
-	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-	    messageSource.setBasename("messages");
-	    return messageSource;
-	}
-    
-    /**Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        return messageSource;
+    }
+
+    /**
+     * Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
      * It's a known bug in Spring [https://jira.spring.io/browse/SPR-6164], still present in Spring 4.1.7.
      * This is a workaround for this issue.
      */
@@ -85,49 +86,34 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 
     /*mail configurations*/
 
-	@Bean
-	public JavaMailSender getMailSender() {
-		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    @Bean
+    public JavaMailSender getMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        String password;
+        // Using gmail.
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("kartawcew.b");
+        mailSender.setPassword(password);
 
-		// Using gmail.
-		mailSender.setHost("smtp.gmail.com");
-		mailSender.setPort(587);
-		mailSender.setUsername("kartawcew.b");
-		mailSender.setPassword("karikja253444");
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.transport.protocol", "smtp");
+        javaMailProperties.put("mail.debug", "true");
 
-		Properties javaMailProperties = new Properties();
-		javaMailProperties.put("mail.smtp.starttls.enable", "true");
-		javaMailProperties.put("mail.smtp.auth", "true");
-		javaMailProperties.put("mail.transport.protocol", "smtp");
-		javaMailProperties.put("mail.debug", "true");
+        mailSender.setJavaMailProperties(javaMailProperties);
+        return mailSender;
+    }
 
-		mailSender.setJavaMailProperties(javaMailProperties);
-		return mailSender;
-	}
-
-	/*
-	 * FreeMarker configuration.
-	 */
-	@Bean
-	public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
-		FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
-		bean.setTemplateLoaderPath("/fmtemplates/");
-		return bean;
-	}
-
-	/*
-	 * Velocity configuration.
-	 */
-	@Bean
-	public VelocityEngine getVelocityEngine() throws VelocityException, IOException {
-		VelocityEngineFactory factory = new VelocityEngineFactory();
-		Properties props = new Properties();
-		props.put("resource.loader", "class");
-		props.put("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
-		factory.setVelocityProperties(props);
-		return factory.createVelocityEngine();
-	}
-
+    /*
+     * FreeMarker configuration.
+     */
+    @Bean
+    public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
+        FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
+        bean.setTemplateLoaderPath("/fmtemplates/");
+        return bean;
+    }
 }
 

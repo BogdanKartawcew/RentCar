@@ -1,6 +1,8 @@
 package rentcar.service.common;
 
+import org.springframework.mail.javamail.MimeMessagePreparator;
+
 public interface MailService {
 
-    void
+    void sendEmail(MimeMessagePreparator mailPreparator);
 }
