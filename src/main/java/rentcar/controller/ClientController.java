@@ -1,0 +1,105 @@
+package rentcar.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import rentcar.model.Client;
+import rentcar.service.client.ClientService;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * Created by a261711 on 2017-12-24.
+ */
+@Controller
+@RequestMapping("/")
+public class ClientController extends AbstractController{
+
+    @Autowired
+    ClientService clientService;
+
+    @RequestMapping(value = {"/support/clients"}, method = RequestMethod.GET)
+    public String getClients(ModelMap model) {
+        List<Client> clients = clientService.findAllClients();
+        model.addAttribute("clients", clients);
+        model.addAttribute("loggedinuser", getActiveUser());
+        return "support/clients";
+    }
+
+    @RequestMapping(value = {"/support/clients/createclient"}, method = RequestMethod.GET)
+    public String getClientPost(ModelMap model) {
+        Client client = new Client();
+        model.addAttribute("client", client);
+        model.addAttribute("edit", false);
+        model.addAttribute("loggedinuser", getActiveUser());
+        return "support/createclient";
+    }
+
+    @RequestMapping(value = {"/support/clients/createclient"}, method = RequestMethod.POST)
+    public String postClient(@Valid Client client, BindingResult result,
+                             ModelMap model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("create", true);
+            model.addAttribute("loggedinuser", getActiveUser());
+            return "support/createclient";
+        }
+
+        if (!clientService.isPeselUnique(client.getClientId(), client.getPesel())) {
+            FieldError error = new FieldError("client", "pesel", messageSource.getMessage("non.unique.pesel", new String[]{client.getPesel()}, Locale.getDefault()));
+            model.addAttribute("error", true);
+            model.addAttribute("create", true);
+            model.addAttribute("loggedinuser", getActiveUser());
+            result.addError(error);
+            return "support/createclient";
+        }
+
+        clientService.saveClient(client);
+
+        model.addAttribute("clientgoto", "Go to <a href=" + "/support/clients" + ">Clients list</a>");
+        model.addAttribute("clientsuccess", "Client " + client.getClientFirstName() + " " + client.getClientLastName() + " has registered successfully");
+        model.addAttribute("loggedinuser", getActiveUser());
+        return "support/success";
+    }
+
+
+    @RequestMapping(value = {"/support/clients/editclient-{pesel}"}, method = RequestMethod.GET)
+    public String getClientPut(@PathVariable String pesel, ModelMap model) {
+        Client client = clientService.findByPesel(pesel);
+        model.addAttribute("client", client);
+        model.addAttribute("edit", true);
+        model.addAttribute("loggedinuser", getActiveUser());
+        return "support/createclient";
+    }
+
+    @RequestMapping(value = {"/support/clients/editclient-{pesel}"}, method = RequestMethod.POST)
+    public String putClient(@Valid Client client, BindingResult result,
+                            ModelMap model, @PathVariable String pesel) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("edit", true);
+            model.addAttribute("loggedinuser", getActiveUser());
+            return "support/createclient";
+        }
+        clientService.updateClient(client);
+        model.addAttribute("clientgoto", "Go to <a href=" + "/support/clients" + ">Clients list</a>");
+        model.addAttribute("clientsuccess", "Client " + client.getClientFirstName() + " " + client.getClientLastName() + " has updated successfully");
+        model.addAttribute("loggedinuser", getActiveUser());
+        return "support/success";
+    }
+
+
+    @RequestMapping(value = {"/support/clients/deleteclient-{pesel}"}, method = RequestMethod.GET)
+    public String deleteClient(@PathVariable String pesel) {
+        clientService.deleteClientByPesel(pesel);
+        return "redirect:/support/clients";
+    }
+}

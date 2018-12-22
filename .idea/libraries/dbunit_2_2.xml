@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="dbunit-2.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../exes for Java/dbunit-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../exes for Java/junit-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../exes for Java/mockito-all-1.10.19.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../exes for Java/mockito-all-1.10.19.jar!/" />
+    </SOURCES>
+  </library>
+</component>

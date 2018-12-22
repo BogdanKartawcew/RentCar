@@ -1,0 +1,16 @@
+Topic: car-rental web-application.
+Used technologies:
+- Java 7 SE
+- Spring MVC
+- Spring Security 4
+- Hibernate 4
+- MySql 5.7
+- Maven 3.9.9
+- Tomcat 9.0
+- HTML
+- CSS
+- Bootstrap
+
+To run the project you need to have installed JDK 1.8, MySql local server, Maven and Tomcat.
+
+When the deploying is ready, before you run the application, please create a database "rentcar_base"
