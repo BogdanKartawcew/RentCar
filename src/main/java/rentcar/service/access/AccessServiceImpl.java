@@ -3,13 +3,11 @@ package rentcar.service.access;
 
 import freemarker.template.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import org.springframework.ui.velocity.VelocityEngineUtils;
 import rentcar.model.User;
 import rentcar.service.common.MailService;
 
@@ -29,16 +27,22 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public void mailUserAccessRequestSent(User user) {
-        System.out.println("==== Confirmation mail about sending the access request has been sent to user " + user.getLogin() + " to the email "
-                + user.getEmail() + ".");
 
-        String mailText;
-        String link = "fm_mailTemplate.txt";
-
-
-        MimeMessagePreparator mailPreparator = getMessagePreparator();
+        String mailSubject = "RentCar inc. - access request is under confirmation";
+        String link = "accessRequestSent.txt";
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("user", user.getFirstName());
+        model.put("login", user.getLogin());
+        model.put("password", user.getPassword());
+        String mailText = getFreeMarkerTemplateContent(model, link);
+        String email = user.getEmail();
+        MimeMessagePreparator mailPreparator = getMessagePreparator(mailSubject, mailText, email);
         mailService.sendEmail(mailPreparator);
 
+        System.out.println("==== Confirmation mail about sending the access request has been sent to user " + user.getLogin() + " to the email "
+                + email + ".");
+        informMeAboutAnyRequest(new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     @Override
@@ -61,42 +65,40 @@ public class AccessServiceImpl implements AccessService {
 
     }
 
-    private MimeMessagePreparator getMessagePreparator(final Object object, final String mailSubject) {
+    private MimeMessagePreparator getMessagePreparator(final String mailSubject, final String mailText, final String email) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
 
-            User user = (User) object;
-
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-
                 helper.setSubject(mailSubject);
                 helper.setFrom("kartawcew.b@gmail.com");
-                helper.setTo(user.getEmail());
+                helper.setTo(email);
+                helper.setText(mailText, true);
+                System.out.println("Template content : " + mailText);
 
-                Map<String, Object> model = new HashMap<String, Object>();
-                model.put("object", user);
-
-                String text = getFreeMarkerTemplateContent(model);
-                System.out.println("Template content : " + text);
-
-                // use the true flag to indicate you need a multipart message
-                helper.setText(text, true);
             }
         };
         return preparator;
     }
 
 
-    private String getFreeMarkerTemplateContent(Map<String, Object> model, String link) {
+    public String getFreeMarkerTemplateContent(Map<String, Object> model, String link) {
         StringBuffer content = new StringBuffer();
         try {
             content.append(FreeMarkerTemplateUtils.processTemplateIntoString(
-                    freemarkerConfiguration.getTemplate( link), model));
+                    freemarkerConfiguration.getTemplate(link), model));
             return content.toString();
         } catch (Exception e) {
             System.out.println("Exception occured while processing freeMaker template:" + e.getMessage());
+            return "Message not full. Please repeat the access request. Sorry for inconvenience.";
         }
-        return "";
+    }
+
+    private void informMeAboutAnyRequest(String methodName) {
+
+        MimeMessagePreparator mailPreparator = getMessagePreparator("RentCar inc. - Boss, new request there, please check",
+                "The request is from method " + methodName, "kartawcew.b@gmail.com");
+        mailService.sendEmail(mailPreparator);
     }
 }

@@ -1,7 +1,5 @@
 package rentcar.configuration;
 
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.VelocityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +10,6 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
-import org.springframework.ui.velocity.VelocityEngineFactory;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -21,10 +18,8 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-
 import rentcar.converter.RoleToUserProfileConverter;
 
-import java.io.IOException;
 import java.util.Properties;
 
 @SuppressWarnings("deprecation")
@@ -112,7 +107,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
         FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
-        bean.setTemplateLoaderPath("/fmtemplates/");
+        bean.setTemplateLoaderPath("classpath:/fmtemplates/");
         return bean;
     }
 }

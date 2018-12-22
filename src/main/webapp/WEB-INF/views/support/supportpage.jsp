@@ -58,7 +58,7 @@
         <a href="<c:url value='/support/log'/>"> Web-log</a>
     </div>
 
-    <sec:authorize access="hasRole('USER') or hasRole('SUPERUSER')">
+    <sec:authorize access="hasRole('USER') or hasRole('SUPERUSER') or hasRole('TEMP')">
         <div class="well">
             <a href="<c:url value='/support/mypage'/>"> My profile page</a>
         </div>

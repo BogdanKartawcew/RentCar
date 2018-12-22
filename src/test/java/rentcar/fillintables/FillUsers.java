@@ -50,7 +50,7 @@ public class FillUsers {
     }
 
 
-    private User createTestUser() {
+    public User createTestUser() {
         User user = new User();
         user.setId(null);
         user.setLogin(getRandomString(6));

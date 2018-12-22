@@ -2,6 +2,8 @@ package rentcar.service.access;
 
 import rentcar.model.User;
 
+import java.util.Map;
+
 public interface AccessService {
 
     void mailUserAccessRequestSent(User user);
@@ -13,6 +15,4 @@ public interface AccessService {
     void mailRecruiterAccessRemoved();
 
     void mailUserAccessRemoved(User user);
-
-
 }
