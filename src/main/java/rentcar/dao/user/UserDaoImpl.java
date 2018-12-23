@@ -38,6 +38,14 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         return (List<User>) criteria.list();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<User> getByRole (int roleId) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("role", roleId));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return (List<User>) criteria.list();
+    }
+
     public void save(User user) {
         persist(user);
     }

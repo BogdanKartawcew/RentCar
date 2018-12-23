@@ -21,46 +21,65 @@
     <div class="panel panel-default">
 
         <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="floatLeft"><span class="lead">Users list</span></span>
-                    <span class="floatRight">
-                    <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
-                    <button type="button" class="btn btn-link btn-sm">
-                    <a href="<c:url value='/support/admin/userslist/createuser'  />">
-                    <span class="glyphicon glyphicon-plus"></span> Create new user</a>
-                    </button>
-                    </sec:authorize>
-                    </span>
-                </div>
-            </div>
+            <span class="floatLeft">
+            <span class="lead">Users list
+                <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
+                <a href="<c:url value='/support/admin/userslist/createuser'  />"
+                   class="btn btn-secondary btn-sm">
+                <span class="glyphicon glyphicon-plus"></span> create new user</a>
+                </sec:authorize>
+            </span>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="collapse"
+                        data-target="#notConfirmed-but">
+                    <span class="glyphicon glyphicon-check"></span> not-accepted users</button>
+                    <div id="notConfirmed-but" class="collapse">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Email</th>
+                                        <th>Gender</th>
+                                        <th>Login</th>
+                                        <th width="100"></th>
+                                        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
+                                            <th width="100"></th>
+                                            <th width="100"></th>
+                                            <th width="100"></th>
+                                        </sec:authorize>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${notConfirmed}" var="notConfirmed">
+                                        <tr>
+                                            <td>${notConfirmed.firstName}</td>
+                                            <td>${notConfirmed.lastName}</td>
+                                            <td>${notConfirmed.email}</td>
+                                            <td>${notConfirmed.sex}</td>
+                                            <td>${notConfirmed.login}</td>
+                                            <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
+                                                <td>
+                                                    <a href="<c:url value='/support/admin/userslist/acceptuser-${notConfirmed.login}' />"
+                                                       class="btn btn-warning custom-width">accept</a>
+                                                </td>
+                                                <td><a href="<c:url value='/support/admin/userslist/edituser-${notConfirmed.login}' />"
+                                                       class="btn btn-success custom-width">edit</a>
+                                                </td>
+                                                <td><a href="<c:url value='/support/admin/userslist/deleteuser-${notConfirmed.login}' />"
+                                                       onclick="return confirm('Please confirm deleting')"
+                                                       class="btn btn-danger custom-width">delete</a>
+                                                </td>
+                                            </sec:authorize>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </span>
         </div>
 
-
-        <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="collapse"
-                data-target="#acception-but"><span class="glyphicon glyphicon-info-sign"></span> Status's description
-        </button>
-
-        <div id="acception-but" class="collapse">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Description</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${statuses}" var="status">
-                        <tr>
-                            <td>${status.statusId}</td>
-                            <td>${status.statusDesc}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
         <div class="table-responsive">
             <table class="table table-hover">
@@ -75,14 +94,12 @@
                     <th width="100"></th>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
                         <th width="100"></th>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
                         <th width="100"></th>
                     </sec:authorize>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${users}" var="user">
+                <c:forEach items="${confirmed}" var="user">
                     <%--<c:forEach items="${roles}" var="role">--%>
                     <tr>
                         <td><a href="<c:url value='/support/userimage-${user.login}' />"><img
@@ -93,18 +110,10 @@
                         <td>${user.email}</td>
                         <td>${user.sex}</td>
                         <td>${user.login}</td>
-                        <c:if test="${user.role == '4'}">
-                            <td>
-                                <a href="<c:url value='/support/admin/userslist/edituser-${user.login}' />"
-                                   class="btn btn-warning custom-width">accept</a><%--warning--%>
-                            </td>
-                        </c:if>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
                             <td><a href="<c:url value='/support/admin/userslist/edituser-${user.login}' />"
                                    class="btn btn-success custom-width">edit</a>
                             </td>
-                        </sec:authorize>
-                        <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
                             <td><a href="<c:url value='/support/admin/userslist/deleteuser-${user.login}' />"
                                    onclick="return confirm('Please confirm deleting')"
                                    class="btn btn-danger custom-width">delete</a>

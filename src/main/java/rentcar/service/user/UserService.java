@@ -1,7 +1,9 @@
 package rentcar.service.user;
 
+import java.util.HashSet;
 import java.util.List;
 
+import rentcar.model.Role;
 import rentcar.model.User;
 
 public interface UserService {
@@ -20,5 +22,5 @@ public interface UserService {
 
     boolean isLoginUnique(Integer id, String login);
 
-    void sendEmail();
+    List<User> getByRole(int roleId);
 }

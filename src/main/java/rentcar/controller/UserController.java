@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import rentcar.model.Role;
 import rentcar.model.User;
 import rentcar.model.UserImage;
+import rentcar.service.access.AccessService;
 import rentcar.service.user.UserImageService;
 import rentcar.service.user.UserProfileService;
 import rentcar.service.user.UserService;
@@ -35,10 +36,20 @@ public class UserController extends AbstractController {
     @Autowired
     UserProfileService userProfileService;
 
+    @Autowired
+    AccessService accessService;
+
     @RequestMapping(value = {"/support/admin/userslist"}, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
-        List<User> users = userService.getAll();
-        model.addAttribute("users", users);
+        List<User> role1 = userService.getByRole(1);
+        List<User> role2 = userService.getByRole(2);
+        List<User> role3 = userService.getByRole(3);
+        ArrayList<User> confirmed = new ArrayList<>(role1);
+        confirmed.addAll(role2);
+        confirmed.addAll(role3);
+        List<User> notConfirmed = userService.getByRole(4);
+        model.addAttribute("confirmed", confirmed);
+        model.addAttribute("notConfirmed", notConfirmed);
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/userslist";
     }
@@ -129,6 +140,20 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = {"/support/admin/userslist/deleteuser-{login}"}, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String login) {
+        final User forThreadCopyUser = userService.findByLogin(login);
+        Thread sendMailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String mailSubject = "RentCar inc. - user access is removed";
+                String link = "mailUserAccessRemoved.txt";
+                HashMap<String, Object> model = new HashMap<String, Object>();
+                model.put("user", forThreadCopyUser.getFirstName());
+                model.put("login", forThreadCopyUser.getLogin());
+                String email = forThreadCopyUser.getEmail();
+                accessService.mailUser(mailSubject, link, email, model);
+            }
+        });
+        sendMailThread.start();
         userImageService.deleteUserImageByLogin(login);
         userService.deleteByLogin(login);
         return "redirect:/support/admin/userslist";

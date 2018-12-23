@@ -1,5 +1,6 @@
 package rentcar.service.access;
 
+
 import freemarker.template.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,6 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import rentcar.model.User;
 import rentcar.service.common.MailService;
+import rentcar.service.fillintables.FillUsers;
+import rentcar.service.user.UserImageService;
+import rentcar.service.user.UserProfileService;
+import rentcar.service.user.UserService;
 
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
@@ -24,41 +29,24 @@ public class AccessServiceImpl implements AccessService {
     @Autowired
     Configuration freemarkerConfiguration;
 
-    @Override
-    public void mailUserAccessRequestSent(User user) {
+    @Autowired
+    UserImageService userImageService;
 
-        String mailSubject = "RentCar inc. - access request is under confirmation";
-        String link = "accessRequestSent.txt";
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("user", user.getFirstName());
-        model.put("login", user.getLogin());
-        model.put("password", user.getPassword());
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserProfileService userProfileService;
+
+    private static String mailFrom = "kartawcew.b@gmail.com";
+
+    @Override
+    public void mailUser(String mailSubject, String link, String email, HashMap<String, Object> model) {
         String mailText = getFreeMarkerTemplateContent(model, link);
-        String email = user.getEmail();
         MimeMessagePreparator mailPreparator = getMessagePreparator(mailSubject, mailText, email);
         mailService.sendEmail(mailPreparator);
         informMeAboutAnyRequest(new Object() {
         }.getClass().getEnclosingMethod().getName());
-    }
-
-    @Override
-    public void mailUserAccessGranted(User user) {
-
-    }
-
-    @Override
-    public void mailRecruiterAccessGranted() {
-
-    }
-
-    @Override
-    public void mailRecruiterAccessRemoved() {
-
-    }
-
-    @Override
-    public void mailUserAccessRemoved(User user) {
-
     }
 
     private MimeMessagePreparator getMessagePreparator(final String mailSubject, final String mailText, final String email) {
@@ -68,7 +56,7 @@ public class AccessServiceImpl implements AccessService {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
                 helper.setSubject(mailSubject);
-                helper.setFrom("kartawcew.b@gmail.com");
+                helper.setFrom(mailFrom);
                 helper.setTo(email);
                 helper.setText(mailText, true);
             }
@@ -93,5 +81,46 @@ public class AccessServiceImpl implements AccessService {
         MimeMessagePreparator mailPreparator = getMessagePreparator("RentCar inc. - Boss, new request there, please check",
                 "The request is from method " + methodName, "kartawcew.b@gmail.com");
         mailService.sendEmail(mailPreparator);
+    }
+
+    @Override
+    public void createRecruiter(User user) {
+        FillUsers fillUsers = new FillUsers();
+        user.setLogin(fillUsers.getRandomString(8));
+        user.setPassword(fillUsers.getRandomString(8));
+        user.setLastName("Unknown last name");
+        user.setRoles(userProfileService.getRoleSet(3));
+        user.setRole();
+        final User forThreadCopyUser = user;
+        Thread sendMailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, Object> model = new HashMap<String, Object>();
+                model.put("user", forThreadCopyUser.getFirstName());
+                model.put("login", forThreadCopyUser.getLogin());
+                model.put("password", forThreadCopyUser.getPassword());
+                mailUser("RentCar inc. - recruiter access is granted", "mailRecruiterAccessGranted.txt", forThreadCopyUser.getEmail(), model);
+            }
+        });
+        sendMailThread.start();
+        userService.save(user);
+    }
+
+    //TODO
+    @Override
+    public void deleteRecruiter(User user) {
+        final User forThreadCopyUser = user;
+        Thread sendMailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, Object> model = new HashMap<String, Object>();
+                model.put("password", forThreadCopyUser.getPassword());
+                model.put("login", forThreadCopyUser.getLogin());
+                mailUser("RentCar inc. - recruiter access is removed", "mailRecruiterAccessRemoved.txt", forThreadCopyUser.getEmail(), model);
+            }
+        });
+        sendMailThread.start();
+        userImageService.deleteUserImageByLogin(user.getLogin());
+        userService.deleteByLogin(user.getLogin());
     }
 }

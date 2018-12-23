@@ -2,17 +2,14 @@ package rentcar.service.access;
 
 import rentcar.model.User;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public interface AccessService {
 
-    void mailUserAccessRequestSent(User user);
+    void mailUser(String mailSubject, String link, String email , HashMap<String, Object> model);
 
-    void mailUserAccessGranted(User user);
+    void deleteRecruiter(User user);
 
-    void mailRecruiterAccessGranted();
-
-    void mailRecruiterAccessRemoved();
-
-    void mailUserAccessRemoved(User user);
+    void createRecruiter(User user);
 }

@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     public void deleteByLogin(String login) {
         userDao.deleteByLogin(login);
     }
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendEmail() {
-
+    public List<User> getByRole(int roleId) {
+        return userDao.getByRole(roleId);
     }
 }

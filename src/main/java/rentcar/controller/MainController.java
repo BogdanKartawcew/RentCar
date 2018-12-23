@@ -12,12 +12,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import rentcar.model.User;
-import rentcar.model.UserImage;
 
 import java.util.Locale;
 
@@ -55,12 +52,6 @@ public class MainController extends AbstractController {
         }
     }
 
-    /*@RequestMapping(value = "/reset", method = RequestMethod.GET)
-    public String resetPassword(ModelMap model) {
-
-        System.out.println("RESET METHOD");
-        return "redirect:/login?logout";
-    }*/
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPage(@Valid User user, BindingResult result, ModelMap model) {

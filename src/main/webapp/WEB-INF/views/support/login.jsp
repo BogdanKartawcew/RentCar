@@ -46,9 +46,16 @@
                         <input type="password" class="form-control" id="password" name="password"
                                placeholder="Enter password" required>
                     </div>
-                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">
+                    <span class="floatLeft">
+                    <a href="<c:url value='/recruiter' />"
+                       class="btn btn-link">Are you a recruiter? Click me!</a>
+                        </span>
+                    <span class="floatRight">
+
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">
                         Haven't got an account?
                     </button>
+                        </span>
                     <%@include file="patches/modal.jsp" %>
                     <br>
 

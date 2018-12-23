@@ -1,14 +1,12 @@
 package rentcar.service;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeClass;
-import rentcar.fillintables.FillUsers;
+import rentcar.service.fillintables.FillUsers;
 import rentcar.model.User;
 import rentcar.service.access.AccessServiceImpl;
-import rentcar.service.user.UserServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
