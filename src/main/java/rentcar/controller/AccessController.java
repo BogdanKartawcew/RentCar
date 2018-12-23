@@ -38,10 +38,7 @@ public class AccessController {
     @RequestMapping(value = {"/accessrequest"}, method = RequestMethod.POST)
     public String requestAccess(@Valid User user, BindingResult result, ModelMap model) {
 
-        System.out.println("USER REQUESTING: " + user);
-
         if (!userService.isLoginUnique(user.getId(), user.getLogin())) {
-            System.out.println("ERROR2");
             model.addAttribute("error", true);
             return "redirect:/accessrequest";
         }
@@ -51,7 +48,14 @@ public class AccessController {
         UserImage userImage = new UserImage();
         userImage.setId(user.getId());
         userImageService.saveUserImage(userImage);
-        accessService.mailUserAccessRequestSent(user);
+        final User forThreadCopy = user;
+        Thread sendMailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                accessService.mailUserAccessRequestSent(forThreadCopy);
+            }
+        });
+        sendMailThread.start();
         model.addAttribute("usergoto", "<a href=\"/support/mypage\">Visit your profile page</a>");
         model.addAttribute("usersuccess", "Request has been sent. Please check your e-mail: " + user.getEmail());
         return "support/success";

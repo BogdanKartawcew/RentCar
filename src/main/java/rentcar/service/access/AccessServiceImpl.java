@@ -1,6 +1,5 @@
 package rentcar.service.access;
 
-
 import freemarker.template.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -38,9 +37,6 @@ public class AccessServiceImpl implements AccessService {
         String email = user.getEmail();
         MimeMessagePreparator mailPreparator = getMessagePreparator(mailSubject, mailText, email);
         mailService.sendEmail(mailPreparator);
-
-        System.out.println("==== Confirmation mail about sending the access request has been sent to user " + user.getLogin() + " to the email "
-                + email + ".");
         informMeAboutAnyRequest(new Object() {
         }.getClass().getEnclosingMethod().getName());
     }
@@ -75,15 +71,12 @@ public class AccessServiceImpl implements AccessService {
                 helper.setFrom("kartawcew.b@gmail.com");
                 helper.setTo(email);
                 helper.setText(mailText, true);
-                System.out.println("Template content : " + mailText);
-
             }
         };
         return preparator;
     }
 
-
-    public String getFreeMarkerTemplateContent(Map<String, Object> model, String link) {
+    private String getFreeMarkerTemplateContent(Map<String, Object> model, String link) {
         StringBuffer content = new StringBuffer();
         try {
             content.append(FreeMarkerTemplateUtils.processTemplateIntoString(
