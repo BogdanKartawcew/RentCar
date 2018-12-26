@@ -84,7 +84,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        String password = "";
+        String password = "karikja253444";
         // Using gmail.
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
