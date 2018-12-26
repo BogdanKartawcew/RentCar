@@ -34,7 +34,7 @@ public class ClientController extends AbstractController{
     public String getClients(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
         long pageCount = clientService.countAllByPage();
         int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
-        String link = "/support/reservation/clients-";
+        String link = "/support/clients-";
         ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
         model.addAttribute("pagesAmount", pagesAmount);
         model.addAttribute("paginatorTags", paginatorTags);
