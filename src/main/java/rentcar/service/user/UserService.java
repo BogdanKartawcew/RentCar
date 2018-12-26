@@ -1,10 +1,8 @@
 package rentcar.service.user;
 
-import java.util.HashSet;
 import java.util.List;
 
-import rentcar.model.Role;
-import rentcar.model.User;
+import rentcar.model.support.User;
 
 public interface UserService {
 
@@ -23,4 +21,8 @@ public interface UserService {
     boolean isLoginUnique(Integer id, String login);
 
     List<User> getByRole(int roleId);
+
+    long countAllByPage();
+
+    List<User> getConfirmedByPage(int pageNumber, int rowsOnPage);
 }

@@ -1,4 +1,4 @@
-package rentcar.controller;
+package rentcar.controller.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,9 +8,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.*;
+import rentcar.model.support.Car;
+import rentcar.model.support.Client;
+import rentcar.model.support.Reservation;
 import rentcar.service.car.CarService;
 import rentcar.service.client.ClientService;
+import rentcar.service.common.PaginatorService;
 import rentcar.service.reservation.CarUnavailableService;
 import rentcar.service.reservation.ReservationHistoryService;
 import rentcar.service.reservation.ReservationService;
@@ -43,6 +46,9 @@ public class ReservationController extends AbstractController {
 
     @Autowired
     ReservationHistoryService reservationHistoryService;
+
+    @Autowired
+    PaginatorService paginatorService;
 
 
     @RequestMapping(value = {"/support/reservation"}, method = RequestMethod.GET)
@@ -170,10 +176,16 @@ public class ReservationController extends AbstractController {
         return "redirect:/support/reservation";
     }
 
-    @RequestMapping(value = {"/support/reservation/reservationhistory"}, method = RequestMethod.GET)
-    public String history(ModelMap model) {
+    @RequestMapping(value = {"/support/reservation/reservationhistory-{pageNumber}per{rowsOnPage}"}, method = RequestMethod.GET)
+    public String history(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
+        long pageCount = reservationHistoryService.countAllByPage();
+        int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
+        String link = "/support/reservation/reservationhistory-";
+        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
+        model.addAttribute("pagesAmount", pagesAmount);
+        model.addAttribute("paginatorTags", paginatorTags);
+        model.addAttribute("reservationHistories", reservationHistoryService.getAllByPage(pageNumber, rowsOnPage));
         model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAttribute("reservationHistories", reservationHistoryService.getAll());
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/reservationhistory";
     }

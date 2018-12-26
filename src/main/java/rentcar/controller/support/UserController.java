@@ -1,4 +1,4 @@
-package rentcar.controller;
+package rentcar.controller.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.Role;
-import rentcar.model.User;
-import rentcar.model.UserImage;
+import rentcar.model.support.Role;
+import rentcar.model.support.User;
+import rentcar.model.support.UserImage;
 import rentcar.service.access.AccessService;
+import rentcar.service.common.PaginatorService;
 import rentcar.service.user.UserImageService;
 import rentcar.service.user.UserProfileService;
 import rentcar.service.user.UserService;
@@ -39,17 +40,19 @@ public class UserController extends AbstractController {
     @Autowired
     AccessService accessService;
 
-    @RequestMapping(value = {"/support/admin/userslist"}, method = RequestMethod.GET)
-    public String listUsers(ModelMap model) {
-        List<User> role1 = userService.getByRole(1);
-        List<User> role2 = userService.getByRole(2);
-        List<User> role3 = userService.getByRole(3);
-        ArrayList<User> confirmed = new ArrayList<>(role1);
-        confirmed.addAll(role2);
-        confirmed.addAll(role3);
-        List<User> notConfirmed = userService.getByRole(4);
-        model.addAttribute("confirmed", confirmed);
-        model.addAttribute("notConfirmed", notConfirmed);
+    @Autowired
+    PaginatorService paginatorService;
+
+    @RequestMapping(value = {"/support/admin/userslist-{pageNumber}per{rowsOnPage}"}, method = RequestMethod.GET)
+    public String listUsers(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
+        long pageCount = userService.countAllByPage();
+        int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
+        String link = "/support/admin/userslist-";
+        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
+        model.addAttribute("pagesAmount", pagesAmount);
+        model.addAttribute("paginatorTags", paginatorTags);
+        model.addAttribute("confirmed", userService.getConfirmedByPage(pageNumber, rowsOnPage));
+        model.addAttribute("notConfirmed", userService.getByRole(4));
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/userslist";
     }
@@ -92,7 +95,7 @@ public class UserController extends AbstractController {
         UserImage userImage = new UserImage();
         userImage.setId(user.getId());
         userImageService.saveUserImage(userImage);
-        model.addAttribute("usergoto", "Go to <a href=\"/support/admin/userslist\">Users list</a>");
+        model.addAttribute("usergoto", "Go to <a href=\"/support/admin/userslist-1per15\">Users list</a>");
         model.addAttribute("usersuccess", "User " + user.getFirstName() + " " + user.getLastName() + " has registered successfully");
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/success";
@@ -119,7 +122,7 @@ public class UserController extends AbstractController {
             return "/support/admin/userslist/edituser-{login}";
         }
         userService.update(user);
-        model.addAttribute("usergoto", "Go to <a href=\"/support/admin/userslist\">Users list</a>");
+        model.addAttribute("usergoto", "Go to <a href=\"/support/admin/userslist-1per15\">Users list</a>");
         model.addAttribute("usersuccess", "User " + user.getFirstName() + " " + user.getLastName() + " has updated successfully");
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/success";
@@ -156,6 +159,6 @@ public class UserController extends AbstractController {
         sendMailThread.start();
         userImageService.deleteUserImageByLogin(login);
         userService.deleteByLogin(login);
-        return "redirect:/support/admin/userslist";
+        return "redirect:/support/admin/userslist-1per15";
     }
 }

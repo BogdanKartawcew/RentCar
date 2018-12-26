@@ -1,11 +1,10 @@
-package rentcar.model;
+package rentcar.model.support;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**

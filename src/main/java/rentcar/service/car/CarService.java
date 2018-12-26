@@ -1,6 +1,6 @@
 package rentcar.service.car;
 
-import rentcar.model.Car;
+import rentcar.model.support.Car;
 
 import java.util.List;
 
@@ -21,5 +21,9 @@ public interface CarService {
     List<Car> findAllCars();
 
     boolean isVinUnique(Integer carId, String vin);
+
+    long countAllByPage();
+
+    List<Car> getAllByPage(int pageNumber, int rowsOnPage);
 
 }

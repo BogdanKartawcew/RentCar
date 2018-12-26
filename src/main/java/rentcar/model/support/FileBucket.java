@@ -1,4 +1,4 @@
-package rentcar.model;
+package rentcar.model.support;
 
 import org.springframework.web.multipart.MultipartFile;
 

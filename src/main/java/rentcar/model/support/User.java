@@ -1,4 +1,4 @@
-package rentcar.model;
+package rentcar.model.support;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -20,7 +20,7 @@ public class User implements Serializable {
     private Integer id;
 
     @NotEmpty(message = "Please fill in a login")
-    @Column(name = "USER_ID", unique = true)
+    @Column(name = "LOGIN", unique = true)
     private String login;
 
     @NotEmpty(message = "Please fill in a password")

@@ -2,7 +2,7 @@ package rentcar.service.client;
 
 import java.util.List;
 
-import rentcar.model.Client;
+import rentcar.model.support.Client;
 
 
 public interface ClientService {
@@ -18,5 +18,9 @@ public interface ClientService {
 	List<Client> findAllClients();
 	
 	boolean isPeselUnique(Integer clientId, String pesel);
+
+	long countAllByPage();
+
+	List<Client> getAllByPage(int pageNumber, int rowsOnPage);
 
 }

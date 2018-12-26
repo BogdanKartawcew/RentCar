@@ -5,10 +5,11 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.User;
+import rentcar.model.support.User;
 
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
@@ -33,7 +34,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
-        Criteria criteria = createEntityCriteria().addOrder(Order.asc("firstName"));
+        Criteria criteria = createEntityCriteria().addOrder(Order.asc("login"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         return (List<User>) criteria.list();
     }
@@ -44,6 +45,29 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         criteria.add(Restrictions.eq("role", roleId));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<User>) criteria.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> getConfirmedByPage(int pageNumber, int rowsOnPage) {
+        Criteria criteria = createEntityCriteria().addOrder(Order.asc("login"));
+        criteria.add(Restrictions.not(Restrictions.in("role", new Integer[]{4})));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        if (pageNumber == 1) {
+            criteria.setFirstResult(0);
+        } else {
+            criteria.setFirstResult((pageNumber-1) * rowsOnPage);
+        }
+        criteria.setMaxResults(rowsOnPage);
+        return (List<User>) criteria.list();
+    }
+
+    @Override
+    public long countAllByPage() {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.not(Restrictions.in("role", new Integer[]{4})));
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
 
     public void save(User user) {

@@ -8,7 +8,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import rentcar.model.User;
+import rentcar.model.support.User;
+import rentcar.model.support.UserImage;
 import rentcar.service.common.MailService;
 import rentcar.service.fillintables.FillUsers;
 import rentcar.service.user.UserImageService;
@@ -104,6 +105,9 @@ public class AccessServiceImpl implements AccessService {
         });
         sendMailThread.start();
         userService.save(user);
+        UserImage userImage = new UserImage();
+        userImage.setId(user.getId());
+        userImageService.saveUserImage(userImage);
     }
 
     //TODO

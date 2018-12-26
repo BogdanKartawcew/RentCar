@@ -14,6 +14,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <script src="/static/js/rowsonpage.js" type="text/javascript"></script>
+    <style>
+        select {
+            margin: 5px;
+            width: 50px;
+            height: 30px;
+            padding: 3px 3px 3px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,7 +35,23 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <span class="floatLeft"><span class="lead">Clients list</span></span>
+                    <span class="floatLeft">
+                    <div class="col-md-1">
+                    <span class="lead">Clients list</span>
+                    </div>
+                    <div class="col-md-2">
+                        <c:if test="${pagesAmount !=0}">
+                            Rows per page:
+                            <select id="dynamic_select">
+                            <option value="" hidden>${rowsOnPage}</option>
+                            <option value="<c:url value='/support/clients-1per15' />">15</option>
+                            <option value="<c:url value='/support/clients-1per30' />">30</option>
+                            <option value="<c:url value='/support/clients-1per60' />">60</option>
+                        </select>
+                        </c:if>
+                        </div>
+                    </span>
+
                     <span class="floatRight">
                     <button type="button" class="btn btn-link btn-sm">
                     <a href="<c:url value='/support/clients/createclient'  />">
@@ -71,7 +98,15 @@
                 </tbody>
             </table>
         </div>
-
+        <c:if test="${pagesAmount !=0}">
+            <div class="row">
+        <span class="floatleft">
+            <div class="col-lg-3">
+                <%@include file="patches/paginator.jsp" %>
+            </div>
+        </span>
+            </div>
+        </c:if>
     </div>
 </div>
 </body>

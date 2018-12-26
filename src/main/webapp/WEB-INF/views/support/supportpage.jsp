@@ -38,7 +38,7 @@
     <br>
     <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
         <div class="alert alert-danger">
-            <a href="<c:url value='/support/admin/userslist'/>"> Users</a>
+            <a href="<c:url value='/support/admin/userslist-1per15'/>"> Users</a>
         </div>
     </sec:authorize>
 
@@ -47,11 +47,11 @@
     </div>
 
     <div class="well">
-        <a href="<c:url value='/support/clients'/>"> Clients</a>
+        <a href="<c:url value='/support/clients-1per15'/>"> Clients</a>
     </div>
 
     <div class="well">
-        <a href="<c:url value='/support/cars'/>"> Cars</a>
+        <a href="<c:url value='/support/cars-1per15'/>"> Cars</a>
     </div>
 
     <div class="well">

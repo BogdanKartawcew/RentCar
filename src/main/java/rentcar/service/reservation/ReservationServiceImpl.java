@@ -3,7 +3,7 @@ package rentcar.service.reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rentcar.dao.reservation.ReservationDao;
-import rentcar.model.Reservation;
+import rentcar.model.support.Reservation;
 
 import javax.transaction.Transactional;
 import java.text.DateFormat;

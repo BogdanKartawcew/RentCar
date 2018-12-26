@@ -5,7 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.CarImage;
+import rentcar.model.support.CarImage;
 
 @Repository("carImageDao")
 public class CarImageDaoImpl extends AbstractDao<Integer, CarImage> implements CarImageDao{

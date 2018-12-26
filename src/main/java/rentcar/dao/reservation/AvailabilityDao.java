@@ -1,6 +1,6 @@
 package rentcar.dao.reservation;
 
-import rentcar.model.Availability;
+import rentcar.model.support.Availability;
 
 import java.util.List;
 

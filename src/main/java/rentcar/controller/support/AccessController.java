@@ -1,4 +1,4 @@
-package rentcar.controller;
+package rentcar.controller.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.User;
-import rentcar.model.UserImage;
+import rentcar.model.support.User;
+import rentcar.model.support.UserImage;
 import rentcar.service.access.AccessService;
 import rentcar.service.user.UserImageService;
 import rentcar.service.user.UserProfileService;
@@ -16,7 +16,6 @@ import rentcar.service.user.UserService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -48,12 +47,6 @@ public class AccessController {
             model.addAttribute("error", true);
             return "redirect:/accessrequest";
         }
-        user.setRole();
-        userService.save(user);
-        UserImage userImage = new UserImage();
-        userImage.setId(user.getId());
-        userImageService.saveUserImage(userImage);
-
         final User forThreadCopyUser = user;
         Thread sendMailThread = new Thread(new Runnable() {
             @Override
@@ -68,7 +61,11 @@ public class AccessController {
                 accessService.mailUser(mailSubject, link, email, model);
             }
         });
-
+        user.setRole();
+        userService.save(user);
+        UserImage userImage = new UserImage();
+        userImage.setId(user.getId());
+        userImageService.saveUserImage(userImage);
         sendMailThread.start();
         model.addAttribute("usergoto", "<a href=\"/support/mypage\">Visit your profile page</a>");
         model.addAttribute("usersuccess", "Request has been sent. Please check your e-mail: " + user.getEmail());
@@ -78,7 +75,7 @@ public class AccessController {
     @RequestMapping(value = {"/support/admin/userslist/acceptuser-{login}"}, method = RequestMethod.GET)
     public String acceptUser(@PathVariable String login) {
         User user = userService.findByLogin(login);
-        user.setRoles(userProfileService.getRoleSet(1));
+        user.setRoles(userProfileService.getRoleSet(1)); //USER_ROLE
         user.setRole();
         userService.update(user);
         final User forThreadCopyUser = user;
@@ -94,9 +91,8 @@ public class AccessController {
             }
         });
         sendMailThread.start();
-        return "redirect:/support/admin/userslist";
+        return "redirect:/support/admin/userslist-1per15";
     }
-
 
 
     @RequestMapping(value = {"/recruiter"}, method = RequestMethod.GET)

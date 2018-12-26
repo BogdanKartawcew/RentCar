@@ -1,4 +1,4 @@
-package rentcar.controller;
+package rentcar.controller.support;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

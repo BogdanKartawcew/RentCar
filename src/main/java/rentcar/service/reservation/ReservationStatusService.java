@@ -1,6 +1,6 @@
 package rentcar.service.reservation;
 
-import rentcar.model.ReservationStatus;
+import rentcar.model.support.ReservationStatus;
 
 import java.util.List;
 

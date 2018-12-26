@@ -33,7 +33,7 @@
             <a href="<c:url value='/support/reservation/financialcalculations' />"
                class="btn btn-default btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Financial
                 calculations</a>
-            <a href="<c:url value='/support/reservation/reservationhistory' />"
+            <a href="<c:url value='/support/reservation/reservationhistory-1per15' />"
                class="btn btn-default btn-sm"><span class="glyphicon glyphicon-calendar"></span> History</a>
         </div>
 

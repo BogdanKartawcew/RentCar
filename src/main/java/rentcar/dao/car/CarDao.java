@@ -1,6 +1,6 @@
 package rentcar.dao.car;
 
-import rentcar.model.Car;
+import rentcar.model.support.Car;
 
 import java.util.List;
 
@@ -17,5 +17,9 @@ public interface CarDao {
     void deleteByVin(String vin);
 
     List<Car> getAll();
+
+    List<Car> getAllByPage(int pageNumber, int rowsOnPage);
+
+    long countAllByPage();
 }
 

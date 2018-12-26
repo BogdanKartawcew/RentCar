@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.car.CarDao;
-import rentcar.model.Car;
+import rentcar.model.support.Car;
 
 
 import java.util.List;
@@ -65,6 +65,16 @@ public class CarServiceImpl implements CarService {
     public boolean isVinUnique(Integer carId, String vin) {
         Car car = findByVin(vin);
         return (car == null || ((carId != null) && (car.getCarId() == carId)));
+    }
+
+    @Override
+    public long countAllByPage() {
+        return carDao.countAllByPage();
+    }
+
+    @Override
+    public List<Car> getAllByPage(int pageNumber, int rowsOnPage) {
+        return carDao.getAllByPage(pageNumber, rowsOnPage);
     }
 
 }

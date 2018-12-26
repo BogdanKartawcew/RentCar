@@ -5,7 +5,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeClass;
 import rentcar.service.fillintables.FillUsers;
-import rentcar.model.User;
+import rentcar.model.support.User;
 import rentcar.service.access.AccessServiceImpl;
 
 import java.util.HashMap;

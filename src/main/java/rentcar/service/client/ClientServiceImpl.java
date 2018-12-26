@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.client.ClientDao;
-import rentcar.model.Client;
+import rentcar.model.support.Client;
 
 @Service("clientService")
 @Transactional
@@ -49,5 +49,15 @@ public class ClientServiceImpl implements ClientService{
 		//return ( client == null || ((clientId != null) && (client.getClientId() == clientId)));
 		return ( client == null || client.getClientId().equals(clientId));
 	}
-	
+
+	@Override
+	public long countAllByPage() {
+		return clientDao.countAllByPage();
+	}
+
+	@Override
+	public List<Client> getAllByPage(int pageNumber, int rowsOnPage) {
+		return clientDao.getAllByPage(pageNumber, rowsOnPage);
+	}
+
 }

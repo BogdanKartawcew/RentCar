@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.reservation.AvailabilityDao;
-import rentcar.model.Availability;
-import rentcar.model.Reservation;
+import rentcar.model.support.Availability;
+import rentcar.model.support.Reservation;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

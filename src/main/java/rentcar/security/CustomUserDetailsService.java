@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import rentcar.model.User;
-import rentcar.model.Role;
+import rentcar.model.support.User;
+import rentcar.model.support.Role;
 import rentcar.service.user.UserService;
 
 

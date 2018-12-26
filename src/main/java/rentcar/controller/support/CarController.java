@@ -1,4 +1,4 @@
-package rentcar.controller;
+package rentcar.controller.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,15 +7,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import rentcar.model.Car;
-import rentcar.model.CarImage;
-import rentcar.model.FileBucket;
+import rentcar.model.support.Car;
+import rentcar.model.support.CarImage;
+import rentcar.model.support.FileBucket;
 import rentcar.service.car.CarImageService;
 import rentcar.service.car.CarService;
+import rentcar.service.common.PaginatorService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,11 +34,19 @@ public class CarController extends AbstractController {
     @Autowired
     CarImageService carImageService;
 
+    @Autowired
+    PaginatorService paginatorService;
 
-    @RequestMapping(value = {"/support/cars"}, method = RequestMethod.GET)
-    public String cars(ModelMap model) {
-        List<Car> cars = carService.findAllCars();
-        model.addAttribute("cars", cars);
+
+    @RequestMapping(value = {"/support/cars-{pageNumber}per{rowsOnPage}"}, method = RequestMethod.GET)
+    public String cars(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
+        long pageCount = carService.countAllByPage();
+        int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
+        String link = "/support/cars-";
+        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
+        model.addAttribute("pagesAmount", pagesAmount);
+        model.addAttribute("paginatorTags", paginatorTags);
+        model.addAttribute("cars", carService.getAllByPage(pageNumber, rowsOnPage));
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/cars";
     }
@@ -72,7 +82,7 @@ public class CarController extends AbstractController {
         carImageService.saveCarImage(carImage);
         carService.saveCar(car);
 
-        model.addAttribute("cargoto", "Go to <a href=" + "/support/cars" + ">Cars list</a>");
+        model.addAttribute("cargoto", "Go to <a href=" + "/support/cars-1per15" + ">Cars list</a>");
         model.addAttribute("carsuccess", "Car " + car.getCarBrand() + " " + car.getCarModel() + " has registered successfully");
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/success";
@@ -111,7 +121,7 @@ public class CarController extends AbstractController {
             return "support/createcar";
         }
         carService.updateCar(car);
-        model.addAttribute("cargoto", "Go to <a href=" + "/support/cars" + ">Cars list</a>");
+        model.addAttribute("cargoto", "Go to <a href=" + "/support/cars-1per15" + ">Cars list</a>");
         model.addAttribute("carsuccess", "Car " + car.getCarBrand() + " " + car.getCarModel() + " has updated successfully");
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/success";
@@ -151,7 +161,7 @@ public class CarController extends AbstractController {
                 carImageService.updateCarImage(carImage);
             } catch (IOException e) {
             }
-            model.addAttribute("carimagegoto", "Go to <a href=" + "/support/cars" + ">Cars list</a>");
+            model.addAttribute("carimagegoto", "Go to <a href=" + "/support/cars-1per15" + ">Cars list</a>");
             model.addAttribute("carsuccess", "Image to car " + car.getCarBrand() + " " + car.getCarModel() + " has been updated successfully");
             model.addAttribute("loggedinuser", getActiveUser());
             return "support/success";
@@ -162,6 +172,6 @@ public class CarController extends AbstractController {
     public String deleteCar(@PathVariable String vin) {
         carImageService.deleteCarImageByVin(vin);
         carService.deleteCarByVin(vin);
-        return "redirect:/support/cars";
+        return "redirect:/support/cars-1per15";
     }
 }

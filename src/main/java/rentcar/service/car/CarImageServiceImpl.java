@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.car.CarImageDao;
-import rentcar.model.CarImage;
+import rentcar.model.support.CarImage;
 
 @Service("carImageService")
 @Transactional

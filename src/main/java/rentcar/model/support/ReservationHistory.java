@@ -1,4 +1,4 @@
-package rentcar.model;
+package rentcar.model.support;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -7,7 +7,7 @@ import java.sql.Time;
 import java.util.Objects;
 
 @Entity
-@Table(name = "HISTORY", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+@Table(name = "RESERVATIONHISTORY", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
 public class ReservationHistory implements Serializable {
 
     @Id

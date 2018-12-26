@@ -14,6 +14,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/filters.js" type="text/javascript"></script>
+    <script src="/static/js/rowsonpage.js" type="text/javascript"></script>
+    <style>
+        select {
+            margin: 5px;
+            width: 50px;
+            height: 30px;
+            padding: 3px 3px 3px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
 <div class="generic-container">
@@ -22,8 +33,19 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-lg-3">
-                    <span><span class="lead">     History     </span></span>
+                    <span>
+                        <span class="lead">     History     </span>
+                    </span>
                     <%@include file="patches/statuses.jsp" %>
+                    <c:if test="${pagesAmount !=0}">
+                        Rows per page:
+                        <select id="dynamic_select">
+                            <option value="" hidden>${rowsOnPage}</option>
+                            <option value="<c:url value='/support/reservation/reservationhistory-1per15' />">15</option>
+                            <option value="<c:url value='/support/reservation/reservationhistory-1per30' />">30</option>
+                            <option value="<c:url value='/support/reservation/reservationhistory-1per60' />">60</option>
+                        </select>
+                    </c:if>
                 </div>
                 <span class="floatRight">
                 <button type="button" class="btn btn-link btn-sm">
@@ -35,11 +57,13 @@
 
         <div class="panel-heading">
             <div class="row">
+            <span class="floatLeft">
                 <div class="col-lg-3">
                     <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-search"></span>
                         Simple search - on/off
                     </button>
                 </div>
+            </span>
             </div>
         </div>
 
@@ -83,6 +107,16 @@
                 </tbody>
             </table>
         </div>
+
+        <c:if test="${pagesAmount !=0}">
+            <div class="row">
+        <span class="floatleft">
+            <div class="col-lg-3">
+                <%@include file="patches/paginator.jsp" %>
+            </div>
+        </span>
+            </div>
+        </c:if>
     </div>
 </div>
 </body>

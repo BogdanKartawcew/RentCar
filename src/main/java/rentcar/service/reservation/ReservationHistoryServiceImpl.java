@@ -3,12 +3,12 @@ package rentcar.service.reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import rentcar.controller.AbstractController;
+import rentcar.controller.support.AbstractController;
 import rentcar.dao.reservation.ReservationHistoryDao;
-import rentcar.model.Car;
-import rentcar.model.Reservation;
-import rentcar.model.ReservationHistory;
-import rentcar.model.User;
+import rentcar.model.support.Car;
+import rentcar.model.support.Reservation;
+import rentcar.model.support.ReservationHistory;
+import rentcar.model.support.User;
 import rentcar.service.car.CarService;
 import rentcar.service.user.UserService;
 
@@ -45,6 +45,11 @@ public class ReservationHistoryServiceImpl extends AbstractController implements
     }
 
     @Override
+    public List<ReservationHistory> getAllByPage(int pageNumber, int rowsOnPage) {
+        return reservationHistoryDao.getAllByPage(pageNumber, rowsOnPage);
+    }
+
+    @Override
     public void createReservationHistoryObject(Reservation reservation) {
         Car car = carService.findByCarId(reservation.getCarId());
         User user = userService.findByLogin(getActiveUser());
@@ -61,5 +66,10 @@ public class ReservationHistoryServiceImpl extends AbstractController implements
         reservationHistory.setUserId(user.getId());
         reservationHistory.setTimestamp(new Timestamp(System.currentTimeMillis()));
         save(reservationHistory);
+    }
+
+    @Override
+    public long countAllByPage() {
+        return reservationHistoryDao.countAllByPage();
     }
 }

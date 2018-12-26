@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import rentcar.model.PersistentLogin;
+import rentcar.model.support.PersistentLogin;
 
 @Repository("tokenRepositoryDao")
 @Transactional

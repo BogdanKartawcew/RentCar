@@ -1,9 +1,6 @@
-package rentcar.model;
-
-import org.hibernate.validator.constraints.NotEmpty;
+package rentcar.model.support;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;

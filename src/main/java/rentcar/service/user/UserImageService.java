@@ -1,6 +1,6 @@
 package rentcar.service.user;
 
-import rentcar.model.UserImage;
+import rentcar.model.support.UserImage;
 
 public interface UserImageService {
 

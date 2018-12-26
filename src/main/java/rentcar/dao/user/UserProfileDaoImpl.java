@@ -1,6 +1,5 @@
 package rentcar.dao.user;
 
-import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -9,7 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.Role;
+import rentcar.model.support.Role;
 
 
 @Repository("userProfileDao")

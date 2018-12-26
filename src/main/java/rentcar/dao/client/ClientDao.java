@@ -2,7 +2,7 @@ package rentcar.dao.client;
 
 import java.util.List;
 
-import rentcar.model.Client;
+import rentcar.model.support.Client;
 
 public interface ClientDao {
 
@@ -15,5 +15,9 @@ public interface ClientDao {
     void deleteByPesel(String pesel);
 
     List<Client> getAll();
+
+    List<Client> getAllByPage(int pageNumber, int rowsOnPage);
+
+    long countAllByPage();
 }
 

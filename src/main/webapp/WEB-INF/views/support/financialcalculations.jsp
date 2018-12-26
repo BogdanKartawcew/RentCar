@@ -30,7 +30,7 @@
                class="btn btn-default btn-sm"><span class="glyphicon glyphicon-flash"></span> Only running reservations</a>
             <a href="<c:url value='/support/reservation/finished' />"
                class="btn btn-default btn-sm"><span class="glyphicon glyphicon-check"></span> Finished - please confirm</a>
-            <a href="<c:url value='/support/reservation/reservationhistory' />"
+            <a href="<c:url value='/support/reservation/reservationhistory-1per15' />"
                class="btn btn-default btn-sm"><span class="glyphicon glyphicon-calendar"></span> History</a>
         </div>
 

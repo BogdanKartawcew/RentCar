@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import rentcar.dao.user.UserDao;
-import rentcar.model.User;
+import rentcar.model.support.User;
 
 
 @Service("userService")
@@ -68,5 +68,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getByRole(int roleId) {
         return userDao.getByRole(roleId);
+    }
+
+    @Override
+    public long countAllByPage() {
+        return userDao.countAllByPage();
+    }
+
+    @Override
+    public List<User> getConfirmedByPage(int pageNumber, int rowsOnPage) {
+        return userDao.getConfirmedByPage(pageNumber, rowsOnPage);
     }
 }

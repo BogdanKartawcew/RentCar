@@ -1,6 +1,6 @@
 package rentcar.dao.reservation;
 
-import rentcar.model.ReservationHistory;
+import rentcar.model.support.ReservationHistory;
 
 import java.util.List;
 
@@ -11,4 +11,8 @@ public interface ReservationHistoryDao {
     void save(ReservationHistory reservationHistory);
 
     List<ReservationHistory> getAll();
+
+    List<ReservationHistory> getAllByPage(int pageNumber, int rowsOnPage);
+
+    long countAllByPage();
 }

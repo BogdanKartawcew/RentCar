@@ -2,7 +2,7 @@ package rentcar.dao.user;
 
 import java.util.List;
 
-import rentcar.model.User;
+import rentcar.model.support.User;
 
 public interface UserDao {
 
@@ -17,5 +17,9 @@ public interface UserDao {
     List<User> getAll();
 
     List<User> getByRole(int roleId);
+
+    List<User> getConfirmedByPage(int pageNumber, int rowsOnPage);
+
+    long countAllByPage();
 }
 

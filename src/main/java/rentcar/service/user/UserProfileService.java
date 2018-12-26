@@ -3,7 +3,7 @@ package rentcar.service.user;
 import java.util.HashSet;
 import java.util.List;
 
-import rentcar.model.Role;
+import rentcar.model.support.Role;
 
 
 public interface UserProfileService {

@@ -5,8 +5,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.User;
-import rentcar.model.UserImage;
+import rentcar.model.support.UserImage;
 import rentcar.service.user.UserService;
 
 @Repository("userImageDao")

@@ -1,7 +1,7 @@
 package rentcar.service.reservation;
 
-import rentcar.model.Reservation;
-import rentcar.model.ReservationHistory;
+import rentcar.model.support.Reservation;
+import rentcar.model.support.ReservationHistory;
 
 import java.util.List;
 
@@ -14,4 +14,8 @@ public interface ReservationHistoryService {
     List<ReservationHistory> getAll();
 
     void createReservationHistoryObject(Reservation reservation);
+
+    long countAllByPage();
+
+    List<ReservationHistory> getAllByPage(int pageNumber, int rowsOnPage);
 }

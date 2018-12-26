@@ -2,10 +2,11 @@ package rentcar.dao.car;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.Car;
+import rentcar.model.support.Car;
 
 import java.util.List;
 
@@ -37,6 +38,27 @@ public class CarDaoImpl extends AbstractDao<Integer, Car> implements CarDao {
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         List<Car> cars = (List<Car>) criteria.list();
         return cars;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Car> getAllByPage(int pageNumber, int rowsOnPage) {
+        Criteria criteria = createEntityCriteria().addOrder(Order.desc("carBrand"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        if (pageNumber == 1) {
+            criteria.setFirstResult(0);
+        } else {
+            criteria.setFirstResult((pageNumber-1) * rowsOnPage);
+        }
+        criteria.setMaxResults(rowsOnPage);
+        return (List<Car>) criteria.list();
+    }
+
+    @Override
+    public long countAllByPage() {
+        Criteria criteriaCount = createEntityCriteria();
+        criteriaCount.setProjection(Projections.rowCount());
+        return (Long) criteriaCount.uniqueResult();
     }
 
     public void save(Car car) {

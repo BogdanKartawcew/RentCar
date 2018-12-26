@@ -1,4 +1,4 @@
-package rentcar.model;
+package rentcar.model.support;
 
 import javax.persistence.*;
 import java.util.Arrays;

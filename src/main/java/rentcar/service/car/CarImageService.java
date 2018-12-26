@@ -1,6 +1,6 @@
 package rentcar.service.car;
 
-import rentcar.model.CarImage;
+import rentcar.model.support.CarImage;
 
 public interface CarImageService {
 

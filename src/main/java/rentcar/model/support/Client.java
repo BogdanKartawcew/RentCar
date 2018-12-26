@@ -1,4 +1,4 @@
-package rentcar.model;
+package rentcar.model.support;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
