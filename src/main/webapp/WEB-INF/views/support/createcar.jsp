@@ -60,7 +60,7 @@
                 <label class="col-md-3 control-lable" for="carFuel">Fuel</label>
                 <div class="col-md-7">
                     <form:select class="form-control inputstl" path="carFuel" id="carFuel">
-                        <option value=""></option>
+                        <option value="" hidden>choose fuel</option>
                         <option>Petrol</option>
                         <option>Diesel</option>
                         <option>Petrol/Electric</option>
@@ -82,7 +82,7 @@
                 <label class="col-md-3 control-lable" for="carGearType">Gear type</label>
                 <div class="col-md-7">
                     <form:select class="form-control inputstl" path="carGearType" id="carGearType">
-                        <option value=""></option>
+                        <option value="" hidden>choose gear type</option>
                         <option>Manual</option>
                         <option>Automatic</option>
                         <option>Semi-automatic</option>
@@ -112,7 +112,7 @@
                 <label class="col-md-3 control-lable" for="carBodyType">Body type</label>
                 <div class="col-md-7">
                     <form:select class="form-control inputstl" path="carBodyType" id="carBodyType">
-                        <option value=""></option>
+                        <option value="" hidden>choose body type</option>
                         <option>Small Car</option>
                         <option>Saloon</option>
                         <option>Estate Car</option>
@@ -162,6 +162,7 @@
                 <label class="col-md-3 control-lable" for="carAirCond">Air conditioning</label>
                 <div class="col-md-7">
                     <form:select class="form-control inputstl" path="carAirCond" id="carAirCond">
+                        <option value="" hidden>Yes/No</option>
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </form:select>
@@ -177,6 +178,7 @@
                 <label class="col-md-3 control-lable" for="carNavigation">Navigation</label>
                 <div class="col-md-7">
                     <form:select class="form-control inputstl" path="carNavigation" id="carNavigation">
+                        <option value="" hidden>Yes/No</option>
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </form:select>
@@ -191,17 +193,10 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="vin">VIN</label>
                 <div class="col-md-7">
-                        <%--<c:choose>
-                            <c:when test="${edit}">
-                                <form:input type="text" path="vin" id="vin" class="form-control input-sm" disabled="true"/>
-                            </c:when>
-                            <c:otherwise>--%>
                     <form:input type="text" path="vin" id="vin" class="form-control input-sm"/>
                     <div class="has-error">
                         <form:errors path="vin" class="help-inline"/>
                     </div>
-                        <%--</c:otherwise>
-                    </c:choose>--%>
                 </div>
             </div>
         </div>
@@ -253,6 +248,35 @@
                     <form:input type="text" path="carVersion" id="carVersion" class="form-control input-sm"/>
                     <div class="has-error">
                         <form:errors path="carVersion" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="price">Price per day</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="price" id="price" class="form-control input-sm"/>
+                    <div class="has-error">
+                        <form:errors path="price" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="city">Location</label>
+                <div class="col-md-7">
+                    <form:select class="form-control inputstl" path="city" id="city">
+                        <option value="" hidden>Set vehicle actual location</option>
+                        <option value="WROCLAW">Wroclaw</option>
+                        <option value="CRACOW">Cracow</option>
+                        <option value="WARSAW">Warsaw</option>
+                    </form:select>
+                    <div class="has-error">
+                        <form:errors path="city" class="help-inline"/>
                     </div>
                 </div>
             </div>

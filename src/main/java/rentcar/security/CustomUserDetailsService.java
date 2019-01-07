@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import rentcar.model.support.User;
-import rentcar.model.support.Role;
+import rentcar.model.User;
+import rentcar.model.Role;
 import rentcar.service.user.UserService;
 
 
@@ -24,10 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String login)
-            throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+
         User user = userService.findByLogin(login);
         if (user == null) {
+            System.out.println("Username not found");
             throw new UsernameNotFoundException("Username not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),

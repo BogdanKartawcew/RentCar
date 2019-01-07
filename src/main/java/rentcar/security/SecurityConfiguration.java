@@ -37,9 +37,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/support/admin/**", "/support/userimage-{login}").access("hasRole('ADMIN') or hasRole('SUPERUSER')")
-                .antMatchers("/support/mypage/**", "/support/userimage-{login}", "/").access("hasRole('USER') or hasRole('SUPERUSER') or hasRole('TEMP')")
-                .antMatchers("/", "/support/**").access("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPERUSER')")
+                .antMatchers("/support/mypage/**", "/support/userimage-{login}").access("hasRole('USER') or hasRole('SUPERUSER') or hasRole('TEMP')")
+                .antMatchers("/support/**").access("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPERUSER')")
                 .and().formLogin().loginPage("/login")
                 .loginProcessingUrl("/login").usernameParameter("login").passwordParameter("password").and() //do not change!
                 .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)

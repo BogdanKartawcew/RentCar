@@ -7,9 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
-import rentcar.model.support.FileBucket;
-import rentcar.model.support.User;
-import rentcar.model.support.UserImage;
+import rentcar.service.common.FileBucket;
+import rentcar.model.User;
+import rentcar.model.UserImage;
 import rentcar.service.user.UserImageService;
 import rentcar.service.user.UserService;
 

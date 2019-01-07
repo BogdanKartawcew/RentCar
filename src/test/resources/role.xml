@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-    <role id="1" type="USER"/>
-    <role id="2" type="ADMIN"/>
-    <role id="3" type="SUPERUSER"/>
-    <role id="4" type="TEMP"/>
-</dataset>

@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.car.CarDao;
-import rentcar.model.support.Car;
+import rentcar.model.Car;
+import rentcar.model.CarImage;
 
 
 import java.util.List;
@@ -13,26 +14,59 @@ import java.util.List;
 @Transactional
 public class CarServiceImpl implements CarService {
 
+    private final int imagesPerCar = 5;
+
+
     @Autowired
     private CarDao carDao;
 
-    public Car findByCarId(int carId) {
+    @Autowired
+    private CarImageService carImageService;
+
+    @Override
+    public Car findById(int carId) {
         return carDao.findById(carId);
     }
 
-    public Car findByVin(String vin) {
-        return carDao.findByVin(vin);
+    @Override
+    public Car findByVIN(String vin) {
+        return carDao.findByVIN(vin);
     }
 
+
+    @Override
     public int getMileageById(int carId) {
         return carDao.getMileageById(carId);
     }
 
-    public void saveCar(Car car) {
+    @Override
+    public void save(Car car) {
         carDao.save(car);
+        System.out.println("CARID:::::" + car.getCarId());
+        Thread saveCarImageThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                saveCarImage(car.getCarId());
+            }
+        });
+        saveCarImageThread.start();
     }
 
-    public void updateCar(Car car) {
+
+    private void saveCarImage(int carId)
+    {
+        for (int i = 1; i<=imagesPerCar; i++)
+        {
+            CarImage carImage = new CarImage();
+            carImage.setCarId(carId);
+            carImage.setCarImage(null);
+            carImage.setNumber(i);
+            carImageService.save(carImage);
+        }
+    }
+
+    @Override
+    public void update(Car car) {
         Car entity = carDao.findById(car.getCarId());
         if (entity != null) {
             entity.setCarId(car.getCarId());
@@ -51,19 +85,24 @@ public class CarServiceImpl implements CarService {
             entity.setCarYear(car.getCarYear());
             entity.setCarMileage(car.getCarMileage());
             entity.setCarVersion(car.getCarVersion());
+            entity.setPrice(car.getPrice());
+            entity.setCity(car.getCity());
         }
     }
 
-    public void deleteCarByVin(String vin) {
-        carDao.deleteByVin(vin);
+    @Override
+    public void delete(int carId) {
+        carDao.delete(carId);
     }
 
-    public List<Car> findAllCars() {
+    @Override
+    public List<Car> getAll() {
         return carDao.getAll();
     }
 
+    @Override
     public boolean isVinUnique(Integer carId, String vin) {
-        Car car = findByVin(vin);
+        Car car = findByVIN(vin);
         return (car == null || ((carId != null) && (car.getCarId() == carId)));
     }
 

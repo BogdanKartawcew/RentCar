@@ -35,9 +35,9 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     /*initializin of tem lib for multipart uploading*/
     private static final String LOCATION = "";
 
-    private static final long MAX_FILE_SIZE = 1024 * 1024 * 15;//15MB
+    private static final long MAX_FILE_SIZE = 1024 * 1024 * 3;//3MB
 
-    private static final long MAX_REQUEST_SIZE = 1024 * 1024 * 2;//2MB
+    private static final long MAX_REQUEST_SIZE = 1024 * 1024 * 3;//3MB
 
     private static final int FILE_SIZE_THRESHOLD = 0;
 

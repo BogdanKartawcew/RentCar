@@ -6,7 +6,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.support.Car;
+import rentcar.model.Car;
 
 import java.util.List;
 
@@ -18,12 +18,13 @@ public class CarDaoImpl extends AbstractDao<Integer, Car> implements CarDao {
         return car;
     }
 
-    public Car findByVin(String vin) {
+    @Override
+    public Car findByVIN(String vin) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("vin", vin));
-        Car car = (Car) crit.uniqueResult();
-        return car;
+        return (Car) crit.uniqueResult();
     }
+
 
     @Override
     public int getMileageById(int carId) {
@@ -61,13 +62,16 @@ public class CarDaoImpl extends AbstractDao<Integer, Car> implements CarDao {
         return (Long) criteriaCount.uniqueResult();
     }
 
+    @Override
     public void save(Car car) {
         persist(car);
     }
 
-    public void deleteByVin(String vin) {
+
+    @Override
+    public void delete(int carId) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("vin", vin));
+        crit.add(Restrictions.eq("carId", carId));
         Car car = (Car) crit.uniqueResult();
         delete(car);
     }

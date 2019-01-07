@@ -1,6 +1,6 @@
 package rentcar.dao.reservation;
 
-import rentcar.model.support.Availability;
+import rentcar.model.Availability;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface AvailabilityDao {
 
     void delete(int id);
 
-    List<Availability> checkAll();
+    List<Availability> getAll();
 
     List<Availability> listByCarId(Integer carId);
 }

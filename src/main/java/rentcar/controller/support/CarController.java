@@ -6,10 +6,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import rentcar.model.support.Car;
-import rentcar.model.support.CarImage;
-import rentcar.model.support.FileBucket;
+import rentcar.model.Car;
+import rentcar.model.CarImage;
+import rentcar.service.common.FileBucket;
 import rentcar.service.car.CarImageService;
 import rentcar.service.car.CarService;
 import rentcar.service.common.PaginatorService;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -76,11 +74,7 @@ public class CarController extends AbstractController {
             model.addAttribute("loggedinuser", getActiveUser());
             return "support/createcar";
         }
-        CarImage carImage = new CarImage();
-        carImage.setVin(car.getVin());
-        carImage.setCarImage(null);
-        carImageService.saveCarImage(carImage);
-        carService.saveCar(car);
+        carService.save(car);
 
         model.addAttribute("cargoto", "Go to <a href=" + "/support/cars-1per15" + ">Cars list</a>");
         model.addAttribute("carsuccess", "Car " + car.getCarBrand() + " " + car.getCarModel() + " has registered successfully");
@@ -89,9 +83,9 @@ public class CarController extends AbstractController {
     }
 
 
-    @RequestMapping(value = {"/support/cars/carimage-{vin}"}, method = RequestMethod.GET)
-    public String showCarImage(@PathVariable String vin, HttpServletResponse response) {
-        CarImage carImage = carImageService.findByVin(vin);
+    @RequestMapping(value = {"/carimage-{carId}-{imagenumber}"}, method = RequestMethod.GET)
+    public String showCarImage(@PathVariable int carId, @PathVariable int imagenumber, HttpServletResponse response) {
+        CarImage carImage = carImageService.find(carId, imagenumber);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
         try {
             response.getOutputStream().write(carImage.getCarImage());
@@ -103,24 +97,24 @@ public class CarController extends AbstractController {
     }
 
 
-    @RequestMapping(value = {"/support/cars/editcar-{vin}"}, method = RequestMethod.GET)
-    public String editCar(@PathVariable String vin, ModelMap model) {
-        Car car = carService.findByVin(vin);
+    @RequestMapping(value = {"/support/cars/editcar-{carId}"}, method = RequestMethod.GET)
+    public String editCar(@PathVariable int carId, ModelMap model) {
+        Car car = carService.findById(carId);
         model.addAttribute("car", car);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/createcar";
     }
 
-    @RequestMapping(value = {"/support/cars/editcar-{vin}"}, method = RequestMethod.POST)
-    public String editCar(@Valid Car car, BindingResult result, ModelMap model, @PathVariable String vin) {
+    @RequestMapping(value = {"/support/cars/editcar-{carId}"}, method = RequestMethod.POST)
+    public String editCar(@Valid Car car, BindingResult result, ModelMap model, @PathVariable int carId) {
 
         if (result.hasErrors()) {
             model.addAttribute("edit", true);
             model.addAttribute("loggedinuser", getActiveUser());
             return "support/createcar";
         }
-        carService.updateCar(car);
+        carService.update(car);
         model.addAttribute("cargoto", "Go to <a href=" + "/support/cars-1per15" + ">Cars list</a>");
         model.addAttribute("carsuccess", "Car " + car.getCarBrand() + " " + car.getCarModel() + " has updated successfully");
         model.addAttribute("loggedinuser", getActiveUser());
@@ -128,10 +122,11 @@ public class CarController extends AbstractController {
     }
 
 
-    @RequestMapping(value = {"/support/cars/uploadcarimage-{vin}"}, method = RequestMethod.GET)
-    public String uploadCarImage(@PathVariable String vin, ModelMap model) {
+    @RequestMapping(value = {"/support/cars/uploadcarimage-{carId}"}, method = RequestMethod.GET)
+    public String uploadCarImage(@PathVariable int carId, ModelMap model) {
+        model.clear();
         FileBucket fileModel = new FileBucket();
-        Car car = carService.findByVin(vin);
+        Car car = carService.findById(carId);
         model.addAttribute("car", car);
         model.addAttribute("fileBucket", fileModel);
         model.addAttribute("loggedinuser", getActiveUser());
@@ -139,39 +134,21 @@ public class CarController extends AbstractController {
     }
 
 
-    @RequestMapping(value = {"/support/cars/uploadcarimage-{vin}"}, method = RequestMethod.POST)
-    public String uploadCarImage(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable String vin) throws IOException {
-
+    @RequestMapping(value = {"/support/cars/uploadcarimage-{carId}"}, method = RequestMethod.POST)
+    public String uploadCarImage(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable int carId, @ModelAttribute("imagenumber") int imagenumber) {
+        model.clear();
         if (result.hasErrors()) {
-            /*FileBucket fileModel = new FileBucket();
-            Car car = carService.findByVin(vin);
-            model.addAttribute("car", car);
-            model.addAttribute("fileBucket", fileModel);
-            model.addAttribute("loggedinuser", getActiveUser());
-            return "support/carimageupdate";*/
-            return uploadCarImage(vin, model);
+            return uploadCarImage(carId, model);
         } else {
-            Car car = carService.findByVin(vin);
-            CarImage carImage = new CarImage();
-            MultipartFile multipartFile = fileBucket.getFile();
-
-            try {
-                carImage.setVin(vin);
-                carImage.setCarImage(multipartFile.getBytes());
-                carImageService.updateCarImage(carImage);
-            } catch (IOException e) {
-            }
-            model.addAttribute("carimagegoto", "Go to <a href=" + "/support/cars-1per15" + ">Cars list</a>");
-            model.addAttribute("carsuccess", "Image to car " + car.getCarBrand() + " " + car.getCarModel() + " has been updated successfully");
-            model.addAttribute("loggedinuser", getActiveUser());
-            return "support/success";
+            carImageService.update(fileBucket, carId, imagenumber);
+            return "redirect:/support/cars/uploadcarimage-" + carId;
         }
     }
 
-    @RequestMapping(value = {"/support/cars/deletecar-{vin}"}, method = RequestMethod.GET)
-    public String deleteCar(@PathVariable String vin) {
-        carImageService.deleteCarImageByVin(vin);
-        carService.deleteCarByVin(vin);
+    @RequestMapping(value = {"/support/cars/deletecar-{carId}-{imagenumber}"}, method = RequestMethod.GET)
+    public String deleteCar(@PathVariable int carId, @PathVariable int imagenumber) {
+        carImageService.delete(carId, imagenumber);
+        carService.delete(carId);
         return "redirect:/support/cars-1per15";
     }
 }

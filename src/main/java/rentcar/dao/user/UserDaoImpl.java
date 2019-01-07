@@ -9,7 +9,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.support.User;
+import rentcar.model.User;
 
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {

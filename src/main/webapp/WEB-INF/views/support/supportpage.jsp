@@ -34,6 +34,9 @@
     |
     <button type="button" class="btn btn-link btn-sm"><a href="<c:url value="/logout" />"><span
             class="glyphicon glyphicon-off"></span> Logout</a></button>
+    |
+    <button type="button" class="btn btn-link btn-sm"><a href="<c:url value="/welcome" />"><span
+            class="glyphicon glyphicon-home"></span> Customer page</a></button>
     <br>
     <br>
     <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">

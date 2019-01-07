@@ -8,7 +8,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.support.Client;
+import rentcar.model.Client;
 
 @Repository("clientDao")
 public class ClientDaoImpl extends AbstractDao<Integer, Client> implements ClientDao {

@@ -1,14 +1,15 @@
 package rentcar.service.car;
 
-import rentcar.model.support.CarImage;
+import rentcar.model.CarImage;
+import rentcar.service.common.FileBucket;
 
 public interface CarImageService {
 
-    CarImage findByVin(String vin);
+    CarImage find(int carId, int number);
 
-    void saveCarImage(CarImage carImage);
+    void save(CarImage carImage);
 
-    void updateCarImage(CarImage carImage);
+    void update(FileBucket fileBucket, int carId, int number);
 
-    void deleteCarImageByVin(String vin);
+    void delete(int carId, int number);
 }

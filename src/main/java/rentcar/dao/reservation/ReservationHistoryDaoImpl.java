@@ -5,7 +5,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.support.ReservationHistory;
+import rentcar.model.ReservationHistory;
 
 import java.util.List;
 

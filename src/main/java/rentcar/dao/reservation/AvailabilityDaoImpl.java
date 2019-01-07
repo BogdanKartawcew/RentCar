@@ -5,7 +5,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
-import rentcar.model.support.Availability;
+import rentcar.model.Availability;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class AvailabilityDaoImpl extends AbstractDao<Integer, Availability> impl
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Availability> checkAll() {
+    public List<Availability> getAll() {
         Criteria criteria = createEntityCriteria().addOrder(Order.asc("startDate"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         return (List<Availability>) criteria.list();

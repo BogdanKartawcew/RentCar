@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.client.ClientDao;
-import rentcar.model.support.Client;
+import rentcar.model.Client;
 
 @Service("clientService")
 @Transactional
@@ -19,7 +19,6 @@ public class ClientServiceImpl implements ClientService{
 	}
 
 	public void saveClient(Client client) {
-		//user.setPassword(passwordEncoder.encode(user.getPassword()));
 		clientDao.save(client);
 	}
 

@@ -9,23 +9,26 @@ import java.util.ArrayList;
 @Transactional
 public class PaginatorServiceImpl implements PaginatorService {
     @Override
-    public ArrayList<String> getPaginatorTags(String link, int rowsOnPage, int pagesAmount, int pageNumber) {
-        String tagActive = "<li class=\"active\"><a href=\"" + link;
-        String tag1 = "<li><a href=\"" + link;
-        String tag2 = "per" + rowsOnPage + "\">";
-        String tag3 = "</a></li>";
+    public ArrayList<String> getPaginatorTags(String link, int rowsOnPage, int pagesAmount, int activePageNumber) {
+        //whole tag for active page is: <li class="active"><a href="...link..."></a></li>
+        //the whole tag who rest pages is: <li><a href="...link..."></a></li>
+
+        String startActive = "<li class=\"active\"><a href=\"" + link;
+        String startUsual = "<li><a href=\"" + link;
+        String middle = "per" + rowsOnPage + "\">";
+        String end = "</a></li>";
         StringBuilder tag = new StringBuilder();
         ArrayList<String> paginatorTags = new ArrayList<>();
-        for (int i = 1; i <= pagesAmount; i++) {
-            if (i == pageNumber) {
-                tag.append(tagActive);
+        for (int usualPageNumber = 1; usualPageNumber <= pagesAmount; usualPageNumber++) {
+            if (usualPageNumber == activePageNumber) {
+                tag.append(startActive);
             } else {
-                tag.append(tag1);
+                tag.append(startUsual);
             }
-            tag.append(i);
-            tag.append(tag2);
-            tag.append(i);
-            tag.append(tag3);
+            tag.append(usualPageNumber);
+            tag.append(middle);
+            tag.append(usualPageNumber);
+            tag.append(end);
             paginatorTags.add(tag.toString());
             tag.setLength(0);
         }

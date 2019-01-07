@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import rentcar.dao.user.UserDao;
-import rentcar.model.support.User;
+import rentcar.model.User;
 
 
 @Service("userService")

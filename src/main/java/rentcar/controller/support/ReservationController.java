@@ -8,9 +8,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.support.Car;
-import rentcar.model.support.Client;
-import rentcar.model.support.Reservation;
+import rentcar.model.Car;
+import rentcar.model.Client;
+import rentcar.model.Reservation;
 import rentcar.service.car.CarService;
 import rentcar.service.client.ClientService;
 import rentcar.service.common.PaginatorService;
@@ -206,7 +206,7 @@ public class ReservationController extends AbstractController {
 
     private HashMap getCarsMap() {
         HashMap<Integer, Car> carsMap = new HashMap<>();
-        for (Car car : carService.findAllCars()) {
+        for (Car car : carService.getAll()) {
             carsMap.put(car.getCarId(), car);
         }
         return carsMap;

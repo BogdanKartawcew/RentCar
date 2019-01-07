@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.reservation.ReservationStatusDao;
-import rentcar.model.support.ReservationStatus;
+import rentcar.model.ReservationStatus;
 
 import java.util.List;
 

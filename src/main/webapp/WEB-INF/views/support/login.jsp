@@ -15,7 +15,6 @@
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
     <link rel="stylesheet" type="text/css"
           href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css"/>
-    <%--icons near fields--%>
 </head>
 
 <body>
@@ -24,6 +23,7 @@
     <section class="box-log">
         <div id="login" class="boxed show-page">
             <div class="content-box">
+                <a href="<c:url value='/welcome' />"> <i class="fa fa-home fa-5x"></i></a>
                 <form action="${loginUrl}" method="post" class="form-horizontal">
                     <c:if test="${param.error != null}">
                         <div class="alert alert-danger">
@@ -80,10 +80,10 @@
             <div class="content-box">
                 <form action="">
                     <div class="group-form labels">
-                        <h2>Input your login and please check your mail - there should be an instruction of password
-                            reseting process</h2>
+                        <h2>Password reset option is available only for customers. If you need to reset a password - to
+                            get company's data secured - please contact your local administrator.</h2>
                     </div>
-                    <div class="input-group input-sm">
+                    <%--<div class="input-group input-sm">
                         <label class="input-group-addon" for="username"><i class="fa fa-user"></i></label>
                         <input type="text" class="form-control" id="username" name="login"
                                placeholder="Enter login"
@@ -94,7 +94,7 @@
                         <input type="submit"
                                class="btn btn-block btn-primary btn-default" value="Send">
                     </div>
-                    <br>
+                    <br>--%>
                     <input type="reset" value="Back to login" class="reset sign"/>
                 </form>
             </div>

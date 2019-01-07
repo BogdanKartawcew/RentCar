@@ -1,6 +1,6 @@
 package rentcar.service.access;
 
-import rentcar.model.support.User;
+import rentcar.model.User;
 
 import java.util.HashMap;
 

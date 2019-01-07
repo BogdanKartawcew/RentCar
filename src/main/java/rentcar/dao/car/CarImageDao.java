@@ -1,12 +1,12 @@
 package rentcar.dao.car;
 
-import rentcar.model.support.CarImage;
+import rentcar.model.CarImage;
 
 public interface CarImageDao {
 
-    CarImage findByVin(String vin);
+    CarImage find(int imageId, int number);
 
     void save(CarImage carImage);
 
-    void deleteByVin(String vin);
+    void delete(int imageId, int number);
 }

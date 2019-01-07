@@ -2,7 +2,7 @@ package rentcar.dao.client;
 
 import java.util.List;
 
-import rentcar.model.support.Client;
+import rentcar.model.Client;
 
 public interface ClientDao {
 

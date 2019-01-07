@@ -1,11 +1,12 @@
 .box-log {
+    height: 550px;
     width: 550px;
     min-height: 480px;
     margin: auto;
     position: relative;
 }
 .box-log .boxed {
-    margin-top: 30%;
+    /*margin-top: 10%;*/
     position: absolute;
     width: 100%;
     height: 100%;
@@ -66,7 +67,7 @@
 .box-log .boxed .content-box form .group-form.labels {
     text-align: center;
     line-height: 21px;
-    color: dimgray;
+    color: dimgrey;
 }
 .box-log .boxed.show-page .content-box {
     z-index: 1;
@@ -117,7 +118,7 @@
     font-family: "Raleway", Sans-serif;
     background: transparent;
     position: absolute;
-    color: dimgray;
+    color: dimgrey;
     font-size: 17px;
     text-align: center;
     line-height: 21px;

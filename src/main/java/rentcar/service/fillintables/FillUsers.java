@@ -2,8 +2,8 @@ package rentcar.service.fillintables;
 
 import rentcar.dao.user.UserDao;
 import rentcar.dao.user.UserImageDao;
-import rentcar.model.support.User;
-import rentcar.model.support.UserImage;
+import rentcar.model.User;
+import rentcar.model.UserImage;
 import rentcar.service.user.UserProfileService;
 
 import java.util.HashMap;

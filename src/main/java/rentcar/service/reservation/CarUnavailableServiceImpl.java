@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rentcar.dao.reservation.AvailabilityDao;
-import rentcar.model.support.Availability;
-import rentcar.model.support.Reservation;
+import rentcar.model.Availability;
+import rentcar.model.Reservation;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -16,18 +16,22 @@ import java.util.*;
 @Transactional
 public class CarUnavailableServiceImpl implements CarUnavailableService {
 
+    private final String dbDateFormat = "yyyy-MM-dd";
+    private final String dbTimeFormat = "HH:mm:ss";
+    private final Calendar openHours = toCalendar("05:59:59", dbTimeFormat);
+    private final Calendar closeHours = toCalendar("22:00:01", dbTimeFormat);
+
     @Autowired
-    private AvailabilityDao carUnavailableDao;
+    private AvailabilityDao availabilityDao;
 
     @Override
     public void save(Availability availability) {
-        carUnavailableDao.save(availability);
+        availabilityDao.save(availability);
     }
 
     @Override
     public void update(Availability availability) {
-
-        Availability entity = carUnavailableDao.findById(availability.getAvailabilityId());
+        Availability entity = availabilityDao.findById(availability.getAvailabilityId());
         if (entity != null) {
             entity.setAvailabilityId(availability.getAvailabilityId());
             entity.setCarId(availability.getCarId());
@@ -40,52 +44,48 @@ public class CarUnavailableServiceImpl implements CarUnavailableService {
 
     @Override
     public void delete(int id) {
-        carUnavailableDao.delete(id);
+        availabilityDao.delete(id);
     }
 
     @Override
     public List<Availability> getAll() {
-        return carUnavailableDao.checkAll();
+        return availabilityDao.getAll();
     }
 
     @Override
     public List<Availability> listByCarId(Integer carId) {
-        return carUnavailableDao.listByCarId(carId);
+        return availabilityDao.listByCarId(carId);
     }
 
     public boolean[] checkAvailability(Reservation reservation) {
-        String dateFormat = "yyyy-MM-dd";
-        String timeFormat = "HH:mm:ss";
-        boolean[] availibility = new boolean[6]; /*startDateAvailable, endDateAvailable, startTimeAvailable, endTimeAvailable, startTimeInTime, endTimeInTime*/
-        List<Availability> unavailablesList = listByCarId(reservation.getCarId());
-        Calendar startDate = toCalendar(reservation.getStartDate().toString(), dateFormat);
-        Calendar endDate = toCalendar(reservation.getEndDate().toString(), dateFormat);
-        Calendar startTime = toCalendar(reservation.getStartTime().toString(), timeFormat);
-        Calendar endTime = toCalendar(reservation.getEndTime().toString(), timeFormat);
-        Calendar start = toCalendar("05:59:59", timeFormat);
-        Calendar end = toCalendar("22:00:01", timeFormat);
 
+        boolean[] availibilityArray = new boolean[6]; /*startDateAvailable, endDateAvailable, startTimeAvailable, endTimeAvailable, startTimeInTime, endTimeInTime*/
+        List<Availability> unavailablesList = listByCarId(reservation.getCarId());
+        Calendar startDate = toCalendar(reservation.getStartDate().toString(), dbDateFormat);
+        Calendar endDate = toCalendar(reservation.getEndDate().toString(), dbDateFormat);
+        Calendar startTime = toCalendar(reservation.getStartTime().toString(), dbTimeFormat);
+        Calendar endTime = toCalendar(reservation.getEndTime().toString(), dbTimeFormat);
         Calendar startTimestamp = createTimestamp(startDate, startTime);
         Calendar endTimestamp = createTimestamp(endDate, endTime);
 
         if (!unavailablesList.isEmpty()) {
             for (Availability car : unavailablesList) {
                 if (!car.getAvailabilityId().equals(reservation.getReservationId())) {
-                    Calendar startCal = createTimestamp(toCalendar(car.getStartDate().toString(), dateFormat), toCalendar(car.getStartTime().toString(), timeFormat));
-                    Calendar endCal = createTimestamp(toCalendar(car.getEndDate().toString(), dateFormat), toCalendar(car.getEndTime().toString(), timeFormat));
+                    Calendar startCal = createTimestamp(toCalendar(car.getStartDate().toString(), dbDateFormat), toCalendar(car.getStartTime().toString(), dbTimeFormat));
+                    Calendar endCal = createTimestamp(toCalendar(car.getEndDate().toString(), dbDateFormat), toCalendar(car.getEndTime().toString(), dbTimeFormat));
                     endCal.add(Calendar.HOUR_OF_DAY, 3); //BUSINESS - to create a book after 3 hours car arrived.
-                    availibility[0] = !startTimestamp.before(startCal) && !startTimestamp.after(endCal);
-                    availibility[1] = !endTimestamp.before(startCal) && !endTimestamp.after(endCal);
-                    if (availibility[0])
-                        availibility[2] = !(!startTime.before(toCalendar(car.getStartTime().toString(), timeFormat)) && !startTime.after(toCalendar(car.getEndTime().toString(), timeFormat)));
-                    if (availibility[1])
-                        availibility[3] = !(!endTime.before(toCalendar(car.getStartTime().toString(), timeFormat)) && !endTime.after(toCalendar(car.getEndTime().toString(), timeFormat)));
+                    availibilityArray[0] = !startTimestamp.before(startCal) && !startTimestamp.after(endCal);
+                    availibilityArray[1] = !endTimestamp.before(startCal) && !endTimestamp.after(endCal);
+                    if (availibilityArray[0])
+                        availibilityArray[2] = !(!startTime.before(toCalendar(car.getStartTime().toString(), dbTimeFormat)) && !startTime.after(toCalendar(car.getEndTime().toString(), dbTimeFormat)));
+                    if (availibilityArray[1])
+                        availibilityArray[3] = !(!endTime.before(toCalendar(car.getStartTime().toString(), dbTimeFormat)) && !endTime.after(toCalendar(car.getEndTime().toString(), dbTimeFormat)));
                 }
             }
         }
-        availibility[4] = !(startTime.after(start) && startTime.before(end));
-        availibility[5] = !(endTime.after(start) && endTime.before(end));
-        return availibility;
+        availibilityArray[4] = !(startTime.after(openHours) && startTime.before(closeHours));
+        availibilityArray[5] = !(endTime.after(openHours) && endTime.before(closeHours));
+        return availibilityArray;
     }
 
     private Calendar toCalendar(String stringDate, String format) {

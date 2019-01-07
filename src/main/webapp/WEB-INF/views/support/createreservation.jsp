@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: a261711
-  Date: 2018-08-06
-  Time: 1:41 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -53,12 +46,14 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="clientId">clientId</label>
+                <label class="col-md-3 control-lable" for="clientId">Client</label>
                 <div class="col-md-7">
-                    <form:select items="${clientsMap}" path="clientId" class="form-control input-sm"/>
-                        <%--<form:input type="text" path="clientId" id="clientId" class="form-control input-sm"/>--%>
-                    <div class="has-error">
-                        <form:errors path="clientId" class="help-inline"/>
+                    <div class='col-sm-4 input-group date' id='clientId'>
+                        <form:select items="${clientsMap}" path="clientId" class="form-control input-sm"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        <div class="has-error">
+                            <form:errors path="clientId" class="help-inline"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,10 +63,12 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="carId">carId</label>
                 <div class="col-md-7">
-                    <form:select items="${carsMap}" path="carId" class="form-control input-sm"/>
-                        <%--<form:input type="text" path="carId" id="carId" class="form-control input-sm"/>--%>
-                    <div class="has-error">
-                        <form:errors path="carId" class="help-inline"/>
+                    <div class='col-sm-4 input-group date' id='carId'>
+                        <form:select items="${carsMap}" path="carId" class="form-control input-sm"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span></span>
+                        <div class="has-error">
+                            <form:errors path="carId" class="help-inline"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,9 +81,9 @@
                     <div class='col-sm-4 input-group date' id='startDate'>
                         <form:input type="datetime" path="startDate" id="startDate" class="form-control input-sm"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                    </div>
-                    <div class="has-error">
-                        <form:errors path="startDate" class="help-inline"/>
+                        <div class="has-error">
+                            <form:errors path="startDate" class="help-inline"/>
+                        </div>
                     </div>
                 </div>
             </div>

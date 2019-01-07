@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.support.Role;
-import rentcar.model.support.User;
-import rentcar.model.support.UserImage;
+import rentcar.model.Role;
+import rentcar.model.User;
+import rentcar.model.UserImage;
 import rentcar.service.access.AccessService;
 import rentcar.service.common.PaginatorService;
 import rentcar.service.user.UserImageService;
@@ -65,6 +65,8 @@ public class UserController extends AbstractController {
     @RequestMapping(value = {"/support/admin/userslist/createuser"}, method = RequestMethod.GET)
     public String createUser(ModelMap model) {
         User user = new User();
+        List<Role> roles = userProfileService.getAll();
+        model.addAttribute("roles", roles);
         model.addAttribute("user", user);
         model.addAttribute("create", true);
         model.addAttribute("loggedinuser", getActiveUser());
@@ -105,7 +107,6 @@ public class UserController extends AbstractController {
     public String updateUser(@PathVariable String login, ModelMap model) {
         User user = userService.findByLogin(login);
         model.addAttribute("user", user);
-        System.out.println("USER:::::::::::::::" + user);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getActiveUser());
         return "support/createuser";

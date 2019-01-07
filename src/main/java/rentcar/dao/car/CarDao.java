@@ -1,6 +1,6 @@
 package rentcar.dao.car;
 
-import rentcar.model.support.Car;
+import rentcar.model.Car;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ public interface CarDao {
 
     Car findById(int carId);
 
-    Car findByVin(String vin);
+    Car findByVIN(String vin);
 
     int getMileageById(int carId);
 
     void save(Car car);
 
-    void deleteByVin(String vin);
+    void delete(int carId);
 
     List<Car> getAll();
 

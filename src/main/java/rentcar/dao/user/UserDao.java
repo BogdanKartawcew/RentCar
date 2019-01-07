@@ -2,7 +2,7 @@ package rentcar.dao.user;
 
 import java.util.List;
 
-import rentcar.model.support.User;
+import rentcar.model.User;
 
 public interface UserDao {
 

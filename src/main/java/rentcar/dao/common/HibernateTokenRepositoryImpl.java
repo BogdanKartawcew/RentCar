@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import rentcar.model.support.PersistentLogin;
+import rentcar.model.PersistentLogin;
 
 @Repository("tokenRepositoryDao")
 @Transactional
@@ -41,9 +41,9 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
     }
 
     @Override
-    public void removeUserTokens(String username) {
+    public void removeUserTokens(String login) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("username", username));
+        crit.add(Restrictions.eq("login", login));
         PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
         if (persistentLogin != null) {
             delete(persistentLogin);

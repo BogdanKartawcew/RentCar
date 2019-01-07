@@ -8,13 +8,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.support.Client;
+import rentcar.model.Client;
 import rentcar.service.client.ClientService;
 import rentcar.service.common.PaginatorService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**

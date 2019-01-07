@@ -1,24 +1,24 @@
 package rentcar.service.car;
 
-import rentcar.model.support.Car;
+import rentcar.model.Car;
 
 import java.util.List;
 
 public interface CarService {
 
-    Car findByCarId(int carId);
+    Car findById(int carId);
 
-    Car findByVin(String vin);
+    Car findByVIN(String vin);
 
     int getMileageById(int carId);
 
-    void saveCar(Car car);
+    void save(Car car);
 
-    void updateCar(Car car);
+    void update(Car car);
 
-    void deleteCarByVin(String vin);
+    void delete(int carId);
 
-    List<Car> findAllCars();
+    List<Car> getAll();
 
     boolean isVinUnique(Integer carId, String vin);
 

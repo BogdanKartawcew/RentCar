@@ -60,7 +60,7 @@
             <span class="floatLeft">
                 <div class="col-lg-3">
                     <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-search"></span>
-                        Simple search - on/off
+                        Search on page - on/off
                     </button>
                 </div>
             </span>

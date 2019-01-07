@@ -83,6 +83,8 @@
                     <th>Production year</th>
                     <th>Mileage</th>
                     <th>Version</th>
+                    <th>Price</th>
+                    <th>Current location</th>
                     <th width="100"></th>
                     <th width="100"></th>
                 </tr>
@@ -91,8 +93,8 @@
                 <c:forEach items="${cars}" var="car">
                     <tr>
                         <td>${car.carId}</td>
-                        <td><a href="<c:url value='/support/cars/uploadcarimage-${car.vin}' />"><img
-                                src='/support/cars/carimage-${car.vin}' class="img-rounded" height="180"
+                        <td><a href="<c:url value='/support/cars/uploadcarimage-${car.carId}' />"><img
+                                src='/carimage-${car.carId}-1' class="img-rounded" height="180"
                                 width="180" alt="Click to add new image" title="Add new image"/></a></td>
                         <td>${car.carBrand}</td>
                         <td>${car.carModel}</td>
@@ -128,10 +130,12 @@
                         <td>${car.carYear}</td>
                         <td>${car.carMileage}</td>
                         <td>${car.carVersion}</td>
-                        <td><a href="<c:url value='/support/cars/editcar-${car.vin}' />"
+                        <td>${car.price}</td>
+                        <td>${car.city}</td>
+                        <td><a href="<c:url value='/support/cars/editcar-${car.carId}' />"
                                class="btn btn-success custom-width">edit</a>
                         </td>
-                        <td><a href="<c:url value='/support/cars/deletecar-${car.vin}' />"
+                        <td><a href="<c:url value='/support/cars/deletecar-${car.carId}' />"
                                onclick="return confirm('Please confirm deleting')"
                                class="btn btn-danger custom-width">delete</a>
                         </td>

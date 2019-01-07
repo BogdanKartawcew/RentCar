@@ -8,15 +8,14 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import rentcar.model.support.User;
-import rentcar.model.support.UserImage;
+import rentcar.model.User;
+import rentcar.model.UserImage;
 import rentcar.service.common.MailService;
 import rentcar.service.fillintables.FillUsers;
 import rentcar.service.user.UserImageService;
 import rentcar.service.user.UserProfileService;
 import rentcar.service.user.UserService;
 
-import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,27 +45,23 @@ public class AccessServiceImpl implements AccessService {
         String mailText = getFreeMarkerTemplateContent(model, link);
         MimeMessagePreparator mailPreparator = getMessagePreparator(mailSubject, mailText, email);
         mailService.sendEmail(mailPreparator);
-        informMeAboutAnyRequest(new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        /*informMeAboutAnyRequest(new Object() {
+        }.getClass().getEnclosingMethod().getName());*/
     }
 
     private MimeMessagePreparator getMessagePreparator(final String mailSubject, final String mailText, final String email) {
 
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-                helper.setSubject(mailSubject);
-                helper.setFrom(mailFrom);
-                helper.setTo(email);
-                helper.setText(mailText, true);
-            }
+        return mimeMessage -> {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setSubject(mailSubject);
+            helper.setFrom(mailFrom);
+            helper.setTo(email);
+            helper.setText(mailText, true);
         };
-        return preparator;
     }
 
     private String getFreeMarkerTemplateContent(Map<String, Object> model, String link) {
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         try {
             content.append(FreeMarkerTemplateUtils.processTemplateIntoString(
                     freemarkerConfiguration.getTemplate(link), model));
@@ -77,18 +72,18 @@ public class AccessServiceImpl implements AccessService {
         }
     }
 
-    private void informMeAboutAnyRequest(String methodName) {
+   /* private void informMeAboutAnyRequest(String methodName) {
 
         MimeMessagePreparator mailPreparator = getMessagePreparator("RentCar inc. - Boss, new request there, please check",
                 "The request is from method " + methodName, "kartawcew.b@gmail.com");
         mailService.sendEmail(mailPreparator);
-    }
+    }*/
 
     @Override
     public void createRecruiter(User user) {
-        FillUsers fillUsers = new FillUsers();
-        user.setLogin(fillUsers.getRandomString(8));
-        user.setPassword(fillUsers.getRandomString(8));
+        FillUsers randomDataClass = new FillUsers();
+        user.setLogin(randomDataClass.getRandomString(8));
+        user.setPassword(randomDataClass.getRandomString(8));
         user.setLastName("Unknown last name");
         user.setRoles(userProfileService.getRoleSet(3));
         user.setRole();

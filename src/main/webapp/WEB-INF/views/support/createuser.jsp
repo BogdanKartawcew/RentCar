@@ -96,7 +96,7 @@
                 <label class="col-md-3 control-lable" for="sex">Gender</label>
                 <div class="col-md-7">
                     <form:select class="form-control inputstl" path="sex" id="sex">
-                        <option value=""></option>
+                        <option value="" hidden>Male/Female</option>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </form:select>
@@ -111,11 +111,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="roles">Roles</label>
                 <div class="col-md-7">
-                    <form:select class="form-control inputstl" path="roles" id="type">
-                        <option value=3>Superuser</option>
-                        <option value=2>Administrator</option>
-                        <option value=1>Moderator</option>
-                    </form:select>
+                    <form:select path="roles" items="${roles}" multiple="false" itemValue="id" itemLabel="type" class="form-control input-sm" />
                     <div class="has-error">
                         <form:errors path="roles" class="help-inline"/>
                     </div>
