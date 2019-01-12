@@ -1,8 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 <html>
 <head>
     <title>Reservations history</title>
@@ -41,15 +37,15 @@
                         Rows per page:
                         <select id="dynamic_select">
                             <option value="" hidden>${rowsOnPage}</option>
-                            <option value="<c:url value='/support/reservation/reservationhistory-1per15' />">15</option>
-                            <option value="<c:url value='/support/reservation/reservationhistory-1per30' />">30</option>
-                            <option value="<c:url value='/support/reservation/reservationhistory-1per60' />">60</option>
+                            <option value="<c:url value='${SUPPORT_RESERVATIONHISTORY_READY}1per15' />">15</option>
+                            <option value="<c:url value='${SUPPORT_RESERVATIONHISTORY_READY}1per30' />">30</option>
+                            <option value="<c:url value='${SUPPORT_RESERVATIONHISTORY_READY}1per60' />">60</option>
                         </select>
                     </c:if>
                 </div>
                 <span class="floatRight">
                 <button type="button" class="btn btn-link btn-sm">
-                    <a href="<c:url value='/support/reservation' />">
+                    <a href="<c:url value='${SUPPORT_RESERVATIONS_ALL}' />">
                 <span class="glyphicon glyphicon-arrow-left"></span> Back to reservations</a></button>
                 </span>
             </div>

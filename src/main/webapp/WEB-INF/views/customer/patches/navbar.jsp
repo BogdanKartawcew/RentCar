@@ -1,4 +1,4 @@
-<c:url var="loginUrl" value="/login"/>
+<c:url var="loginUrl" value="${COMMON_LOGIN}"/>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container justify-content-center">
         <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
@@ -6,11 +6,11 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse text-center justify-content-center" id="navbar9">
-            <ul class="navbar-nav"><a class="nav-link navbar-brand mr-0 text-white" href="<c:url value='/welcome' />"><i
+            <ul class="navbar-nav"><a class="nav-link navbar-brand mr-0 text-white" href="<c:url value='${COMMON_WELCOME}' />"><i
                     class="fa d-inline fa-lg fa-car"></i>
                 <b>RentCarBrand</b></a>
-                <li class="nav-item mx-2"><a class="nav-link" href="<c:url value='/allcars' />">All cars</a></li>
-                <li class="nav-item mx-2"><a class="nav-link" href="<c:url value='/aboutus' />">About us</a></li>
+                <li class="nav-item mx-2"><a class="nav-link" href="<c:url value='${CUSTOMER_ALLCARS}' />">All cars</a></li>
+                <li class="nav-item mx-2"><a class="nav-link" href="<c:url value='${CUSTOMER_ABOUTUS}' />">About us</a></li>
                 <li class="nav-item mx-2">
                     <sec:authorize access="isAnonymous()">
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">
@@ -71,15 +71,15 @@
                     </sec:authorize>
 
                     <sec:authorize access="hasAnyRole('USER', 'ADMIN', 'SUPERUSER', 'TEMP')">
-                        <a href="<c:url value='/support' />"
+                        <a href="<c:url value='${SUPPORT_MAIN}' />"
                            class="btn btn-link">Support page</a>
                     </sec:authorize>
                     <sec:authorize access="hasRole('CUSTOMER')">
-                        <a href="<c:url value='/mypanel' />"
+                        <a href="<c:url value='${CUSTOMER_MYPANEL}' />"
                            class="btn btn-link">My panel</a>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
-                        <a href="<c:url value='/logout' />"
+                        <a href="<c:url value='${COMMON_LOGOUT}' />"
                            class="btn btn-link">Log out</a>
                     </sec:authorize>
                 </li>

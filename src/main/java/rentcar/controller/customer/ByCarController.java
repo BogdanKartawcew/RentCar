@@ -5,15 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.controller.support.AbstractController;
+import rentcar.controller.AbstractController;
+
+import static rentcar.propertiesenums.Links.Constants.*;
+import static rentcar.propertiesenums.Pages.Constants.*;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping(COMMON_EMPTY)
 @PreAuthorize("permitAll()")
 public class ByCarController extends AbstractController {
 
-    @RequestMapping(value = "/bycar", method = RequestMethod.GET)
+    @RequestMapping(value = CUSTOMER_BYCAR, method = RequestMethod.GET)
     public String byCarPage(ModelMap model) {
-        return "customer/bycar";
+        model.addAllAttributes(getForCustomerNavBar());
+        return P_BYCAR;
     }
 }

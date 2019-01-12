@@ -1,19 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 
 <html>
 
 <head>
     <title>Car</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <%@include file="patches/head.jsp" %>
 </head>
 
 <body>
@@ -102,8 +93,8 @@
                                        class="form-horizontal">
                                 <div class="col-md-12">
                                     <div class="card"><a
-                                            href="<c:url value='/carimage-${car.carId}-1' />"><img
-                                            src='/carimage-${car.carId}-1' class="img-rounded"
+                                            href="<c:url value='${COMMON_CARIMAGE_READY}${car.carId}-1' />"><img
+                                            src='${COMMON_CARIMAGE_READY}${car.carId}-1' class="img-rounded"
                                             height="300"
                                             width="490"/></a>
                                         <div class="card-body">
@@ -114,9 +105,7 @@
                                             <p class="card-text">
                                             <div class="form-actions">
                                                 <input type="hidden" name="imagenumber" value="1"/>
-                                                <input type="submit" value="Upload"
-                                                       onclick="return confirm('Are you sure you want to update image no.1? If no image uploaded, it will remove the image.')"
-                                                       class="btn btn-primary btn-sm">
+                                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                                             </div>
                                         </div>
                                     </div>
@@ -128,8 +117,9 @@
                                        class="form-horizontal">
                                 <div class="col-md-12">
                                     <div class="card"><a
-                                            href="<c:url value='/carimage-${car.carId}-2' />"><img
-                                            src='/carimage-${car.carId}-2' class="img-rounded" height="135"
+                                            href="<c:url value='${COMMON_CARIMAGE_READY}${car.carId}-2' />"><img
+                                            src='${COMMON_CARIMAGE_READY}${car.carId}-2' class="img-rounded"
+                                            height="135"
                                             width="225"/></a>
                                         <div class="card-body">
                                             <h5 class="card-title"><b>
@@ -139,9 +129,7 @@
                                             <p class="card-text">
                                             <div class="form-actions">
                                                 <input type="hidden" name="imagenumber" value="2"/>
-                                                <input type="submit" value="Upload"
-                                                       onclick="return confirm('Are you sure you want to update image no.2? If no image uploaded, it will remove the image.')"
-                                                       class="btn btn-primary btn-sm">
+                                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                                             </div>
                                         </div>
                                     </div>
@@ -151,8 +139,9 @@
                                        class="form-horizontal">
                                 <div class="col-md-12">
                                     <div class="card"><a
-                                            href="<c:url value='/carimage-${car.carId}-3' />"><img
-                                            src='/carimage-${car.carId}-3' class="img-rounded" height="135"
+                                            href="<c:url value='${COMMON_CARIMAGE_READY}${car.carId}-3' />"><img
+                                            src='${COMMON_CARIMAGE_READY}${car.carId}-3' class="img-rounded"
+                                            height="135"
                                             width="225"/></a>
                                         <div class="card-body">
                                             <h5 class="card-title"><b><form:input type="file" path="file" id="file"
@@ -161,9 +150,7 @@
                                             <p class="card-text">
                                             <div class="form-actions">
                                                 <input type="hidden" name="imagenumber" value="3"/>
-                                                <input type="submit" value="Upload"
-                                                       onclick="return confirm('Are you sure you want to update image no.3? If no image uploaded, it will remove the image.')"
-                                                       class="btn btn-primary btn-sm">
+                                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                                             </div>
                                         </div>
                                     </div>
@@ -175,8 +162,9 @@
                                        class="form-horizontal">
                                 <div class="col-md-12">
                                     <div class="card"><a
-                                            href="<c:url value='/carimage-${car.carId}-4' />"><img
-                                            src='/carimage-${car.carId}-4' class="img-rounded" height="135"
+                                            href="<c:url value='${COMMON_CARIMAGE_READY}${car.carId}-4' />"><img
+                                            src='${COMMON_CARIMAGE_READY}${car.carId}-4' class="img-rounded"
+                                            height="135"
                                             width="225"/></a>
                                         <div class="card-body">
                                             <h5 class="card-title"><b><form:input type="file" path="file" id="file"
@@ -185,9 +173,7 @@
                                             <p class="card-text">
                                             <div class="form-actions">
                                                 <input type="hidden" name="imagenumber" value="4"/>
-                                                <input type="submit" value="Upload"
-                                                       onclick="return confirm('Are you sure you want to update image no.4? If no image uploaded, it will remove the image.')"
-                                                       class="btn btn-primary btn-sm">
+                                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                                             </div>
                                         </div>
                                     </div>
@@ -197,8 +183,9 @@
                                        class="form-horizontal">
                                 <div class="col-md-12">
                                     <div class="card"><a
-                                            href="<c:url value='/carimage-${car.carId}-5' />"><img
-                                            src='/carimage-${car.carId}-5' class="img-rounded" height="135"
+                                            href="<c:url value='${COMMON_CARIMAGE_READY}${car.carId}-5' />"><img
+                                            src='${COMMON_CARIMAGE_READY}${car.carId}-5' class="img-rounded"
+                                            height="135"
                                             width="225"/></a>
                                         <div class="card-body">
                                             <h5 class="card-title"><b><form:input type="file" path="file" id="file"
@@ -207,9 +194,7 @@
                                             <p class="card-text">
                                             <div class="form-actions">
                                                 <input type="hidden" name="imagenumber" value="5"/>
-                                                <input type="submit" value="Upload"
-                                                       onclick="return confirm('Are you sure you want to update image no.5? If no image uploaded, it will remove the image.')"
-                                                       class="btn btn-primary btn-sm">
+                                                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                                             </div>
                                         </div>
                                     </div>

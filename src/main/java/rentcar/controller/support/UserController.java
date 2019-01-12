@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import rentcar.controller.support.abstractcontrollers.AbstractUserController;
 import rentcar.model.Role;
 import rentcar.model.User;
 import rentcar.model.UserImage;
@@ -23,10 +24,13 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
+import static rentcar.propertiesenums.Links.Constants.*;
+import static rentcar.propertiesenums.Pages.Constants.*;
+
 
 @Controller
-@RequestMapping("/")
-public class UserController extends AbstractController {
+@RequestMapping(COMMON_EMPTY)
+public class UserController extends AbstractUserController {
 
     @Autowired
     UserService userService;
@@ -43,18 +47,17 @@ public class UserController extends AbstractController {
     @Autowired
     PaginatorService paginatorService;
 
-    @RequestMapping(value = {"/support/admin/userslist-{pageNumber}per{rowsOnPage}"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_USERS, method = RequestMethod.GET)
     public String listUsers(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
         long pageCount = userService.countAllByPage();
         int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
-        String link = "/support/admin/userslist-";
-        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
+        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(SUPPORT_USERS_READY, rowsOnPage, pagesAmount, pageNumber);
         model.addAttribute("pagesAmount", pagesAmount);
         model.addAttribute("paginatorTags", paginatorTags);
         model.addAttribute("confirmed", userService.getConfirmedByPage(pageNumber, rowsOnPage));
         model.addAttribute("notConfirmed", userService.getByRole(4));
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/userslist";
+        model.addAllAttributes(attributesList());
+        return P_USERS;
     }
 
     @ModelAttribute("roles")
@@ -62,74 +65,62 @@ public class UserController extends AbstractController {
         return userProfileService.getAll();
     }
 
-    @RequestMapping(value = {"/support/admin/userslist/createuser"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_USER_CREATE, method = RequestMethod.GET)
     public String createUser(ModelMap model) {
         User user = new User();
         List<Role> roles = userProfileService.getAll();
         model.addAttribute("roles", roles);
-        model.addAttribute("user", user);
-        model.addAttribute("create", true);
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/createuser";
+        model.addAllAttributes(attributesBasic(user, "create"));
+        return P_CREATEUSER;
     }
 
-    @RequestMapping(value = {"/support/admin/userslist/createuser"}, method = RequestMethod.POST)
+    @RequestMapping(value = SUPPORT_USER_CREATE, method = RequestMethod.POST)
     public String createUser(@Valid User user, BindingResult result, ModelMap model) {
 
         user.setRole();
         System.out.println("USER CREATING:" + user);
-        if (result.hasErrors()) {
-            model.addAttribute("create", true);
-            model.addAttribute("loggedinuser", getActiveUser());
-            return "support/createuser";
-        }
 
-        if (!userService.isLoginUnique(user.getId(), user.getLogin())) {
-            FieldError error = new FieldError("user", "login", messageSource.getMessage("non.unique.login", new String[]{user.getLogin()}, Locale.getDefault()));
-            model.addAttribute("error", true);
-            model.addAttribute("create", true);
-            model.addAttribute("loggedinuser", getActiveUser());
-            result.addError(error);
-            return "support/createuser";
+        if (checkUserForm(user, result, model, result.hasErrors(), !userService.isLoginUnique(user.getId(), user.getLogin()), "create")) {
+            return P_CREATEUSER;
         }
 
         userService.save(user);
-        UserImage userImage = new UserImage();
-        userImage.setId(user.getId());
-        userImageService.saveUserImage(userImage);
-        model.addAttribute("usergoto", "Go to <a href=\"/support/admin/userslist-1per15\">Users list</a>");
-        model.addAttribute("usersuccess", "User " + user.getFirstName() + " " + user.getLastName() + " has registered successfully");
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/success";
+        model.addAllAttributes(attributesSave(user, " has registered successfully"));
+        return P_SUCCESS;
     }
 
-    @RequestMapping(value = {"/support/admin/userslist/edituser-{login}"}, method = RequestMethod.GET)
-    public String updateUser(@PathVariable String login, ModelMap model) {
+    @RequestMapping(value = SUPPORT_USER_EDIT, method = RequestMethod.GET)
+    public String editUser(@PathVariable String login, ModelMap model) {
         User user = userService.findByLogin(login);
-        model.addAttribute("user", user);
-        model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/createuser";
+        model.addAllAttributes(attributesBasic(user, "edit"));
+        return P_CREATEUSER;
     }
 
-    @RequestMapping(value = {"/support/admin/userslist/edituser-{login}"}, method = RequestMethod.POST)
-    public String updateUser(@Valid User user, BindingResult result,
-                             ModelMap model, @PathVariable String login) {
+    @RequestMapping(value = SUPPORT_USER_EDIT, method = RequestMethod.POST)
+    public String editUser(@Valid User user, BindingResult result, ModelMap model) {
 
-        if (result.hasErrors()) {
-            model.addAttribute("user", user);
-            model.addAttribute("edit", true);
-            model.addAttribute("loggedinuser", getActiveUser());
-            return "/support/admin/userslist/edituser-{login}";
+        if (checkUserForm(user, result, model, result.hasErrors(), !userService.isLoginUnique(user.getId(), user.getLogin()), "edit")) {
+            return P_CREATEUSER;
         }
+
         userService.update(user);
-        model.addAttribute("usergoto", "Go to <a href=\"/support/admin/userslist-1per15\">Users list</a>");
-        model.addAttribute("usersuccess", "User " + user.getFirstName() + " " + user.getLastName() + " has updated successfully");
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/success";
+        model.addAllAttributes(attributesSave(user, " has updated successfully"));
+        return P_SUCCESS;
     }
 
-    @RequestMapping(value = {"/support/userimage-{login}"}, method = RequestMethod.GET)
+    private boolean checkUserForm(@Valid User user, BindingResult result, ModelMap model, boolean hasErrors, boolean isLoginUnique, String editcreate) {
+        if (hasErrors || isLoginUnique) {
+            if (isLoginUnique) {
+                FieldError error = new FieldError("user", "login", messageSource.getMessage("non.unique.login", new String[]{user.getLogin()}, Locale.getDefault()));
+                result.addError(error);
+            }
+            model.addAllAttributes(attributesErrorDuringCreation(user, editcreate));
+            return true;
+        }
+        return false;
+    }
+
+    @RequestMapping(value = SUPPORT_USERIMAGE_SHOW, method = RequestMethod.GET)
     public String showUserImage(@PathVariable String login, HttpServletResponse response) {
         UserImage userImage = userImageService.findByLogin(login);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
@@ -139,10 +130,10 @@ public class UserController extends AbstractController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "support/userslist";
+        return P_USERS;
     }
 
-    @RequestMapping(value = {"/support/admin/userslist/deleteuser-{login}"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_USER_DELETE, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String login) {
         final User forThreadCopyUser = userService.findByLogin(login);
         Thread sendMailThread = new Thread(new Runnable() {
@@ -160,6 +151,6 @@ public class UserController extends AbstractController {
         sendMailThread.start();
         userImageService.deleteUserImageByLogin(login);
         userService.deleteByLogin(login);
-        return "redirect:/support/admin/userslist-1per15";
+        return COMMON_REDIRECT + SUPPORT_USERS_PAGES;
     }
 }

@@ -12,7 +12,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close
                 </button>
-                <a href="<c:url value='/accessrequest' />"
+                <a href="<c:url value= '${COMMON_ACCESSREQUEST}' />"
                    class="btn btn-primary"> ${button}</a>
             </div>
         </div>

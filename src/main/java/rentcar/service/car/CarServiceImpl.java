@@ -14,9 +14,6 @@ import java.util.List;
 @Transactional
 public class CarServiceImpl implements CarService {
 
-    private final int imagesPerCar = 5;
-
-
     @Autowired
     private CarDao carDao;
 

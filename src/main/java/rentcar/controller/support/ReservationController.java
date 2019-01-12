@@ -8,11 +8,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.model.Car;
-import rentcar.model.Client;
+
+import rentcar.controller.support.abstractcontrollers.AbstractReservationController;
 import rentcar.model.Reservation;
-import rentcar.service.car.CarService;
-import rentcar.service.client.ClientService;
 import rentcar.service.common.PaginatorService;
 import rentcar.service.reservation.CarUnavailableService;
 import rentcar.service.reservation.ReservationHistoryService;
@@ -22,24 +20,17 @@ import rentcar.service.reservation.ReservationStatusService;
 import javax.validation.Valid;
 import java.util.*;
 
-/**
- * Created by a261711 on 2017-12-24.
- */
-@Controller
-@RequestMapping("/")
-public class ReservationController extends AbstractController {
+import static rentcar.propertiesenums.Links.Constants.*;
+import static rentcar.propertiesenums.Pages.Constants.*;
 
+@Controller
+@RequestMapping(COMMON_EMPTY)
+public class ReservationController extends AbstractReservationController {
     @Autowired
     ReservationStatusService reservationStatusService;
 
     @Autowired
     ReservationService reservationService;
-
-    @Autowired
-    ClientService clientService;
-
-    @Autowired
-    CarService carService;
 
     @Autowired
     CarUnavailableService carUnavailableService;
@@ -51,174 +42,173 @@ public class ReservationController extends AbstractController {
     PaginatorService paginatorService;
 
 
-    @RequestMapping(value = {"/support/reservation"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATIONS_ALL, method = RequestMethod.GET)
     public String reservation(ModelMap model) {
         model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("reservations", reservationService.getAll());
         model.addAttribute("checkAll", carUnavailableService.getAll());
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/reservation";
+        model.addAllAttributes(attributesList());
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesCRUDButtons());
+        return P_RESEVATION;
     }
 
-    @RequestMapping(value = {"/support/reservation/running"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATIONS_RUNNING, method = RequestMethod.GET)
     public String reservationRunning(ModelMap model) {
+        model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("running", reservationService.getRunning());
-        model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/reservationrunning";
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesCRUDButtons());
+        return P_RESRUNNING;
     }
 
 
-    @RequestMapping(value = {"/support/reservation/notconfirmed"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATIONS_NOTCONFIRMED, method = RequestMethod.GET)
     public String reservationNotConfirmed(ModelMap model) {
+        model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("notConfirmedReservations", reservationService.getNotConfirmed());
-        model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/reservationnotconfirmed";
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesCRUDButtons());
+        return P_RESNOTCONFIRMED;
     }
 
-    @RequestMapping(value = {"/support/reservation/finished"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATIONS_FINISHED, method = RequestMethod.GET)
     public String reservationFinished(ModelMap model) {
-        model.addAttribute("finished", reservationService.getFinished());
         model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/reservationfinished";
+        model.addAttribute("finished", reservationService.getFinished());
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesCRUDButtons());
+        return P_RESFINISHED;
     }
 
 
-    @RequestMapping(value = {"/support/reservation/createreservation"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATION_CREATE, method = RequestMethod.GET)
     public String createReservation(ModelMap model) {
-        model.addAllAttributes(attributes("create", false));
+        model.addAllAttributes(attributesCRUD("create", false));
         model.addAttribute("reservation", new Reservation());
-        return "support/createreservation";
+        model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+        return P_CREATERESERVATION;
     }
 
-    @RequestMapping(value = {"/support/reservation/createreservation"}, method = RequestMethod.POST)
+    @RequestMapping(value = SUPPORT_RESERVATION_CREATE, method = RequestMethod.POST)
     public String createReservation(@Valid Reservation reservation, BindingResult result, ModelMap model) {
 
-        if (result.hasErrors()) {
-            model.addAllAttributes(attributes("create", true));
-            return "support/createreservation";
-        }
-
-        boolean[] errors = carUnavailableService.checkAvailability(reservation);
-
-        if (containsTrue(errors)) {
-            for (int i = 0; i < errors.length; i++) {
-                if (errors[i]) result.addError(getError(i, reservation));
-            }
-            model.addAllAttributes(attributes("create", true));
-            return "support/createreservation";
+        boolean[] errorsList = carUnavailableService.checkAvailability(reservation);
+        boolean hasAvailibilityError = containsTrue(errorsList);
+        if (checkAvailibilityErrors(reservation, result, model, result.hasErrors(), errorsList, hasAvailibilityError, "create")) {
+            return P_CREATERESERVATION;
         }
 
         reservationService.save(reservation);
-        carUnavailableService.save(carUnavailableService.setCarUnavailble(reservation));//data to dao carUnavailable
-
-        model.addAttribute("reservationgoto", "Go to <a href=" + "/support/reservation" + ">Reservations list</a>");
-        model.addAttribute("reservationsuccess", "Reservation " + reservation.getReservationId() + " for carId " + reservation.getCarId() + " has registered successfully");
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/success";
+        carUnavailableService.save(carUnavailableService.setCarUnavailble(reservation));
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesSuccess(reservation, " has registered successfully"));
+        return P_SUCCESS;
     }
 
 
-    @RequestMapping(value = {"/support/reservation/editreservation-{reservationId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATION_EDIT, method = RequestMethod.GET)
     public String editReservation(@PathVariable int reservationId, ModelMap model) {
-        model.addAllAttributes(attributes("edit", true));
+        model.addAllAttributes(attributesCRUD("edit", true));
         model.addAttribute("reservation", reservationService.findById(reservationId));
-        return "support/createreservation";
+        model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+        return P_CREATERESERVATION;
     }
 
-    @RequestMapping(value = {"/support/reservation/editreservation-{reservationId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = SUPPORT_RESERVATION_EDIT, method = RequestMethod.POST)
     public String editReservation(@Valid Reservation reservation, BindingResult result, ModelMap model, @PathVariable int reservationId) {
-        if (result.hasErrors()) {
-            model.addAllAttributes(attributes("edit", true));
-            return "support/createreservation";
+
+        boolean[] errorsList = carUnavailableService.checkAvailability(reservation);
+        boolean hasAvailibilityError = containsTrue(errorsList);
+        if (checkAvailibilityErrors(reservation, result, model, result.hasErrors(), errorsList, hasAvailibilityError, "edit")) {
+            return P_CREATERESERVATION;
         }
 
-        boolean[] errors = carUnavailableService.checkAvailability(reservation);
-        if (containsTrue(errors)) {
-            for (int i = 0; i < errors.length; i++) {
-                if (errors[i]) result.addError(getError(i, reservation));
-            }
-            model.addAllAttributes(attributes("edit", true));
-            return "support/createreservation";
-        }
         reservationService.updateStatus(reservation, "edit");
         carUnavailableService.update(carUnavailableService.setCarUnavailble(reservation));
-        model.addAttribute("reservationgoto", "Go to <a href=" + "/support/reservation" + ">Reservations list</a>");
-        model.addAttribute("reservationsuccess", "Reservation " + reservation.getReservationId() + " for carId " + reservation.getCarId() + " has updated successfully");
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/success";
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesSuccess(reservation, " has updated successfully"));
+        return P_SUCCESS;
+    }
+
+    private boolean checkAvailibilityErrors(@Valid Reservation reservation, BindingResult result, ModelMap model, boolean hasGeneralError, boolean[] errorsList, boolean hasAvailibilityError, String editcreate) {
+        if (hasAvailibilityError || hasGeneralError) {
+            if (hasAvailibilityError) {
+                for (int i = 0; i < errorsList.length; i++) {
+                    if (errorsList[i]) result.addError(getError(i, reservation));
+                }
+            }
+            model.addAttribute("reservation", reservation);
+            model.addAllAttributes(attributesCRUD(editcreate, true));
+            model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+            return true;
+        }
+        return false;
     }
 
 
-    @RequestMapping(value = {"/support/reservation/cancelreservation-{reservationId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATION_CANCEL, method = RequestMethod.GET)
     public String cancelReservation(@PathVariable int reservationId) {
         Reservation reservation = reservationService.findById(reservationId);
         reservationService.updateStatus(reservation, "cancel");
         carUnavailableService.delete(reservationId);
         reservationService.delete(reservationId);
-        return "redirect:/support/reservation";
+        return COMMON_REDIRECT + SUPPORT_RESERVATIONS_ALL;
     }
 
-    @RequestMapping(value = {"/support/reservation/confirmreservation-{reservationId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATION_CONFIRM, method = RequestMethod.GET)
     public String confirmReservation(@PathVariable int reservationId) {
         Reservation reservation = reservationService.findById(reservationId);
         reservation.setConfirmed(true);
         reservationService.updateStatus(reservation, "confirm");
-        return "redirect:/support/reservation";
+        return COMMON_REDIRECT + SUPPORT_RESERVATIONS_ALL;
     }
 
-    @RequestMapping(value = {"/support/reservation/recalculatestatuses"}, method = RequestMethod.GET)
+
+    //TODO
+    /*@RequestMapping(value = SUPPORT_RESERVATION_END, method = RequestMethod.GET)
+    public String endReservation(@PathVariable int reservationId, ModelMap model) {
+        Reservation reservation = reservationService.findById(reservationId);
+        model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+        return P_ENDRESERVATION;
+    }*/
+
+    @RequestMapping(value = SUPPORT_RECALCULATE, method = RequestMethod.GET)
     public String recalculateStatuses() {
         for (Reservation reservation : reservationService.getAll())
             reservationService.checkStatus(reservation);
-        return "redirect:/support/reservation";
+        return COMMON_REDIRECT + SUPPORT_RESERVATIONS_ALL;
     }
 
-    @RequestMapping(value = {"/support/reservation/reservationhistory-{pageNumber}per{rowsOnPage}"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_RESERVATIONHISTORY, method = RequestMethod.GET)
     public String history(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
         long pageCount = reservationHistoryService.countAllByPage();
         int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
-        String link = "/support/reservation/reservationhistory-";
-        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
+        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(SUPPORT_RESERVATIONHISTORY_READY, rowsOnPage, pagesAmount, pageNumber);
         model.addAttribute("pagesAmount", pagesAmount);
         model.addAttribute("paginatorTags", paginatorTags);
         model.addAttribute("reservationHistories", reservationHistoryService.getAllByPage(pageNumber, rowsOnPage));
         model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/reservationhistory";
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+        model.addAttribute("SUPPORT_RESERVATIONHISTORY_READY", SUPPORT_RESERVATIONHISTORY_READY);
+        return P_RESHISTORY;
     }
 
 
-    @RequestMapping(value = {"/support/reservation/financialcalculations"}, method = RequestMethod.GET)
+    @RequestMapping(value = SUPPORT_FINANCIALCALCULATIONS, method = RequestMethod.GET)
     public String financialCalculations(ModelMap model) {
         //TODO
         model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAttribute("loggedinuser", getActiveUser());
-        return "support/financialcalculations";
+        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesList());
+        return P_CALCULATIONS;
     }
 
 
 
     /*=======================additional methods=============*/
 
-
-    private HashMap getCarsMap() {
-        HashMap<Integer, Car> carsMap = new HashMap<>();
-        for (Car car : carService.getAll()) {
-            carsMap.put(car.getCarId(), car);
-        }
-        return carsMap;
-    }
-
-    private HashMap getClientsMap() {
-        HashMap<Integer, Client> clientsMap = new HashMap<>();
-        for (Client client : clientService.findAllClients()) {
-            clientsMap.put(client.getClientId(), client);
-        }
-        return clientsMap;
-    }
 
     private FieldError getError(int index, Reservation reservation) {
         /*startDateAvailable, endDateAvailable, startTimeAvailable, endTimeAvailable, startTimeInTime, endTimeInTime*/
@@ -248,14 +238,5 @@ public class ReservationController extends AbstractController {
         return false;
     }
 
-    private ModelMap attributes(String action, boolean error) {
-        ModelMap model = new ModelMap();
-        model.addAttribute("tomorrow", carUnavailableService.getTomorrow());
-        model.addAttribute("carsMap", getCarsMap());
-        model.addAttribute("clientsMap", getClientsMap());
-        if (error) model.addAttribute("error", true);
-        model.addAttribute(action, true);
-        model.addAttribute("loggedinuser", getActiveUser());
-        return model;
-    }
+
 }

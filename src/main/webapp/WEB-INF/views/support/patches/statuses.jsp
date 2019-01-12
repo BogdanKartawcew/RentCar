@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: a261711
-  Date: 16.11.2018
-  Time: 13:29
-  To change this template use File | Settings | File Templates.
---%>
-
 <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="collapse"
         data-target="#status-but"><span class="glyphicon glyphicon-info-sign"></span> Status's description
 </button>

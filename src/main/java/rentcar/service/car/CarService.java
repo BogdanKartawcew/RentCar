@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CarService {
 
+    int imagesPerCar = 5;
+
     Car findById(int carId);
 
     Car findByVIN(String vin);

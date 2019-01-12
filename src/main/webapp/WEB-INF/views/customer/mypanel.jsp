@@ -1,4 +1,4 @@
-<%@include file="patches/topjsp.jsp" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 <head>
     <title>My panel</title>
     <%@include file="patches/head.jsp" %>

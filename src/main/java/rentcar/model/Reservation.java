@@ -7,9 +7,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
 
-/**
- * Created by a261711 on 2017-10-22.
- */
 @Entity
 @Table(name = "RECEIVED_RESERVATIONS", uniqueConstraints = {@UniqueConstraint(columnNames = "RESERVATIONID")})
 public class Reservation implements Serializable {

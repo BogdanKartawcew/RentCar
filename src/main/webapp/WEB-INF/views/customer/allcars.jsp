@@ -1,4 +1,4 @@
-<%@include file="patches/topjsp.jsp" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 <head>
     <title>All cars</title>
     <%@include file="patches/head.jsp" %>
@@ -82,18 +82,18 @@
                      data-interval="5000">
                     <div class="carousel-inner">
                         <div class="carousel-item active w-140 h-100"><img
-                                src='/carimage-${car.carId}-1'></div>
+                                src='${COMMON_CARIMAGE_READY}${car.carId}-1'></div>
                         <div class="carousel-item"><img class="d-block w-140 h-100"
-                                                        src='/carimage-${car.carId}-2'>
+                                                        src='${COMMON_CARIMAGE_READY}${car.carId}-2'>
                         </div>
                         <div class="carousel-item"><img class="d-block w-140 h-100"
-                                                        src='/carimage-${car.carId}-3'>
+                                                        src='${COMMON_CARIMAGE_READY}${car.carId}-3'>
                         </div>
                         <div class="carousel-item"><img class="d-block w-140 h-100"
-                                                        src='/carimage-${car.carId}-4'>
+                                                        src='${COMMON_CARIMAGE_READY}${car.carId}-4'>
                         </div>
                         <div class="carousel-item"><img class="d-block w-140 h-100"
-                                                        src='/carimage-${car.carId}-5'>
+                                                        src='${COMMON_CARIMAGE_READY}${car.carId}-5'>
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carousel${car.carId}" role="button" data-slide="prev">

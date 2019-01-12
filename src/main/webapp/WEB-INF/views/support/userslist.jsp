@@ -1,18 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 
 <html>
 
 <head>
     <title>Users list</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <%@include file="patches/head.jsp" %>
     <script src="/static/js/rowsonpage.js" type="text/javascript"></script>
     <style>
         select {
@@ -35,7 +27,7 @@
             <span class="floatLeft">
             <span class="lead">Users list
                 <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
-                <a href="<c:url value='/support/admin/userslist/createuser'  />"
+                <a href="<c:url value='${SUPPORT_USER_CREATE}'  />"
                    class="btn btn-secondary btn-sm">
                 <span class="glyphicon glyphicon-plus"></span> create new user</a>
                 </sec:authorize>
@@ -71,13 +63,13 @@
                                             <td>${notConfirmed.login}</td>
                                             <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
                                                 <td>
-                                                    <a href="<c:url value='/support/admin/userslist/acceptuser-${notConfirmed.login}' />"
+                                                    <a href="<c:url value='${SUPPORT_USER_ACCEPT_READY}${notConfirmed.login}' />"
                                                        class="btn btn-warning custom-width">accept</a>
                                                 </td>
-                                                <td><a href="<c:url value='/support/admin/userslist/edituser-${notConfirmed.login}' />"
+                                                <td><a href="<c:url value='${SUPPORT_USER_EDIT_READY}${notConfirmed.login}' />"
                                                        class="btn btn-success custom-width">edit</a>
                                                 </td>
-                                                <td><a href="<c:url value='/support/admin/userslist/deleteuser-${notConfirmed.login}' />"
+                                                <td><a href="<c:url value='${SUPPORT_USER_DELETE_READY}${notConfirmed.login}' />"
                                                        onclick="return confirm('Please confirm deleting')"
                                                        class="btn btn-danger custom-width">delete</a>
                                                 </td>
@@ -92,9 +84,9 @@
                     Rows per page:
                     <select id="dynamic_select">
                             <option value="" hidden>${rowsOnPage}</option>
-                            <option value="<c:url value='/support/admin/userslist-1per15' />">15</option>
-                            <option value="<c:url value='/support/admin/userslist-1per30' />">30</option>
-                            <option value="<c:url value='/support/admin/userslist-1per60' />">60</option>
+                            <option value="<c:url value='${SUPPORT_USERS_READY}1per15' />">15</option>
+                            <option value="<c:url value='${SUPPORT_USERS_READY}1per30' />">30</option>
+                            <option value="<c:url value='${SUPPORT_USERS_READY}1per60' />">60</option>
                         </select>
                 </c:if>
             </span>
@@ -122,8 +114,8 @@
                 <c:forEach items="${confirmed}" var="user">
                     <%--<c:forEach items="${roles}" var="role">--%>
                     <tr>
-                        <td><a href="<c:url value='/support/userimage-${user.login}' />"><img
-                                src='/support/userimage-${user.login}' class="img-thumbnail" height="180"
+                        <td><a href="<c:url value='${SUPPORT_USERIMAGE_SHOW_READY}${user.login}' />"><img
+                                src='${SUPPORT_USERIMAGE_SHOW_READY}${user.login}' class="img-thumbnail" height="180"
                                 width="180"/></a></td>
                         <td>${user.firstName}</td>
                         <td>${user.lastName}</td>
@@ -131,10 +123,10 @@
                         <td>${user.sex}</td>
                         <td>${user.login}</td>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('SUPERUSER')">
-                            <td><a href="<c:url value='/support/admin/userslist/edituser-${user.login}' />"
+                            <td><a href="<c:url value='${SUPPORT_USER_EDIT_READY}${user.login}' />"
                                    class="btn btn-success custom-width">edit</a>
                             </td>
-                            <td><a href="<c:url value='/support/admin/userslist/deleteuser-${user.login}' />"
+                            <td><a href="<c:url value='${SUPPORT_USER_DELETE_READY}${user.login}' />"
                                    onclick="return confirm('Please confirm deleting')"
                                    class="btn btn-danger custom-width">delete</a>
                             </td>

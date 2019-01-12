@@ -3,7 +3,7 @@ package rentcar.service.reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import rentcar.controller.support.AbstractController;
+import rentcar.controller.AbstractController;
 import rentcar.dao.reservation.ReservationHistoryDao;
 import rentcar.model.Car;
 import rentcar.model.Reservation;
@@ -52,7 +52,7 @@ public class ReservationHistoryServiceImpl extends AbstractController implements
     @Override
     public void createReservationHistoryObject(Reservation reservation) {
         Car car = carService.findById(reservation.getCarId());
-        User user = userService.findByLogin(getActiveUser());
+        User user = userService.findByLogin(getActiveUserLogin());
         ReservationHistory reservationHistory = new ReservationHistory();
         reservationHistory.setStatus(reservation.getStatus());
         reservationHistory.setReservationId(reservation.getReservationId());

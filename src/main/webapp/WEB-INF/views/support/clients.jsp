@@ -1,19 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 
 <html>
 
 <head>
     <title>Clients</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <%@include file="patches/head.jsp" %>
     <script src="/static/js/rowsonpage.js" type="text/javascript"></script>
     <style>
         select {
@@ -44,9 +35,9 @@
                             Rows per page:
                             <select id="dynamic_select">
                             <option value="" hidden>${rowsOnPage}</option>
-                            <option value="<c:url value='/support/clients-1per15' />">15</option>
-                            <option value="<c:url value='/support/clients-1per30' />">30</option>
-                            <option value="<c:url value='/support/clients-1per60' />">60</option>
+                            <option value="<c:url value='${SUPPORT_CLIENTS_READY}1per15' />">15</option>
+                            <option value="<c:url value='${SUPPORT_CLIENTS_READY}1per30' />">30</option>
+                            <option value="<c:url value='${SUPPORT_CLIENTS_READY}1per60' />">60</option>
                         </select>
                         </c:if>
                         </div>
@@ -54,7 +45,7 @@
 
                     <span class="floatRight">
                     <button type="button" class="btn btn-link btn-sm">
-                    <a href="<c:url value='/support/clients/createclient'  />">
+                    <a href="<c:url value='${SUPPORT_CLIENT_CREATE}'  />">
                     <span class="glyphicon glyphicon-plus"></span> Create new client</a>
                     </button>
                     </span>
@@ -67,7 +58,7 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Surname</th>
+                    <th>Pesel</th>
                     <th>Name</th>
                     <th>Surname</th>
                     <th>E-mail</th>
@@ -87,10 +78,10 @@
                         <td>${client.clientEmail}</td>
                         <td>${client.clientCompanyName}</td>
                         <td>${client.clientGender}</td>
-                        <td><a href="<c:url value='/support/clients/editclient-${client.pesel}' />"
+                        <td><a href="<c:url value='${SUPPORT_CLIENT_EDIT_READY}${client.pesel}' />"
                                class="btn btn-success custom-width">edit</a>
                         </td>
-                        <td><a href="<c:url value='/support/clients/deleteclient-${client.pesel}' />"
+                        <td><a href="<c:url value='${SUPPORT_CLIENT_DELETE_READY}${client.pesel}' />"
                                onclick="return confirm('Please confirm deleting')" class="btn btn-danger custom-width">delete</a>
                         </td>
                     </tr>

@@ -1,8 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 
 <html>
 
@@ -83,7 +79,7 @@
                     <div class="row">
                         <div class="form-actions floatRight">
                             <input type="submit" value="Register" class="btn btn-primary btn-sm"/> or <a
-                                href="<c:url value='/login' />">Cancel</a>
+                                href="<c:url value='${COMMON_LOGIN}' />">Cancel</a>
                         </div>
                     </div>
                 </form:form>

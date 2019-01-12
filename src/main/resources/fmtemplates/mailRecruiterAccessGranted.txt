@@ -1,21 +1,18 @@
-//TODO
 <html>
 <body>
 <h3>Dear ${user}, </h3>
 <div>
     <p>Happy to inform you that your access is accepted by administrator and successfully granted to you.<br>
-        Now you can login to your account and use the whole authority.</p>
-    Please keep in mind that for now you have role "USER" and some options are not available to you.<br>
-    In case you wish to test also those roles - please request a new access <br>
-    through this <a href="http://java-experience.eu/accessrequest">link</a> typing login as ["your current login"-admin]<br>
-    For example if your current login is "miszka", you need to type "miszka-admin".
+        Now you can login to your account and to use the whole authority with the next credentials:</p>
 </div>
 
 Login: ${login}<br>
 Password: ${password}<br>
+
+During tests try to click every button, create user, cars, modify them, delete etc. - feel free to do anything with the data.
 <p>
     Best regards,<br>
     Bogdan Kartawcew<br>
-    <a href="http://java-experience.eu/login">java-experience.eu</a>
+    Welcome page and login: <a href="http://java-experience.eu/login">java-experience.eu</a>
 </body>
 </html>

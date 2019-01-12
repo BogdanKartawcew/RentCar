@@ -11,5 +11,5 @@ public interface CarImageService {
 
     void update(FileBucket fileBucket, int carId, int number);
 
-    void delete(int carId, int number);
+    void delete(int carId);
 }

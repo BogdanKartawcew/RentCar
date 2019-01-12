@@ -153,6 +153,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void checkStatus(Reservation reservation) {
+        //TODO
+
         System.out.println("++++++++++++++++Updating status");
 
         String stringDateTime = reservation.getStartDate() + " " + reservation.getStartTime();

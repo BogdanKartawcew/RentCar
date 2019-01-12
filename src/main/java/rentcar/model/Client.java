@@ -8,9 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * Created by a261711 on 2017-10-22.
- */
 @Entity
 @Table(name = "CLIENT")
 public class Client implements Serializable {

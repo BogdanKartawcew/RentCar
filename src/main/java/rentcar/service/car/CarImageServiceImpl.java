@@ -30,7 +30,7 @@ public class CarImageServiceImpl implements CarImageService {
     }
 
     @Override
-    public void update(FileBucket fileBucket, int carId, int number){
+    public void update(FileBucket fileBucket, int carId, int number) {
 
         CarImage carImage = new CarImage();
         try {
@@ -51,7 +51,9 @@ public class CarImageServiceImpl implements CarImageService {
     }
 
     @Override
-    public void delete(int carId, int number) {
-        carImageDao.delete(carId, number);
+    public void delete(int carId) {
+        for (int i = 1; i <= carService.imagesPerCar; i++) {
+            carImageDao.delete(carId, i);
+        }
     }
 }

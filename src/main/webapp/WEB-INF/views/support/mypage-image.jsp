@@ -1,18 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 
 <html>
 <head>
     <title>Edit my profile</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <%@include file="patches/head.jsp" %>
 </head>
 
 <body>
@@ -28,7 +19,7 @@
                     <p>Login: ${user.login}</p>
                     <p>Mail: ${user.email}</p>
                     <div class="text-left">
-                        <a href="/support/mypage/data" class="btn button btn-danger">Edit data</a>
+                        <a href="${SUPPORT_MYPAGE_DATA}" class="btn button btn-danger">Edit data</a>
                     </div>
                     <div class="row"></div>
                 </div>
@@ -36,8 +27,8 @@
             <br>
 
             <div style="" class="col-md-4">
-                <a href="<c:url value='/support/userimage-${user.login}' />" class="w-75 h-75"
-                   style=""><img src="/support/userimage-${user.login}" class="img-thumbnail" height="180"
+                <a href="<c:url value='${SUPPORT_USERIMAGE_SHOW_READY}${user.login}' />" class="w-75 h-75"
+                   style=""><img src="${SUPPORT_USERIMAGE_SHOW_READY}${user.login}" class="img-thumbnail" height="180"
                                  width="180"></a>
             </div>
             <br>
@@ -61,7 +52,7 @@
                     <input type="submit" name="Update image" value="Update image"
                            onclick="return confirm('Are you sure you want to update it? If no file uploaded, it will remove the image.')"
                            class="btn btn-sm btn-success"> or <a
-                        href="<c:url value='/support/' />">Cancel</a>
+                        href="<c:url value='${SUPPORT_MAIN}' />">Cancel</a>
                 </div>
             </div>
             </form:form>

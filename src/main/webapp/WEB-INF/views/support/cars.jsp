@@ -1,19 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page isELIgnored="false" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@include file="../commonpatches/topjsp.jsp" %>
 
 <html>
 
 <head>
     <title>Cars</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <%@include file="patches/head.jsp" %>
     <script src="/static/js/rowsonpage.js" type="text/javascript"></script>
     <style>
         select {
@@ -44,9 +35,9 @@
                             Rows per page:
                             <select id="dynamic_select">
                             <option value="" hidden>${rowsOnPage}</option>
-                            <option value="<c:url value='/support/cars-1per15' />">15</option>
-                            <option value="<c:url value='/support/cars-1per30' />">30</option>
-                            <option value="<c:url value='/support/cars-1per60' />">60</option>
+                            <option value="<c:url value='${SUPPORT_CARS_READY}1per15' />">15</option>
+                            <option value="<c:url value='${SUPPORT_CARS_READY}1per30' />">30</option>
+                            <option value="<c:url value='${SUPPORT_CARS_READY}1per60' />">60</option>
                         </select>
                         </c:if>
                         </div>
@@ -54,7 +45,7 @@
 
                     <span class="floatRight">
                     <button type="button" class="btn btn-link btn-sm">
-                    <a href="<c:url value='/support/cars/createcar'  />">
+                    <a href="<c:url value='${SUPPORT_CAR_CREATE}'  />">
                     <span class="glyphicon glyphicon-plus"></span> Create new car</a>
                     </button>
                     </span>
@@ -93,8 +84,8 @@
                 <c:forEach items="${cars}" var="car">
                     <tr>
                         <td>${car.carId}</td>
-                        <td><a href="<c:url value='/support/cars/uploadcarimage-${car.carId}' />"><img
-                                src='/carimage-${car.carId}-1' class="img-rounded" height="180"
+                        <td><a href="<c:url value='${SUPPORT_CARIMAGE_UPLOAD_READY}${car.carId}' />"><img
+                                src='${COMMON_CARIMAGE_READY}${car.carId}-1' class="img-rounded" height="180"
                                 width="180" alt="Click to add new image" title="Add new image"/></a></td>
                         <td>${car.carBrand}</td>
                         <td>${car.carModel}</td>
@@ -132,10 +123,10 @@
                         <td>${car.carVersion}</td>
                         <td>${car.price}</td>
                         <td>${car.city}</td>
-                        <td><a href="<c:url value='/support/cars/editcar-${car.carId}' />"
+                        <td><a href="<c:url value='${SUPPORT_CAR_EDIT_READY}${car.carId}' />"
                                class="btn btn-success custom-width">edit</a>
                         </td>
-                        <td><a href="<c:url value='/support/cars/deletecar-${car.carId}' />"
+                        <td><a href="<c:url value='${SUPPORT_CAR_DELETE_READY}${car.carId}' />"
                                onclick="return confirm('Please confirm deleting')"
                                class="btn btn-danger custom-width">delete</a>
                         </td>

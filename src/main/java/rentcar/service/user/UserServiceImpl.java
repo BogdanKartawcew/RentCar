@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rentcar.dao.user.UserDao;
 import rentcar.model.User;
+import rentcar.model.UserImage;
 
 
 @Service("userService")
@@ -21,6 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserImageService userImageService;
+
     public User findById(int id) {
         return userDao.findById(id);
     }
@@ -32,7 +36,9 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
-
+        UserImage userImage = new UserImage();
+        userImage.setId(user.getId());
+        userImageService.saveUserImage(userImage);
     }
 
     public void update(User user) {

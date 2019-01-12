@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import static rentcar.propertiesenums.Links.Constants.*;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -37,14 +39,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/support/admin/**", "/support/userimage-{login}").access("hasRole('ADMIN') or hasRole('SUPERUSER')")
-                .antMatchers("/support/mypage/**", "/support/userimage-{login}").access("hasRole('USER') or hasRole('SUPERUSER') or hasRole('TEMP')")
-                .antMatchers("/support/**").access("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPERUSER')")
-                .and().formLogin().loginPage("/login")
-                .loginProcessingUrl("/login").usernameParameter("login").passwordParameter("password").and() //do not change!
+                .antMatchers(COMMON_EMPTY).permitAll()
+                .antMatchers("/support/admin/**", SUPPORT_USERIMAGE_SHOW).access("hasRole('ADMIN') or hasRole('SUPERUSER')")
+                .antMatchers(SUPPORT_MYPAGE_IMAGE + "/**", SUPPORT_USERIMAGE_SHOW).access("hasRole('USER') or hasRole('SUPERUSER') or hasRole('TEMP')")
+                .antMatchers(SUPPORT_MAIN + "/**").access("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPERUSER')")
+                .and().formLogin().loginPage(COMMON_LOGIN)
+                .loginProcessingUrl(COMMON_LOGIN).usernameParameter("login").passwordParameter("password").and() //do not change!
                 .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-                .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/accessdenied");
+                .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage(COMMON_ACCESSDENIED);
     }
 
     @Bean

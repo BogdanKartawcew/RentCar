@@ -6,21 +6,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rentcar.controller.support.AbstractController;
+import rentcar.controller.AbstractController;
 import rentcar.service.car.CarService;
+
+import static rentcar.propertiesenums.Links.Constants.*;
+import static rentcar.propertiesenums.Pages.Constants.*;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping(COMMON_EMPTY)
 @PreAuthorize("permitAll()")
 public class AllCarsController extends AbstractController {
 
     @Autowired
     CarService carService;
 
-    @RequestMapping(value = "/allcars", method = RequestMethod.GET)
+    @RequestMapping(value = CUSTOMER_ALLCARS, method = RequestMethod.GET)
     public String allCarsPage(ModelMap model) {
+        model.addAllAttributes(getForCustomerNavBar());
+        model.addAttribute("COMMON_CARIMAGE_READY", COMMON_CARIMAGE_SHOW_READY);
         model.addAttribute("cars", carService.getAll());
-        return "customer/allcars";
+        return P_ALLCARS;
     }
 }
