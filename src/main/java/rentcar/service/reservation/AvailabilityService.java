@@ -5,7 +5,7 @@ import rentcar.model.Reservation;
 
 import java.util.List;
 
-public interface CarUnavailableService {
+public interface AvailabilityService {
 
     void save(Availability availability);
 
@@ -19,9 +19,13 @@ public interface CarUnavailableService {
 
     void update(Availability availability);
 
+    boolean containsFalse(boolean[] errors);
+
     String getTomorrow();
 
     Availability setCarUnavailble(Reservation reservation);
+
+    boolean[] checkReservationOnEmpties(Reservation reservation);
 }
 
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import rentcar.dao.common.AbstractDao;
 import rentcar.model.User;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.LOW_LOGIN;
+
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
@@ -24,7 +26,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
     public User findByLogin(String login) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("login", login));
+        crit.add(Restrictions.eq(LOW_LOGIN, login));
         User user = (User) crit.uniqueResult();
         if (user != null) {
             Hibernate.initialize(user.getRoles());
@@ -34,7 +36,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
-        Criteria criteria = createEntityCriteria().addOrder(Order.asc("login"));
+        Criteria criteria = createEntityCriteria().addOrder(Order.asc(LOW_LOGIN));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         return (List<User>) criteria.list();
     }
@@ -50,7 +52,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getConfirmedByPage(int pageNumber, int rowsOnPage) {
-        Criteria criteria = createEntityCriteria().addOrder(Order.asc("login"));
+        Criteria criteria = createEntityCriteria().addOrder(Order.asc(LOW_LOGIN));
         criteria.add(Restrictions.not(Restrictions.in("role", new Integer[]{4})));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         if (pageNumber == 1) {
@@ -76,7 +78,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
     public void deleteByLogin(String login) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("login", login));
+        crit.add(Restrictions.eq(LOW_LOGIN, login));
         User user = (User) crit.uniqueResult();
         delete(user);
     }

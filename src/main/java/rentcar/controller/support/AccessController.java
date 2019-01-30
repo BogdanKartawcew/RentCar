@@ -1,23 +1,18 @@
 package rentcar.controller.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import rentcar.controller.support.abstractcontrollers.AbstractAccessController;
 import rentcar.model.User;
-import rentcar.model.UserImage;
-import rentcar.service.access.AccessService;
-import rentcar.service.user.UserImageService;
-import rentcar.service.user.UserProfileService;
-import rentcar.service.user.UserService;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-
+import static rentcar.model.UserProfileType.Constants.*;
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 import static rentcar.propertiesenums.Links.Constants.*;
 import static rentcar.propertiesenums.Pages.Constants.*;
 
@@ -25,78 +20,35 @@ import static rentcar.propertiesenums.Pages.Constants.*;
 @RequestMapping(COMMON_EMPTY)
 public class AccessController extends AbstractAccessController {
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    UserImageService userImageService;
-
-    @Autowired
-    AccessService accessService;
-
-    @Autowired
-    UserProfileService userProfileService;
-
     @RequestMapping(value = COMMON_ACCESSREQUEST, method = RequestMethod.GET)
     public String requestUserAccess(ModelMap model) {
         User user = new User();
-        model.addAttribute("user", user);
+        model.addAttribute(LOW_USER, user);
+        model.addAttribute("COMMON_LOGIN", COMMON_LOGIN);
         return P_ACCESSFORM;
     }
 
     @RequestMapping(value = COMMON_ACCESSREQUEST, method = RequestMethod.POST)
     public String requestUserAccess(@Valid User user, BindingResult result, ModelMap model) {
-
         if (!userService.isLoginUnique(user.getId(), user.getLogin())) {
-            model.addAttribute("error", true);
+            FieldError error = new FieldError(LOW_USER, LOW_LOGIN, createText("non.unique.login", new String[]{user.getLogin()}, null));
+            result.addError(error);
             model.addAttribute("COMMON_LOGIN", COMMON_LOGIN);
-            return COMMON_REDIRECT + COMMON_ACCESSREQUEST;
+            return P_ACCESSFORM;
         }
-        final User forThreadCopyUser = user;
-        Thread sendMailThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String mailSubject = "RentCar inc. - access request is under confirmation";
-                String link = "mailUserAccessRequestSent.txt";
-                HashMap<String, Object> model = new HashMap<String, Object>();
-                model.put("user", forThreadCopyUser.getFirstName());
-                model.put("login", forThreadCopyUser.getLogin());
-                model.put("password", forThreadCopyUser.getPassword());
-                String email = forThreadCopyUser.getEmail();
-                accessService.mailUser(mailSubject, link, email, model);
-            }
-        });
-        user.setRole();
         userService.save(user);
-        UserImage userImage = new UserImage();
-        userImage.setId(user.getId());
-        userImageService.saveUserImage(userImage);
-        sendMailThread.start();
+        accessService.sendMailThread(user, "mail.user.requested", "mailUserAccessRequestSent.txt");
         model.addAttribute("COMMON_LOGIN", COMMON_LOGIN);
-        model.addAttribute("usergoto", "<a href=" + SUPPORT_MYPAGE_IMAGE + ">Visit your profile page</a>");
-        model.addAttribute("usersuccess", "Request has been sent. Please check your e-mail: " + user.getEmail());
+        model.addAllAttributes(attributesSuccess(new String[]{user.getEmail()}, SUPPORT_MYPAGE_IMAGE, "success.request.sent", "but.request.sent", null));
         return P_SUCCESS;
     }
 
     @RequestMapping(value = SUPPORT_USER_ACCEPT, method = RequestMethod.GET)
     public String acceptUser(@PathVariable String login) {
         User user = userService.findByLogin(login);
-        user.setRoles(userProfileService.getRoleSet(1)); //USER_ROLE
-        user.setRole();
+        user.setRoles(userProfileService.getRoleSetByType(USER));
         userService.update(user);
-        final User forThreadCopyUser = user;
-        Thread sendMailThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String mailSubject = "RentCar inc. - access granted";
-                String link = "mailUserAccessGranted.txt";
-                HashMap<String, Object> model = new HashMap<String, Object>();
-                model.put("user", forThreadCopyUser.getFirstName());
-                String email = forThreadCopyUser.getEmail();
-                accessService.mailUser(mailSubject, link, email, model);
-            }
-        });
-        sendMailThread.start();
+        accessService.sendMailThread(user, "mail.user.confirmed", "mailUserAccessGranted.txt");
         return COMMON_REDIRECT + SUPPORT_USERS_PAGES;
     }
 
@@ -104,7 +56,7 @@ public class AccessController extends AbstractAccessController {
     @RequestMapping(value = COMMON_RECRUITER, method = RequestMethod.GET)
     public String requestRecruiterAccess(ModelMap model) {
         User user = new User();
-        model.addAttribute("user", user);
+        model.addAttribute(LOW_USER, user);
         model.addAttribute("COMMON_LOGIN", COMMON_LOGIN);
         return P_RECRUITER;
     }
@@ -112,8 +64,7 @@ public class AccessController extends AbstractAccessController {
     @RequestMapping(value = COMMON_RECRUITER, method = RequestMethod.POST)
     public String requestRecruiterAccess(@Valid User user, BindingResult result, ModelMap model) {
         accessService.createRecruiter(user);
-        model.addAttribute("usergoto", "<a href=" + COMMON_EMPTY + "Log in</a>");
-        model.addAttribute("usersuccess", "Request has been sent. Please check your e-mail: " + user.getEmail());
+        model.addAllAttributes(attributesSuccess(new String[]{user.getEmail()}, COMMON_LOGIN, "success.request.sent", "but.login", null));
         return P_SUCCESS;
     }
 

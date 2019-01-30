@@ -32,7 +32,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return multipartConfigElement;
     }
 
-    /*initializin of tem lib for multipart uploading*/
+    /*initializing of temp lib for multipart uploading*/
     private static final String LOCATION = "";
 
     private static final long MAX_FILE_SIZE = 1024 * 1024 * 3;//3MB

@@ -41,7 +41,7 @@ public class AvailabilityDaoImpl extends AbstractDao<Integer, Availability> impl
     @SuppressWarnings("unchecked")
     @Override
     public List<Availability> listByCarId(Integer carId) {
-        Criteria crit = createEntityCriteria();
+        Criteria crit = createEntityCriteria().addOrder(Order.asc("startDate"));
         crit.add(Restrictions.eq("carId", carId));
         return (List<Availability>) crit.add(Restrictions.eq("carId", carId)).list();
     }

@@ -16,6 +16,8 @@ import rentcar.model.User;
 import rentcar.model.Role;
 import rentcar.service.user.UserService;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.ROLE_;
+
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
@@ -40,7 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
         for (Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getType()));
+            authorities.add(new SimpleGrantedAuthority(ROLE_ + role.getType()));
         }
         return authorities;
     }

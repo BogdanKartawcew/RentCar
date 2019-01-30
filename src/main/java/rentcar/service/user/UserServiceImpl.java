@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole();
         userDao.save(user);
         UserImage userImage = new UserImage();
         userImage.setId(user.getId());
@@ -81,8 +82,10 @@ public class UserServiceImpl implements UserService {
         return userDao.countAllByPage();
     }
 
+
+    //only confirmed users!!!!
     @Override
-    public List<User> getConfirmedByPage(int pageNumber, int rowsOnPage) {
+    public List<User> getAllByPage(int pageNumber, int rowsOnPage) {
         return userDao.getConfirmedByPage(pageNumber, rowsOnPage);
     }
 }

@@ -16,19 +16,19 @@ public class Car implements Serializable {
     @Column(name = "CARID", unique = true, nullable = false)
     private Integer carId;
 
-    @NotBlank(message = "Please fill in the brand")
+    @NotNull(message = "Please fill in the brand")
     @Column(name = "BRAND")
     private String carBrand;
 
-    @NotBlank(message = "Please fill in the model")
+    @NotNull(message = "Please fill in the model")
     @Column(name = "MODEL")
     private String carModel;
 
-    @NotBlank(message = "Please choose the fuel")
+    @NotNull(message = "Please choose the fuel")
     @Column(name = "FUEL")
     private String carFuel;
 
-    @NotBlank(message = "Please choose gear type.")
+    @NotNull(message = "Please choose gear type.")
     @Column(name = "GEAR_TYPE", nullable = false)
     private String carGearType;
 
@@ -37,7 +37,7 @@ public class Car implements Serializable {
     @Column(name = "HORSE_POWER")
     private int carHorsePower;
 
-    @NotBlank(message = "Please choose body type")
+    @NotNull(message = "Please choose body type")
     @Column(name = "BODY_TYPE")
     private String carBodyType;
 

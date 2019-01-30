@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rentcar.model.PersistentLogin;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.LOW_LOGIN;
+
 @Repository("tokenRepositoryDao")
 @Transactional
 public class HibernateTokenRepositoryImpl extends AbstractDao<String, PersistentLogin>
@@ -43,7 +45,7 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
     @Override
     public void removeUserTokens(String login) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("login", login));
+        crit.add(Restrictions.eq(LOW_LOGIN, login));
         PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
         if (persistentLogin != null) {
             delete(persistentLogin);

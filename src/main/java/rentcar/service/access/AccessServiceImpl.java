@@ -3,13 +3,13 @@ package rentcar.service.access;
 
 import freemarker.template.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import rentcar.model.User;
-import rentcar.model.UserImage;
 import rentcar.service.common.MailService;
 import rentcar.service.fillintables.FillUsers;
 import rentcar.service.user.UserImageService;
@@ -17,7 +17,10 @@ import rentcar.service.user.UserProfileService;
 import rentcar.service.user.UserService;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 
 @Service("accessService")
 @Transactional
@@ -37,6 +40,9 @@ public class AccessServiceImpl implements AccessService {
 
     @Autowired
     UserProfileService userProfileService;
+
+    @Autowired
+    protected MessageSource messageSource;
 
     private static String mailFrom = "kartawcew.b@gmail.com";
 
@@ -85,41 +91,32 @@ public class AccessServiceImpl implements AccessService {
         user.setLogin(randomDataClass.getRandomString(8));
         user.setPassword(randomDataClass.getRandomString(8));
         user.setLastName("Unknown last name");
-        user.setRoles(userProfileService.getRoleSet(3));
-        user.setRole();
-        final User forThreadCopyUser = user;
-        Thread sendMailThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                HashMap<String, Object> model = new HashMap<String, Object>();
-                model.put("user", forThreadCopyUser.getFirstName());
-                model.put("login", forThreadCopyUser.getLogin());
-                model.put("password", forThreadCopyUser.getPassword());
-                mailUser("RentCar inc. - recruiter access is granted", "mailRecruiterAccessGranted.txt", forThreadCopyUser.getEmail(), model);
-            }
-        });
-        sendMailThread.start();
+        user.setRoles(userProfileService.getRoleSetById(3));
+        sendMailThread(user, "RentCar inc. - recruiter access is granted", "mailRecruiterAccessGranted.txt");
         userService.save(user);
-        UserImage userImage = new UserImage();
-        userImage.setId(user.getId());
-        userImageService.saveUserImage(userImage);
     }
 
     //TODO
     @Override
     public void deleteRecruiter(User user) {
-        final User forThreadCopyUser = user;
+        sendMailThread(user, "RentCar inc. - recruiter access is removed", "mailRecruiterAccessRemoved.txt");
+        userImageService.deleteUserImageByLogin(user.getLogin());
+        userService.deleteByLogin(user.getLogin());
+    }
+
+    @Override
+    public void sendMailThread(User user, String mailTopic, String fileLink) {
         Thread sendMailThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                String mailSubject = messageSource.getMessage(mailTopic, new String[]{}, Locale.getDefault());
                 HashMap<String, Object> model = new HashMap<String, Object>();
-                model.put("password", forThreadCopyUser.getPassword());
-                model.put("login", forThreadCopyUser.getLogin());
-                mailUser("RentCar inc. - recruiter access is removed", "mailRecruiterAccessRemoved.txt", forThreadCopyUser.getEmail(), model);
+                model.put(LOW_USER, user.getFirstName());
+                model.put(LOW_LOGIN, user.getLogin());
+                model.put(LOW_PASSWORD, user.getPassword());
+                mailUser(mailSubject, fileLink, user.getEmail(), model);
             }
         });
         sendMailThread.start();
-        userImageService.deleteUserImageByLogin(user.getLogin());
-        userService.deleteByLogin(user.getLogin());
     }
 }

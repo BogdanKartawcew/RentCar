@@ -34,9 +34,17 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public HashSet<Role> getRoleSet(int roleId) {
+    public HashSet<Role> getRoleSetById(int roleId) {
         HashSet<Role> roleSet = new HashSet<>();
         Role role = findById(roleId);
+        roleSet.add(role);
+        return roleSet;
+    }
+
+    @Override
+    public HashSet<Role> getRoleSetByType(String profileType) {
+        HashSet<Role> roleSet = new HashSet<>();
+        Role role = findByType(profileType);
         roleSet.add(role);
         return roleSet;
     }

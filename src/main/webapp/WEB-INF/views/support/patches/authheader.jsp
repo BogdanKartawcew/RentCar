@@ -17,12 +17,12 @@
                     <span>Temporary user: <strong>${loggedinuser}</strong></span>
                 </sec:authorize>
                 |
-                <button type="button" class="btn btn-link btn-sm"><a href="<c:url value="${COMMON_LOGOUT}" />"><span
+                <button type="button" class="btn btn-link btn-sm"><a href="<c:url value='${COMMON_LOGOUT}' />"><span
                         class="glyphicon glyphicon-off"></span> Logout</a></button>
             </span>
 
             <span class="floatRight">
-        <button type="button" class="btn btn-link btn-sm"><a href="<c:url value="${SUPPORT_MAIN}" />">
+        <button type="button" class="btn btn-link btn-sm"><a href="<c:url value='${SUPPORT_MAIN}'/>">
                <span class="glyphicon glyphicon-home"></span>  Welcome page</a></button></span>
 
         </div>

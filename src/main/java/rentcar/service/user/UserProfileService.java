@@ -14,5 +14,7 @@ public interface UserProfileService {
 
     List<Role> getAll();
 
-    HashSet<Role> getRoleSet(int roleId);
+    HashSet<Role> getRoleSetById(int roleId);
+
+    HashSet<Role> getRoleSetByType(String profileType);
 }

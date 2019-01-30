@@ -1,6 +1,5 @@
 package rentcar.controller.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -11,45 +10,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import rentcar.controller.support.abstractcontrollers.AbstractReservationController;
 import rentcar.model.Reservation;
-import rentcar.service.common.PaginatorService;
-import rentcar.service.reservation.CarUnavailableService;
-import rentcar.service.reservation.ReservationHistoryService;
-import rentcar.service.reservation.ReservationService;
-import rentcar.service.reservation.ReservationStatusService;
 
 import javax.validation.Valid;
 import java.util.*;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 import static rentcar.propertiesenums.Links.Constants.*;
 import static rentcar.propertiesenums.Pages.Constants.*;
 
 @Controller
 @RequestMapping(COMMON_EMPTY)
 public class ReservationController extends AbstractReservationController {
-    @Autowired
-    ReservationStatusService reservationStatusService;
-
-    @Autowired
-    ReservationService reservationService;
-
-    @Autowired
-    CarUnavailableService carUnavailableService;
-
-    @Autowired
-    ReservationHistoryService reservationHistoryService;
-
-    @Autowired
-    PaginatorService paginatorService;
-
 
     @RequestMapping(value = SUPPORT_RESERVATIONS_ALL, method = RequestMethod.GET)
-    public String reservation(ModelMap model) {
+    public String reservations(ModelMap model) {
         model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("reservations", reservationService.getAll());
-        model.addAttribute("checkAll", carUnavailableService.getAll());
+        model.addAttribute("checkAll", availabilityService.getAll());
         model.addAllAttributes(attributesList());
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAllAttributes(attributesCRUDButtons());
+        model.addAllAttributes(attributesForSupportHeader());
         return P_RESEVATION;
     }
 
@@ -57,8 +37,8 @@ public class ReservationController extends AbstractReservationController {
     public String reservationRunning(ModelMap model) {
         model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("running", reservationService.getRunning());
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAllAttributes(attributesCRUDButtons());
+        model.addAllAttributes(attributesForSupportHeader());
         return P_RESRUNNING;
     }
 
@@ -67,8 +47,8 @@ public class ReservationController extends AbstractReservationController {
     public String reservationNotConfirmed(ModelMap model) {
         model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("notConfirmedReservations", reservationService.getNotConfirmed());
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAllAttributes(attributesCRUDButtons());
+        model.addAllAttributes(attributesForSupportHeader());
         return P_RESNOTCONFIRMED;
     }
 
@@ -76,74 +56,169 @@ public class ReservationController extends AbstractReservationController {
     public String reservationFinished(ModelMap model) {
         model.addAttribute("statuses", reservationStatusService.getAll());
         model.addAttribute("finished", reservationService.getFinished());
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAllAttributes(attributesCRUDButtons());
+        model.addAllAttributes(attributesForSupportHeader());
         return P_RESFINISHED;
     }
 
 
     @RequestMapping(value = SUPPORT_RESERVATION_CREATE, method = RequestMethod.GET)
     public String createReservation(ModelMap model) {
-        model.addAllAttributes(attributesCRUD("create", false));
+        model.addAllAttributes(attributesCRUD(LOW_CREATE, false));
         model.addAttribute("reservation", new Reservation());
         model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+        model.addAllAttributes(attributesForSupportHeader());
         return P_CREATERESERVATION;
     }
 
     @RequestMapping(value = SUPPORT_RESERVATION_CREATE, method = RequestMethod.POST)
     public String createReservation(@Valid Reservation reservation, BindingResult result, ModelMap model) {
 
-        boolean[] errorsList = carUnavailableService.checkAvailability(reservation);
-        boolean hasAvailibilityError = containsTrue(errorsList);
-        if (checkAvailibilityErrors(reservation, result, model, result.hasErrors(), errorsList, hasAvailibilityError, "create")) {
+        String editcreate = LOW_CREATE;
+        boolean[] reservationErrors = availabilityService.checkReservationOnEmpties(reservation);
+        boolean hasReservationErrors = availabilityService.containsFalse(reservationErrors);
+        if (hasReservationErrors) {
+            System.out.println("SOME RESERVATION VALUE IS NULL");
+            String res = "reservation";
+            if (!reservationErrors[2]) {
+                FieldError error = new FieldError(res, "startDate", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            if (!reservationErrors[3]) {
+                FieldError error = new FieldError(res, "endDate", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            if (!reservationErrors[4]) {
+                FieldError error = new FieldError(res, "startTime", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            if (!reservationErrors[5]) {
+                FieldError error = new FieldError(res, "endTime", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            model.addAllAttributes(attributesCRUD(editcreate, true));
+            model.addAttribute("reservation", reservation);
+            model.addAllAttributes(attributesForSupportHeader());
             return P_CREATERESERVATION;
+        } else {
+            boolean[] availabilityErrors = availabilityService.checkAvailability(reservation); //returns array of booleans while checking is there any problem with availability
+            boolean hasAvailibilityError = availabilityService.containsFalse(availabilityErrors); //checks the returned boolean array on existing of "false" values
+            if (hasAvailibilityError) {
+                for (int i = 0; i < availabilityErrors.length; i++) {
+                    if (!availabilityErrors[i]) {
+                        result.addError(getError(i, reservation));
+                    }
+                }
+                System.out.println("ERRORS::: " + result);
+                model.addAllAttributes(attributesCRUD(editcreate, true));
+                model.addAttribute("reservation", reservation);
+                model.addAllAttributes(attributesForSupportHeader());
+                return P_CREATERESERVATION;
+            }
         }
 
         reservationService.save(reservation);
-        carUnavailableService.save(carUnavailableService.setCarUnavailble(reservation));
-        model.addAllAttributes(attributesForSupportHeader());
-        model.addAllAttributes(attributesSuccess(reservation, " has registered successfully"));
+        availabilityService.save(availabilityService.setCarUnavailble(reservation));
+        model.addAllAttributes(attributesSuccess(new String[]{String.valueOf(reservation.getReservationId()), String.valueOf(reservation.getCarId())}, SUPPORT_RESERVATIONS_ALL, "success.res.crt", "but.reservations", null));
         return P_SUCCESS;
     }
 
 
     @RequestMapping(value = SUPPORT_RESERVATION_EDIT, method = RequestMethod.GET)
     public String editReservation(@PathVariable int reservationId, ModelMap model) {
-        model.addAllAttributes(attributesCRUD("edit", true));
+        model.addAllAttributes(attributesCRUD(LOW_EDIT, true));
         model.addAttribute("reservation", reservationService.findById(reservationId));
         model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
+        model.addAllAttributes(attributesForSupportHeader());
         return P_CREATERESERVATION;
     }
 
     @RequestMapping(value = SUPPORT_RESERVATION_EDIT, method = RequestMethod.POST)
-    public String editReservation(@Valid Reservation reservation, BindingResult result, ModelMap model, @PathVariable int reservationId) {
+    public String editReservation(@Valid Reservation reservation, BindingResult result, ModelMap model) {
 
-        boolean[] errorsList = carUnavailableService.checkAvailability(reservation);
-        boolean hasAvailibilityError = containsTrue(errorsList);
-        if (checkAvailibilityErrors(reservation, result, model, result.hasErrors(), errorsList, hasAvailibilityError, "edit")) {
+        String editcreate = LOW_EDIT;
+        boolean[] reservationErrors = availabilityService.checkReservationOnEmpties(reservation);
+        boolean hasReservationErrors = availabilityService.containsFalse(reservationErrors);
+        if (hasReservationErrors) {
+            System.out.println("SOME RESERVATION VALUE IS NULL");
+            String res = "reservation";
+            if (!reservationErrors[2]) {
+                FieldError error = new FieldError(res, "startDate", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            if (!reservationErrors[3]) {
+                FieldError error = new FieldError(res, "endDate", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            if (!reservationErrors[4]) {
+                FieldError error = new FieldError(res, "startTime", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            if (!reservationErrors[5]) {
+                FieldError error = new FieldError(res, "endTime", messageSource.getMessage("fill.in", new String[]{}, Locale.getDefault()));
+                result.addError(error);
+            }
+            model.addAllAttributes(attributesCRUD(editcreate, true));
+            model.addAttribute("reservation", reservation);
+            model.addAllAttributes(attributesForSupportHeader());
             return P_CREATERESERVATION;
+        } else {
+            boolean[] availabilityErrors = availabilityService.checkAvailability(reservation); //returns array of booleans while checking is there any problem with availability
+            boolean hasAvailibilityError = availabilityService.containsFalse(availabilityErrors); //checks the returned boolean array on existing of "false" values
+            if (hasAvailibilityError) {
+                for (int i = 0; i < availabilityErrors.length; i++) {
+                    if (!availabilityErrors[i]) {
+                        result.addError(getError(i, reservation));
+                    }
+                }
+                System.out.println("ERRORS::: " + result);
+                model.addAllAttributes(attributesCRUD(editcreate, true));
+                model.addAttribute("reservation", reservation);
+                model.addAllAttributes(attributesForSupportHeader());
+                return P_CREATERESERVATION;
+            }
         }
 
-        reservationService.updateStatus(reservation, "edit");
-        carUnavailableService.update(carUnavailableService.setCarUnavailble(reservation));
-        model.addAllAttributes(attributesForSupportHeader());
-        model.addAllAttributes(attributesSuccess(reservation, " has updated successfully"));
+        reservationService.updateStatus(reservation, LOW_EDIT);
+        availabilityService.update(availabilityService.setCarUnavailble(reservation));
+        model.addAllAttributes(attributesSuccess(new String[]{String.valueOf(reservation.getReservationId()), String.valueOf(reservation.getCarId())}, SUPPORT_RESERVATIONS_ALL, "success.res.edt", "but.reservations", null));
         return P_SUCCESS;
     }
 
-    private boolean checkAvailibilityErrors(@Valid Reservation reservation, BindingResult result, ModelMap model, boolean hasGeneralError, boolean[] errorsList, boolean hasAvailibilityError, String editcreate) {
-        if (hasAvailibilityError || hasGeneralError) {
-            if (hasAvailibilityError) {
-                for (int i = 0; i < errorsList.length; i++) {
-                    if (errorsList[i]) result.addError(getError(i, reservation));
-                }
+
+    //method return the error texts
+    private FieldError getError(int index, Reservation reservation) {
+        /*startDateAvailable, endDateAvailable, startTimeAvailable, endTimeAvailable, startTimeInTime, endTimeInTime*/
+        System.out.println("GET ERRORS");
+        String res = "reservation";
+        switch (index) {
+            case 0: {
+                System.out.println("ERROR 0");
+                return new FieldError(res, "startTime", messageSource.getMessage("non.inopenhours", new String[]{}, Locale.getDefault()));
             }
-            model.addAttribute("reservation", reservation);
-            model.addAllAttributes(attributesCRUD(editcreate, true));
-            model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
-            return true;
+            case 1: {
+                System.out.println("ERROR 1");
+                return new FieldError(res, "endTime", messageSource.getMessage("non.inopenhours", new String[]{}, Locale.getDefault()));
+            }
+            case 2: {
+                System.out.println("ERROR 2");
+                return new FieldError(res, "startDate", messageSource.getMessage("non.available.startDate", new String[]{reservation.getStartDate().toString()}, Locale.getDefault()));
+            }
+            case 3: {
+                System.out.println("ERROR 3");
+                return new FieldError(res, "endDate", messageSource.getMessage("non.available.endDate", new String[]{reservation.getEndDate().toString()}, Locale.getDefault()));
+            }
+            case 4: {
+                System.out.println("ERROR 4");
+                return new FieldError(res, "startTime", messageSource.getMessage("non.available.startTime", new String[]{reservation.getStartTime().toString()}, Locale.getDefault()));
+            }
+            case 5: {
+                System.out.println("ERROR 5");
+                return new FieldError(res, "endTime", messageSource.getMessage("non.available.endTime", new String[]{reservation.getEndTime().toString()}, Locale.getDefault()));
+            }
+            default:
+                return null;
         }
-        return false;
     }
 
 
@@ -151,7 +226,7 @@ public class ReservationController extends AbstractReservationController {
     public String cancelReservation(@PathVariable int reservationId) {
         Reservation reservation = reservationService.findById(reservationId);
         reservationService.updateStatus(reservation, "cancel");
-        carUnavailableService.delete(reservationId);
+        availabilityService.delete(reservationId);
         reservationService.delete(reservationId);
         return COMMON_REDIRECT + SUPPORT_RESERVATIONS_ALL;
     }
@@ -182,16 +257,11 @@ public class ReservationController extends AbstractReservationController {
 
     @RequestMapping(value = SUPPORT_RESERVATIONHISTORY, method = RequestMethod.GET)
     public String history(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
-        long pageCount = reservationHistoryService.countAllByPage();
-        int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
-        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(SUPPORT_RESERVATIONHISTORY_READY, rowsOnPage, pagesAmount, pageNumber);
-        model.addAttribute("pagesAmount", pagesAmount);
-        model.addAttribute("paginatorTags", paginatorTags);
-        model.addAttribute("reservationHistories", reservationHistoryService.getAllByPage(pageNumber, rowsOnPage));
+        model.addAllAttributes(universalPaginator(rowsOnPage, pageNumber, "reservationHistories"));
         model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
         model.addAttribute("SUPPORT_RESERVATIONHISTORY_READY", SUPPORT_RESERVATIONHISTORY_READY);
+        model.addAllAttributes(attributesForSupportHeader());
         return P_RESHISTORY;
     }
 
@@ -200,42 +270,9 @@ public class ReservationController extends AbstractReservationController {
     public String financialCalculations(ModelMap model) {
         //TODO
         model.addAttribute("statuses", reservationStatusService.getAll());
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAllAttributes(attributesList());
+        model.addAllAttributes(attributesForSupportHeader());
         return P_CALCULATIONS;
-    }
-
-
-
-    /*=======================additional methods=============*/
-
-
-    private FieldError getError(int index, Reservation reservation) {
-        /*startDateAvailable, endDateAvailable, startTimeAvailable, endTimeAvailable, startTimeInTime, endTimeInTime*/
-        String res = "reservation";
-        switch (index) {
-            case 0:
-                return new FieldError(res, "startDate", messageSource.getMessage("non.available.startDate", new String[]{reservation.getStartDate().toString()}, Locale.getDefault()));
-            case 1:
-                return new FieldError(res, "endDate", messageSource.getMessage("non.available.endDate", new String[]{reservation.getEndDate().toString()}, Locale.getDefault()));
-            case 2:
-                return new FieldError(res, "startTime", messageSource.getMessage("non.available.startTime", new String[]{reservation.getStartTime().toString()}, Locale.getDefault()));
-            case 3:
-                return new FieldError(res, "endTime", messageSource.getMessage("non.available.endTime", new String[]{reservation.getEndTime().toString()}, Locale.getDefault()));
-            case 4:
-                return new FieldError(res, "startTime", messageSource.getMessage("non.inopenhours", new String[]{}, Locale.getDefault()));
-            case 5:
-                return new FieldError(res, "endTime", messageSource.getMessage("non.inopenhours", new String[]{}, Locale.getDefault()));
-            default:
-                return null;
-        }
-    }
-
-    private boolean containsTrue(boolean[] errors) {
-        for (boolean error : errors) {
-            if (error) return true;
-        }
-        return false;
     }
 
 

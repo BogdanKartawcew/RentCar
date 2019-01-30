@@ -1,6 +1,7 @@
 package rentcar.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
@@ -14,18 +15,23 @@ public class Availability implements Serializable {
     @Column(name = "AVAILABILITYID", unique = true, nullable = false)
     private Integer availabilityId;
 
+    //@NotNull
     @Column(name = "CARID", nullable = false)
     private Integer carId;
 
+    //@NotNull
     @Column(name = "STARTDATE")
     private Date startDate;
 
+    //@NotNull
     @Column(name = "STARTTIME")
     private Time startTime;
 
+    //@NotNull
     @Column(name = "ENDDATE")
     private Date endDate;
 
+    //@NotNull
     @Column(name = "ENDTIME")
     private Time endTime;
 

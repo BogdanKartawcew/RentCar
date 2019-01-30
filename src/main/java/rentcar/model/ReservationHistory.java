@@ -1,6 +1,7 @@
 package rentcar.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
@@ -28,15 +29,19 @@ public class ReservationHistory implements Serializable {
     @Column(name = "CLIENTID")
     private Integer clientId;
 
+    //@NotNull(message = "Please choose the start date")
     @Column(name = "STARTDATE")
     private Date startDate;
 
+    //@NotNull(message = "Please choose the start time")
     @Column(name = "STARTTIME")
     private Time startTime;
 
+    //@NotNull(message = "Please choose the end date")
     @Column(name = "ENDDATE")
     private Date endDate;
 
+    //@NotNull(message = "Please choose the end time")
     @Column(name = "ENDTIME")
     private Time endTime;
 

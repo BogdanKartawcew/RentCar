@@ -11,24 +11,12 @@
     <%@include file="patches/authheader.jsp" %>
 
     <div class="alert alert-success lead">
-        ${usersuccess}
-        ${clientsuccess}
-        ${carsuccess}
-        ${passwordsuccess}
-        ${reservationsuccess}
-        ${confirmreservationsuccess}
+        ${success}
     </div>
 
     <span class="well floatRight">
-			${usergoto}
-			${clientgoto}
-                ${cargoto}
-			${passwordgoto}
-        ${reservationgoto}
-        ${confirmreservationgoto}
-        ${carimagegoto}
-        ${userimagegoto}
-		</span>
+        ${next}
+    </span>
 </div>
 </body>
 </html>

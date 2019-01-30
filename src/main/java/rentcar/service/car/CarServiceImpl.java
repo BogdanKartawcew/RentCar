@@ -50,10 +50,8 @@ public class CarServiceImpl implements CarService {
     }
 
 
-    private void saveCarImage(int carId)
-    {
-        for (int i = 1; i<=imagesPerCar; i++)
-        {
+    private void saveCarImage(int carId) {
+        for (int i = 1; i <= imagesPerCar; i++) {
             CarImage carImage = new CarImage();
             carImage.setCarId(carId);
             carImage.setCarImage(null);
@@ -90,6 +88,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public void delete(int carId) {
         carDao.delete(carId);
+        carImageService.delete(carId);
     }
 
     @Override

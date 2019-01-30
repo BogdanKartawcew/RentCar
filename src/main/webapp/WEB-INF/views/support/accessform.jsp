@@ -40,11 +40,13 @@
                                placeholder="Last name" required>
                     </div>
 
-
                     <div class="input-group input-sm">
                         <label class="input-group-addon" for="login"><i class="fa fa-key"></i></label>
-                        <input type="text" path="login" id="login" class="form-control" name="login"
+                        <input type="text" id="login" class="form-control" name="login"
                                placeholder="Login" required>
+                    </div>
+                    <div class="has-error">
+                        <form:errors path="login" class="help-inline"/>
                     </div>
 
                     <div class="input-group input-sm">

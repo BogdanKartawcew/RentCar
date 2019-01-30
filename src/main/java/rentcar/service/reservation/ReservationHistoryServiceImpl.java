@@ -10,6 +10,7 @@ import rentcar.model.Reservation;
 import rentcar.model.ReservationHistory;
 import rentcar.model.User;
 import rentcar.service.car.CarService;
+import rentcar.service.common.CommonInfoService;
 import rentcar.service.user.UserService;
 
 import java.sql.Timestamp;
@@ -17,7 +18,10 @@ import java.util.List;
 
 @Service("reservationHistoryService")
 @Transactional
-public class ReservationHistoryServiceImpl extends AbstractController implements ReservationHistoryService {
+public class ReservationHistoryServiceImpl implements ReservationHistoryService {
+
+    @Autowired
+    CommonInfoService commonInfoService;
 
     @Autowired
     private CarService carService;
@@ -52,7 +56,7 @@ public class ReservationHistoryServiceImpl extends AbstractController implements
     @Override
     public void createReservationHistoryObject(Reservation reservation) {
         Car car = carService.findById(reservation.getCarId());
-        User user = userService.findByLogin(getActiveUserLogin());
+        User user = userService.findByLogin(commonInfoService.getActiveUserLogin());
         ReservationHistory reservationHistory = new ReservationHistory();
         reservationHistory.setStatus(reservation.getStatus());
         reservationHistory.setReservationId(reservation.getReservationId());

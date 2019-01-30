@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
+
 @Service("reservationService")
 @Transactional
 public class ReservationServiceImpl implements ReservationService {
@@ -94,7 +96,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void updateStatus(Reservation reservation, String parameter) {
         String currentStatus = reservation.getStatus();
         switch (parameter) {
-            case "edit":
+            case LOW_EDIT:
                 switch (currentStatus) {
                     case "000":
                         reservation.setStatus("010");

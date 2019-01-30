@@ -24,5 +24,5 @@ public interface UserService {
 
     long countAllByPage();
 
-    List<User> getConfirmedByPage(int pageNumber, int rowsOnPage);
+    List<User> getAllByPage(int pageNumber, int rowsOnPage);
 }

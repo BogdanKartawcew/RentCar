@@ -17,7 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 import static rentcar.propertiesenums.Links.Constants.*;
+import static rentcar.model.UserProfileType.Constants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -39,14 +41,38 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(COMMON_EMPTY).permitAll()
-                .antMatchers("/support/admin/**", SUPPORT_USERIMAGE_SHOW).access("hasRole('ADMIN') or hasRole('SUPERUSER')")
+                /*.antMatchers(COMMON_EMPTY).permitAll()
+                .antMatchers(SUPPORT_ADMIN_GHOST + "/**", SUPPORT_USERIMAGE_SHOW).access("hasRole('ADMIN') or hasRole('SUPERUSER')")
                 .antMatchers(SUPPORT_MYPAGE_IMAGE + "/**", SUPPORT_USERIMAGE_SHOW).access("hasRole('USER') or hasRole('SUPERUSER') or hasRole('TEMP')")
                 .antMatchers(SUPPORT_MAIN + "/**").access("hasRole('USER') or hasRole('ADMIN') or hasRole('SUPERUSER')")
                 .and().formLogin().loginPage(COMMON_LOGIN)
-                .loginProcessingUrl(COMMON_LOGIN).usernameParameter("login").passwordParameter("password").and() //do not change!
+                .loginProcessingUrl(COMMON_LOGIN).usernameParameter(LOW_LOGIN).passwordParameter(LOW_PASSWORD).and() //do not change!
+                .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
+                .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage(COMMON_ACCESSDENIED);*/
+
+
+                .antMatchers(COMMON_EMPTY).permitAll()
+                .antMatchers(SUPPORT_ADMIN_GHOST + "/**", SUPPORT_USERIMAGE_SHOW).access(roleText(new String[]{ADMIN, SUPERUSER}))
+                .antMatchers(SUPPORT_MYPAGE_IMAGE + "/**", SUPPORT_USERIMAGE_SHOW).access(roleText(new String[]{USER, SUPERUSER, TEMP}))
+                .antMatchers(SUPPORT_MAIN + "/**").access(roleText(new String[]{USER, ADMIN, SUPERUSER}))
+                .and().formLogin().loginPage(COMMON_LOGIN)
+                .loginProcessingUrl(COMMON_LOGIN).usernameParameter(LOW_LOGIN).passwordParameter(LOW_PASSWORD).and() //do not change!
                 .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
                 .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage(COMMON_ACCESSDENIED);
+    }
+
+    private String roleText(String[] args) {
+        StringBuilder result = new StringBuilder("hasRole('");
+        int size = args.length;
+        if (size > 1) {
+            for (int i = 0; i < size - 1; i++) {
+                result.append(args[i]);
+                result.append("') or hasRole('");
+            }
+        }
+        result.append(args[size - 1]);
+        result.append("')");
+        return String.valueOf(result);
     }
 
     @Bean

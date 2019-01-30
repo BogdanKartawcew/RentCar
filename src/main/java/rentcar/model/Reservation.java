@@ -16,30 +16,28 @@ public class Reservation implements Serializable {
     @Column(name = "RESERVATIONID", unique = true, nullable = false)
     private Integer reservationId;
 
-    @NotNull(message = "Please choose the client")
     @Column(name = "CLIENTID")
+    //@NotNull(message = "Please choose the client")
     private Integer clientId;
 
-    @NotNull(message = "Please choose the car")
     @Column(name = "CARID")
+    //@NotNull(message = "Please choose the car")
     private Integer carId;
 
-    @Column(name = "STARTDATE")
-    @NotNull(message = "Please choose the start date")
-    //@Future
+    @Column(name = "STARTDATE", columnDefinition="DATE")
+    //@NotNull(message = "Please choose the start date")
     private Date startDate;
 
-    @Column(name = "STARTTIME")
-    @NotNull(message = "Please choose the end date")
+    @Column(name = "STARTTIME", columnDefinition="TIME")
+    //@NotNull(message = "Please choose the start time")
     private Time startTime;
 
     @Column(name = "ENDDATE")
-    @NotNull(message = "Please choose the end date")
-    //@Future(message = "Please choose the date after start date at list for one day")
+    //@NotNull(message = "Please choose the end date")
     private Date endDate;
 
     @Column(name = "ENDTIME")
-    @NotNull(message = "Please choose the end date")
+    //@NotNull(message = "Please choose the end time")
     private Time endTime;
 
     @Column(name = "STATUS")
@@ -83,7 +81,11 @@ public class Reservation implements Serializable {
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        try {
+            this.startDate = startDate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Time getStartTime() {

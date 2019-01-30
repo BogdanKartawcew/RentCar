@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import rentcar.controller.AbstractController;
 import rentcar.service.car.CarService;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 import static rentcar.propertiesenums.Links.Constants.*;
 import static rentcar.propertiesenums.Pages.Constants.*;
 
@@ -25,7 +26,7 @@ public class AllCarsController extends AbstractController {
     public String allCarsPage(ModelMap model) {
         model.addAllAttributes(getForCustomerNavBar());
         model.addAttribute("COMMON_CARIMAGE_READY", COMMON_CARIMAGE_SHOW_READY);
-        model.addAttribute("cars", carService.getAll());
+        model.addAttribute(LOW_CARS, carService.getAll());
         return P_ALLCARS;
     }
 }

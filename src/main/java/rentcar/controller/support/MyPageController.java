@@ -1,6 +1,5 @@
 package rentcar.controller.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -11,11 +10,10 @@ import rentcar.controller.support.abstractcontrollers.AbstractMyPageController;
 import rentcar.service.common.FileBucket;
 import rentcar.model.User;
 import rentcar.model.UserImage;
-import rentcar.service.user.UserImageService;
-import rentcar.service.user.UserService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Locale;
 
 import static rentcar.propertiesenums.Links.Constants.*;
 import static rentcar.propertiesenums.Pages.Constants.*;
@@ -24,17 +22,12 @@ import static rentcar.propertiesenums.Pages.Constants.*;
 @RequestMapping(COMMON_EMPTY)
 public class MyPageController extends AbstractMyPageController {
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    UserImageService userImageService;
-
     @RequestMapping(value = SUPPORT_MYPAGE_IMAGE, method = RequestMethod.GET)
     public String uploadUserImage(ModelMap model) {
         FileBucket fileBucket = new FileBucket();
         User user = userService.findByLogin(getActiveUserLogin());
         model.addAllAttributes(attributesUploadUserImage(user, fileBucket));
+        model.addAllAttributes(attributesForSupportHeader());
         return P_MYPAGEIMAGE;
     }
 
@@ -55,9 +48,7 @@ public class MyPageController extends AbstractMyPageController {
             } catch (IOException e) {
                 System.out.println("Exception during file loading.");
             }
-            model.addAttribute("userimagegoto", "Go to <a href=" + SUPPORT_MYPAGE_IMAGE + ">Back to profile page</a>");
-            model.addAttribute("usersuccess", "Image to your profile has been updated successfully");
-            model.addAllAttributes(attributesForSupportHeader());
+            model.addAllAttributes(attributesSuccess(new String[]{}, SUPPORT_MYPAGE_IMAGE, "success.usrimg.upd", "but.profilepage", null));
             return P_SUCCESS;
         }
     }
@@ -66,6 +57,7 @@ public class MyPageController extends AbstractMyPageController {
     public String updateUser(ModelMap model) {
         User user = userService.findByLogin(getActiveUserLogin());
         model.addAllAttributes(attributesUpdateUser(user));
+        model.addAllAttributes(attributesForSupportHeader());
         return P_MYPAGEDATA;
     }
 

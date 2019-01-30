@@ -11,4 +11,6 @@ public interface AccessService {
     void deleteRecruiter(User user);
 
     void createRecruiter(User user);
+
+    void sendMailThread(User user, String mailTopic, String fileLink);
 }

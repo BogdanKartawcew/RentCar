@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import rentcar.controller.support.abstractcontrollers.AbstractMainController;
 
 import java.util.Collection;
-import java.util.Locale;
 
-import static rentcar.model.UserProfileType.CUSTOMER;
+import static rentcar.model.UserProfileType.Constants.*;
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 import static rentcar.propertiesenums.Links.Constants.*;
 import static rentcar.propertiesenums.Pages.Constants.*;
 
@@ -34,15 +34,15 @@ public class MainController extends AbstractMainController {
         model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
         model.addAttribute("SUPPORT_USERS_PAGES", SUPPORT_USERS_PAGES);
         model.addAttribute("COMMON_WELCOME", COMMON_WELCOME);
-        model.addAttribute("loggedinuser", getActiveUserLogin());
+        model.addAttribute(LOW_LOGGEDUSER, getActiveUserLogin());
         return P_SUPPORT;
     }
 
     @RequestMapping(value = COMMON_ACCESSDENIED, method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
-        model.addAllAttributes(attributesForSupportHeader());
         model.addAttribute("SUPPORT_MAIN", SUPPORT_MAIN);
         model.addAttribute("COMMON_LOGOUT", COMMON_LOGOUT);
+        model.addAllAttributes(attributesForSupportHeader());
         return P_ACCESSDENIED;
     }
 
@@ -53,9 +53,9 @@ public class MainController extends AbstractMainController {
             model.addAttribute("COMMON_LOGIN", COMMON_LOGIN);
             model.addAttribute("COMMON_ACCESSREQUEST", COMMON_ACCESSREQUEST);
             model.addAttribute("COMMON_WELCOME", COMMON_WELCOME);
-            model.addAttribute("text", messageSource.getMessage("user.access.request", new String[]{}, Locale.getDefault()));
-            model.addAttribute("button", "Register");
-            model.addAttribute("headertext", "Haven't got an account?");
+            model.addAttribute("text", createText("user.access.request", new String[]{}, null));
+            model.addAttribute("button", createText("but.register", new String[]{}, null));
+            model.addAttribute("headertext", createText("account.request.user", new String[]{}, null));
             return P_LOGIN;
         } else {
             return P_SUPPORT;
@@ -67,7 +67,7 @@ public class MainController extends AbstractMainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            boolean isCustomer = authorities.contains(new SimpleGrantedAuthority("ROLE_" + CUSTOMER));
+            boolean isCustomer = authorities.contains(new SimpleGrantedAuthority(ROLE_ + CUSTOMER));
             persistentTokenBasedRememberMeServices.logout(request, response, authentication);
             SecurityContextHolder.getContext().setAuthentication(null);
             if (isCustomer) {

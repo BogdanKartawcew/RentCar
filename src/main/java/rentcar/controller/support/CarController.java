@@ -1,6 +1,5 @@
 package rentcar.controller.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -10,16 +9,13 @@ import rentcar.controller.support.abstractcontrollers.AbstractCarController;
 import rentcar.model.Car;
 import rentcar.model.CarImage;
 import rentcar.service.common.FileBucket;
-import rentcar.service.car.CarImageService;
-import rentcar.service.car.CarService;
-import rentcar.service.common.PaginatorService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Locale;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
 import static rentcar.propertiesenums.Links.Constants.*;
 import static rentcar.propertiesenums.Pages.Constants.*;
 
@@ -27,42 +23,23 @@ import static rentcar.propertiesenums.Pages.Constants.*;
 @RequestMapping(COMMON_EMPTY)
 public class CarController extends AbstractCarController {
 
-    @Autowired
-    CarService carService;
-
-    @Autowired
-    CarImageService carImageService;
-
-    @Autowired
-    PaginatorService paginatorService;
-
-
-    //link.support.cars
-
     @RequestMapping(value = SUPPORT_CARS, method = RequestMethod.GET)
     public String cars(@PathVariable int pageNumber, @PathVariable int rowsOnPage, ModelMap model) {
-        long pageCount = carService.countAllByPage();
-        int pagesAmount = paginatorService.pagesAmountCounter(pageCount, rowsOnPage);
-        String link = P_CARS + "-";
-        ArrayList<String> paginatorTags = paginatorService.getPaginatorTags(link, rowsOnPage, pagesAmount, pageNumber);
-        model.addAttribute("pagesAmount", pagesAmount);
-        model.addAttribute("paginatorTags", paginatorTags);
-        model.addAttribute("cars", carService.getAllByPage(pageNumber, rowsOnPage));
-        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(universalPaginator(rowsOnPage, pageNumber, LOW_CARS));
         model.addAttribute("COMMON_CARIMAGE_READY", COMMON_CARIMAGE_SHOW_READY);
         model.addAttribute("SUPPORT_CARS_READY", SUPPORT_CARS_READY);
         model.addAttribute("SUPPORT_CAR_CREATE", SUPPORT_CAR_CREATE);
         model.addAttribute("SUPPORT_CARIMAGE_UPLOAD_READY", SUPPORT_CARIMAGE_UPLOAD_READY);
         model.addAttribute("SUPPORT_CAR_DELETE_READY", SUPPORT_CAR_DELETE_READY);
         model.addAttribute("SUPPORT_CAR_EDIT_READY", SUPPORT_CAR_EDIT_READY);
+        model.addAllAttributes(attributesForSupportHeader());
         return P_CARS;
     }
 
     @RequestMapping(value = SUPPORT_CAR_CREATE, method = RequestMethod.GET)
     public String createCar(ModelMap model) {
         Car car = new Car();
-        model.addAttribute("car", car);
-        model.addAttribute("edit", false);
+        model.addAllAttributes(basicAttributes(LOW_CREATE, car, LOW_CAR, false));
         model.addAttribute("SUPPORT_CARS_PAGES", SUPPORT_CARS_PAGES);
         model.addAllAttributes(attributesForSupportHeader());
         return P_CREATECAR;
@@ -72,23 +49,20 @@ public class CarController extends AbstractCarController {
     public String createCar(@Valid Car car, BindingResult result, ModelMap model) {
 
         if (result.hasErrors()) {
-            model.addAttribute("create", true);
-//            model.addAllAttributes(attributesForSupportHeader());
+            model.addAllAttributes(basicAttributes(LOW_CREATE, car, LOW_CAR, true));
+            model.addAllAttributes(attributesForSupportHeader());
             return P_CREATECAR;
         }
 
         if (!carService.isVinUnique(car.getCarId(), car.getVin())) {
-            FieldError error = new FieldError("car", "vin", messageSource.getMessage("non.unique.vin", new String[]{car.getVin()}, Locale.getDefault()));
-            model.addAttribute("error", true);
-            model.addAttribute("create", true);
-//            model.addAllAttributes(attributesForSupportHeader());
+            FieldError error = new FieldError(LOW_CAR, LOW_VIN, messageSource.getMessage("non.unique.vin", new String[]{car.getVin()}, Locale.getDefault()));
+            result.addError(error);
+            model.addAllAttributes(basicAttributes(LOW_CREATE, car, LOW_CAR, true));
+            model.addAllAttributes(attributesForSupportHeader());
             return P_CREATECAR;
         }
         carService.save(car);
-
-        model.addAttribute("cargoto", "Go to <a href=" + SUPPORT_CARS_PAGES + ">Cars list</a>");
-        model.addAttribute("carsuccess", "Car " + car.getCarBrand() + " " + car.getCarModel() + " has registered successfully");
-        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesSuccess(new String[]{car.getCarBrand(), car.getCarModel()}, SUPPORT_CARS_PAGES, "success.car.crt", "but.cars", null));
         return P_SUCCESS;
     }
 
@@ -111,8 +85,7 @@ public class CarController extends AbstractCarController {
     @RequestMapping(value = SUPPORT_CAR_EDIT, method = RequestMethod.GET)
     public String editCar(@PathVariable int carId, ModelMap model) {
         Car car = carService.findById(carId);
-        model.addAttribute("car", car);
-        model.addAttribute("edit", true);
+        model.addAllAttributes(basicAttributes(LOW_EDIT, car, LOW_CAR, false));
         model.addAllAttributes(attributesForSupportHeader());
         return P_CREATECAR;
     }
@@ -121,14 +94,11 @@ public class CarController extends AbstractCarController {
     public String editCar(@Valid Car car, BindingResult result, ModelMap model) {
 
         if (result.hasErrors()) {
-            model.addAttribute("edit", true);
-            model.addAllAttributes(attributesForSupportHeader());
+            model.addAllAttributes(basicAttributes(LOW_EDIT, car, LOW_CAR, true));
             return P_CREATECAR;
         }
         carService.update(car);
-        model.addAttribute("cargoto", "Go to <a href=" + SUPPORT_CARS_PAGES + ">Cars list</a>");
-        model.addAttribute("carsuccess", "Car " + car.getCarBrand() + " " + car.getCarModel() + " has updated successfully");
-        model.addAllAttributes(attributesForSupportHeader());
+        model.addAllAttributes(attributesSuccess(new String[]{car.getCarBrand(), car.getCarModel()}, SUPPORT_CARS_PAGES, "success.car.upd", "but.cars", null));
         return P_SUCCESS;
     }
 
@@ -138,10 +108,10 @@ public class CarController extends AbstractCarController {
         model.clear();
         FileBucket fileModel = new FileBucket();
         Car car = carService.findById(carId);
-        model.addAttribute("car", car);
-        model.addAttribute("fileBucket", fileModel);
-        model.addAllAttributes(attributesForSupportHeader());
+        model.addAttribute(LOW_CAR, car);
+        model.addAttribute(FILEBUCKET, fileModel);
         model.addAttribute("COMMON_CARIMAGE_READY", COMMON_CARIMAGE_SHOW_READY);
+        model.addAllAttributes(attributesForSupportHeader());
         return P_CARIMAGEUPDATE;
     }
 
@@ -160,7 +130,6 @@ public class CarController extends AbstractCarController {
 
     @RequestMapping(value = SUPPORT_CAR_DELETE, method = RequestMethod.GET)
     public String deleteCar(@PathVariable int carId) {
-        carImageService.delete(carId);
         carService.delete(carId);
         return COMMON_REDIRECT + SUPPORT_CARS_PAGES;
     }

@@ -9,6 +9,8 @@ import rentcar.model.Reservation;
 
 import java.util.List;
 
+import static rentcar.propertiesenums.ControlersTexts.Constants.*;
+
 @Repository("reservationDao")
 public class ReservationDaoImpl extends AbstractDao<Integer, Reservation> implements ReservationDao {
 
@@ -39,7 +41,7 @@ public class ReservationDaoImpl extends AbstractDao<Integer, Reservation> implem
     @SuppressWarnings("unchecked")
     @Override
     public List<Reservation> getNotConfirmed() {
-        Criteria criteria = createEntityCriteria().add(Restrictions.eq("confirmed", false)).addOrder(Order.asc("startDate"));
+        Criteria criteria = createEntityCriteria().add(Restrictions.eq(RESCONFIRMED, false)).addOrder(Order.asc("startDate"));
         return (List<Reservation>) criteria.list();
     }
 

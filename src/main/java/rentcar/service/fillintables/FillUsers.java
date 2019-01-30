@@ -59,7 +59,7 @@ public class FillUsers {
         user.setLastName(getRandomString(9));
         user.setEmail(getRandomString(5) + "@gmail.com");
         user.setSex(getRandomSex());
-        user.setRoles(userProfileService.getRoleSet(getRandomNumber(4)));
+        user.setRoles(userProfileService.getRoleSetById(getRandomNumber(4)));
         user.setRole();
         return user;
     }

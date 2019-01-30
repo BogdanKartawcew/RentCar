@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -16,31 +17,30 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer clientId;
 
-    @NotEmpty(message = "PESEL can not be blank")
+    @NotNull(message = "PESEL can not be blank")
     @Size(min = 11, max = 11, message = "Pesel must have 11 integers. Please check again")
     @Column(name = "PESEL", unique = true)
     private String pesel;
 
-    @NotEmpty(message = "First name can not be blank")
+    @NotNull(message = "First name can not be blank")
     @Column(name = "CLIENT_FIRST_NAME")
     private String clientFirstName;
 
-    @NotEmpty(message = "Last name can not be blank")
+    @NotNull(message = "Last name can not be blank")
     @Column(name = "CLIENT_LAST_NAME")
     private String clientLastName;
 
-    @NotEmpty(message = "Email can not be blank")
+    @NotNull(message = "Email can not be blank")
     @Email(message = "It is not an email. Please check field again")
     @Column(name = "CLIENT_EMAIL")
     private String clientEmail;
 
-    @NotEmpty(message = "Field can not be blank")
+    @NotNull(message = "Field can not be blank")
     @Column(name = "CLIENT_COMP_NAME")
     private String clientCompanyName;
 
-    @NotBlank(message = "Please choose a gender")
+    @NotNull(message = "Please choose a gender")
     @Column(name = "CLIENT_GENDER")
-
     private String clientGender;
 
     public Integer getClientId() {

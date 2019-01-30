@@ -65,32 +65,33 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-label" for="startDate">Start date</label>
-                <div class="col-md-7">
-                    <div class='col-sm-4 input-group date' id='startDate'>
-                        <form:input type="datetime" path="startDate" id="startDate" class="form-control input-sm"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        <div class="has-error">
-                            <form:errors path="startDate" class="help-inline"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-label" for="endDate">End date</label>
-                <div class="col-md-7">
-                    <div class='col-sm-4 input-group date' id='endDate'>
-                        <form:input type="datetime" path="endDate" id="endDate" class="form-control input-sm"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                    </div>
+
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-label" for="startDate">Start date</label>
+            <div class="col-md-7">
+                <div class='col-sm-4 input-group date' id='startDate'>
+                    <form:input type="datetime" path="startDate" id="startDate" class="form-control input-sm"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     <div class="has-error">
-                        <form:errors path="endDate" class="help-inline"/>
+                        <form:errors path="startDate" class="help-inline"/>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-label" for="startTime">Start time</label>
+            <div class="col-md-7">
+                <div class='col-sm-4 input-group date' id='startTime'>
+                    <form:input type="text" path="startTime" id="startTime" class="form-control input-sm"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                    <div class="has-error">
+                        <form:errors path="startTime" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <script type="text/javascript">
             $(function () {
@@ -115,62 +116,61 @@
             });
         </script>
 
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-label" for="startTime">Start time</label>
-                <div class="col-md-7">
-                    <div class='col-sm-4 input-group date' id='startTime'>
-                        <form:input type="text" path="startTime" id="startTime" class="form-control input-sm"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                        <div class="has-error">
-                            <form:errors path="startTime" class="help-inline"/>
-                        </div>
-                    </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#startTime').datetimepicker({
+                    format: 'LT',
+                    locale: 'pl',
+                    format: 'HH:mm:ss',
+                    stepping: 15,
+                    enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+                    useCurrent: false
+                });
+            });
+        </script>
+
+
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-label" for="endDate">End date</label>
+            <div class="col-md-7">
+                <div class='col-sm-4 input-group date' id='endDate'>
+                    <form:input type="datetime" path="endDate" id="endDate" class="form-control input-sm"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <div class="has-error">
+                    <form:errors path="endDate" class="help-inline"/>
                 </div>
             </div>
-
-
-            <script type="text/javascript">
-                $(function () {
-                    $('#startTime').datetimepicker({
-                        format: 'LT',
-                        locale: 'pl',
-                        format: 'HH:mm:ss',
-                        stepping: 15,
-                        enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
-                        useCurrent: false
-                    });
-                });
-            </script>
         </div>
 
 
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-label" for="endTime">End time</label>
-                <div class="col-md-7">
-                    <div class='col-sm-4 input-group date' id='endTime'>
-                        <form:input type="text" path="endTime" id="endTime" class="form-control input-sm"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                        <div class="has-error">
-                            <form:errors path="endTime" class="help-inline"/>
-                        </div>
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-label" for="endTime">End time</label>
+            <div class="col-md-7">
+                <div class='col-sm-4 input-group date' id='endTime'>
+                    <form:input type="text" path="endTime" id="endTime" class="form-control input-sm"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                    <div class="has-error">
+                        <form:errors path="endTime" class="help-inline"/>
                     </div>
                 </div>
             </div>
-            <script type="text/javascript">
-                $(function () {
-                    $('#endTime').datetimepicker({
-                        format: 'LT',
-                        locale: 'pl',
-                        format: 'HH:mm:ss',
-                        stepping: 15,
-                        enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
-                        useCurrent: false //to not show default. This one is showing the data from DB.
-                    });
-                });
-            </script>
         </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#endTime').datetimepicker({
+                    format: 'LT',
+                    locale: 'pl',
+                    format: 'HH:mm:ss',
+                    stepping: 15,
+                    enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+                    useCurrent: false //to not show default. This one is showing the data from DB.
+                });
+            });
+        </script>
+
 
         <%--'L' for date only
         'LT' for time only
