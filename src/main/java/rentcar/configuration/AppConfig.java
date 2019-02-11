@@ -28,7 +28,7 @@ import java.util.Properties;
 @ComponentScan(basePackages = "rentcar")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-    //without it uploading files doesn't works
+    /*without it uploading files doesn't works*/
     @Bean(name = "multipartResolver")
     public StandardServletMultipartResolver resolver() {
         return new StandardServletMultipartResolver();
@@ -68,19 +68,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
-    /**
-     * Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
+    /*Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
      * It's a known bug in Spring [https://jira.spring.io/browse/SPR-6164], still present in Spring 4.1.7.
-     * This is a workaround for this issue.
-     */
+     * This is a workaround for this issue*/
     @Override
     public void configurePathMatch(PathMatchConfigurer matcher) {
         matcher.setUseRegisteredSuffixPatternMatch(true);
     }
 
 
-    /*mail configurations*/
-
+    /*Mail configuration*/
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -99,9 +96,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return mailSender;
     }
 
-    /*
-     * FreeMarker configuration.
-     */
+    /*FreeMarker configuration*/
     @Bean
     public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
         FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();

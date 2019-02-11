@@ -5,7 +5,7 @@
 <head>
     <title>Cars</title>
     <%@include file="patches/head.jsp" %>
-    <script src="/static/js/rowsonpage.js" type="text/javascript"></script>
+    <script src="/static/support/js/rowsonpage.js" type="text/javascript"></script>
     <style>
         select {
             margin: 5px;

@@ -3,6 +3,7 @@ package rentcar.service.reservation;
 import rentcar.model.Availability;
 import rentcar.model.Reservation;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface AvailabilityService {
@@ -26,6 +27,8 @@ public interface AvailabilityService {
     Availability setCarUnavailble(Reservation reservation);
 
     boolean[] checkReservationOnEmpties(Reservation reservation);
+
+    HashMap<String, String> getCalendarData();
 }
 
 

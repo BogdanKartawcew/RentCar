@@ -85,6 +85,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     @Override
     public boolean[] checkAvailability(Reservation reservation) {
+
+
+
+
         return availabilityChecker.checkAvailability(reservation);
     }
 
@@ -104,5 +108,12 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             result[5] = false;
         }
         return result;
+    }
+
+    @Override
+    public HashMap<String, String> getCalendarData() {
+
+
+        return null;
     }
 }

@@ -29,7 +29,7 @@ class AvailabilityCheckerImpl implements AvailabilityChecker {
     private final String dbTimeFormat = "HH:mm:ss";
     private final Calendar openHours = toCalendar(Time.valueOf("05:59:59"));
     private final Calendar closeHours = toCalendar(Time.valueOf("22:00:01"));
-    private final int businessReservedHours = 3; //BUSINESS - to create a book after 3 hours car arrived from previous rent.
+    //private final int businessReservedHours = 3; //BUSINESS - to create a book after 3 hours car arrived from previous rent.
 
 
     @Override
@@ -66,10 +66,10 @@ class AvailabilityCheckerImpl implements AvailabilityChecker {
             System.out.println("LIST WAS EMPTY. THE FIRST RECORD WITH THIS CAR.");
             return correctArray;
         } else {
-            newStartTime.add(Calendar.HOUR_OF_DAY, -(businessReservedHours - 1)); //MINUS
-            newStartTime.add(Calendar.MINUTE, -(59));
-            newEndTime.add(Calendar.HOUR_OF_DAY, businessReservedHours - 1); //PLUS
-            newEndTime.add(Calendar.MINUTE, 59);
+            //newStartTime.add(Calendar.HOUR_OF_DAY, -(businessReservedHours - 1)); //MINUS
+            //newStartTime.add(Calendar.MINUTE, -(59));
+            //newEndTime.add(Calendar.HOUR_OF_DAY, businessReservedHours - 1); //PLUS
+            //newEndTime.add(Calendar.MINUTE, 59);
             Calendar newStartTimestamp = createTimestamp(newStartDate, newStartTime);
             Calendar newEndTimestamp = createTimestamp(newEndDate, newEndTime);
 

@@ -1,4 +1,5 @@
 <%@include file="../commonpatches/topjsp.jsp" %>
+<html>
 <head>
     <title>By date or by car</title>
     <%@include file="patches/head.jsp" %>
@@ -36,3 +37,4 @@
     </div>
 </div>
 </body>
+</html>

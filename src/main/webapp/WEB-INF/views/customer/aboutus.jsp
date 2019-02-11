@@ -1,4 +1,5 @@
 <%@include file="../commonpatches/topjsp.jsp" %>
+<html>
 <head>
     <title>About us</title>
     <%@include file="patches/head.jsp" %>
@@ -121,4 +122,4 @@
     </div>
 </div>
 </body>
-
+</html>

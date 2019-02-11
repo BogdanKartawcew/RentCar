@@ -40,11 +40,20 @@
                 <label class="col-md-3 control-lable" for="clientId">Client</label>
                 <div class="col-md-7">
                     <div class='col-sm-4 input-group date' id='clientId'>
-                        <form:select items="${clientsMap}" path="clientId" class="form-control input-sm"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                        <div class="has-error">
-                            <form:errors path="clientId" class="help-inline"/>
-                        </div>
+                        <c:choose>
+                            <c:when test="${edit}">
+                                <form:select items="${clientsMap}" path="clientId" class="form-control input-sm"
+                                             disabled="true"/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            </c:when>
+                            <c:otherwise>
+                                <form:select items="${clientsMap}" path="clientId" class="form-control input-sm"/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <div class="has-error">
+                                    <form:errors path="clientId" class="help-inline"/>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
@@ -123,8 +132,8 @@
                     format: 'LT',
                     locale: 'pl',
                     format: 'HH:mm:ss',
-                    stepping: 15,
-                    enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+                    stepping: 30,
+                    enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
                     useCurrent: false
                 });
             });
@@ -164,8 +173,8 @@
                     format: 'LT',
                     locale: 'pl',
                     format: 'HH:mm:ss',
-                    stepping: 15,
-                    enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+                    stepping: 30,
+                    enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
                     useCurrent: false //to not show default. This one is showing the data from DB.
                 });
             });
