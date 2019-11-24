@@ -15,6 +15,7 @@ import rentcar.service.car.CarService;
 import rentcar.service.client.ClientService;
 import rentcar.service.common.CommonInfoService;
 import rentcar.service.common.PaginatorService;
+import rentcar.service.common.RoleCheckerService;
 import rentcar.service.reservation.AvailabilityService;
 import rentcar.service.reservation.ReservationHistoryService;
 import rentcar.service.reservation.ReservationService;
@@ -62,7 +63,7 @@ public abstract class AbstractController {
     protected UserService userService;
 
     @Autowired
-    ReservationHistoryService reservationHistoryService;
+    protected ReservationHistoryService reservationHistoryService;
 
     @Autowired
     protected ClientService clientService;
@@ -74,7 +75,7 @@ public abstract class AbstractController {
     protected PaginatorService paginatorService;
 
     @Autowired
-    protected PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
+    protected RoleCheckerService roleCheckerService;
 
     @Autowired
     AuthenticationTrustResolver authenticationTrustResolver;

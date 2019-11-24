@@ -64,15 +64,9 @@ public class MainController extends AbstractMainController {
 
     @RequestMapping(value = COMMON_LOGOUT, method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            boolean isCustomer = authorities.contains(new SimpleGrantedAuthority(ROLE_ + CUSTOMER));
-            persistentTokenBasedRememberMeServices.logout(request, response, authentication);
-            SecurityContextHolder.getContext().setAuthentication(null);
-            if (isCustomer) {
-                return COMMON_REDIRECT + COMMON_WELCOME;
-            }
+
+        if (roleCheckerService.hasRole(request, response, CUSTOMER)) {
+            return COMMON_REDIRECT + COMMON_WELCOME;
         }
         return COMMON_REDIRECT + COMMON_LOGOUT_REDIRECT;
     }

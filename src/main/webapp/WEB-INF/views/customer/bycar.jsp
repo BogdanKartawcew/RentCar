@@ -7,6 +7,8 @@
 </head>
 <body>
 <%@include file="patches/navbar.jsp" %>
+#{links.Constants.COMMON_CARIMAGE_SHOW_READY}
+
 <c:forEach items="${cars}" var="car">
     <div class="py-3 mx-3">
         <div class="row justify-content-center">

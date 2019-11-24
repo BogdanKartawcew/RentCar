@@ -92,29 +92,30 @@ public class AccessServiceImpl implements AccessService {
         user.setPassword(randomDataClass.getRandomString(8));
         user.setLastName("Unknown last name");
         user.setRoles(userProfileService.getRoleSetById(3));
-        sendMailThread(user, "RentCar inc. - recruiter access is granted", "mailRecruiterAccessGranted.txt");
+        sendMailThread(user, "mail.recruiter.confirmed", "txt.recruiter.confirmed");
         userService.save(user);
     }
 
     //TODO
     @Override
     public void deleteRecruiter(User user) {
-        sendMailThread(user, "RentCar inc. - recruiter access is removed", "mailRecruiterAccessRemoved.txt");
+        sendMailThread(user, "mail.recruiter.removed", "txt.recruiter.removed");
         userImageService.deleteUserImageByLogin(user.getLogin());
         userService.deleteByLogin(user.getLogin());
     }
 
     @Override
-    public void sendMailThread(User user, String mailTopic, String fileLink) {
+    public void sendMailThread(User user, String mailTopicMsg, String fileLinkMsg) {
         Thread sendMailThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String mailSubject = messageSource.getMessage(mailTopic, new String[]{}, Locale.getDefault());
+                String mailTopicText = messageSource.getMessage(mailTopicMsg, new String[]{}, Locale.getDefault());
+                String fileLinkText = messageSource.getMessage(fileLinkMsg, new String[]{}, Locale.getDefault());
                 HashMap<String, Object> model = new HashMap<String, Object>();
                 model.put(LOW_USER, user.getFirstName());
                 model.put(LOW_LOGIN, user.getLogin());
                 model.put(LOW_PASSWORD, user.getPassword());
-                mailUser(mailSubject, fileLink, user.getEmail(), model);
+                mailUser(mailTopicText, fileLinkText, user.getEmail(), model);
             }
         });
         sendMailThread.start();

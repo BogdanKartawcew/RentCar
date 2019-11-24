@@ -48,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage(COMMON_LOGIN)
                 .loginProcessingUrl(COMMON_LOGIN).usernameParameter(LOW_LOGIN).passwordParameter(LOW_PASSWORD).and() //do not change!
                 .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-                .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage(COMMON_ACCESSDENIED);
+                .tokenValiditySeconds(604800).and().csrf().and().exceptionHandling().accessDeniedPage(COMMON_ACCESSDENIED);
     }
 
     private String roleText(String[] args) {
