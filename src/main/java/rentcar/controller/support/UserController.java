@@ -112,7 +112,7 @@ public class UserController extends AbstractUserController {
 
     @RequestMapping(value = SUPPORT_USER_DELETE, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String login) {
-        accessService.sendMailThread(userService.findByLogin(login), "mail.user.removed", "mailUserAccessRemoved.txt");
+        accessService.sendMailThread(userService.findByLogin(login), "mail.user.removed", "txt.user.removed");
         userImageService.deleteUserImageByLogin(login);
         userService.deleteByLogin(login);
         return COMMON_REDIRECT + SUPPORT_USERS_PAGES;

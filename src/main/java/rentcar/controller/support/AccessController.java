@@ -37,7 +37,7 @@ public class AccessController extends AbstractAccessController {
             return P_ACCESSFORM;
         }
         userService.save(user);
-        accessService.sendMailThread(user, "mail.user.requested", "mailUserAccessRequestSent.txt");
+        accessService.sendMailThread(user, "mail.user.requested", "txt.user.requested");
         model.addAttribute("COMMON_LOGIN", COMMON_LOGIN);
         model.addAllAttributes(attributesSuccess(new String[]{user.getEmail()}, SUPPORT_MYPAGE_IMAGE, "success.request.sent", "but.request.sent", null));
         return P_SUCCESS;
@@ -48,7 +48,7 @@ public class AccessController extends AbstractAccessController {
         User user = userService.findByLogin(login);
         user.setRoles(userProfileService.getRoleSetByType(USER));
         userService.update(user);
-        accessService.sendMailThread(user, "mail.user.confirmed", "mailUserAccessGranted.txt");
+        accessService.sendMailThread(user, "mail.user.confirmed", "txt.user.granted");
         return COMMON_REDIRECT + SUPPORT_USERS_PAGES;
     }
 
