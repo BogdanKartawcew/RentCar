@@ -127,7 +127,7 @@ public class ReservationController extends AbstractReservationController {
     @RequestMapping(value = SUPPORT_RESERVATION_EDIT, method = RequestMethod.GET)
     public String editReservation(@PathVariable int reservationId, ModelMap model) {
         model.addAllAttributes(attributesCRUD(LOW_EDIT, true));
-        model.addAttribute("reservation", reservationService.findById(reservationId));
+        model.addAttribute(LOW_RESERVATION, reservationService.findById(reservationId));
         model.addAttribute("SUPPORT_RESERVATIONS_ALL", SUPPORT_RESERVATIONS_ALL);
         model.addAllAttributes(attributesForSupportHeader());
         return P_CREATERESERVATION;
