@@ -133,9 +133,10 @@ public class ReservationController extends AbstractReservationController {
         return P_CREATERESERVATION;
     }
 
+    //TODO - change these two metods into one common
     @RequestMapping(value = SUPPORT_RESERVATION_EDIT, method = RequestMethod.POST)
     public String editReservation(@Valid Reservation reservation, BindingResult result, ModelMap model) {
-
+        System.out.println("RESERVATION AT THE START:" + reservation);
         String editcreate = LOW_EDIT;
         boolean[] reservationErrors = availabilityService.checkReservationOnEmpties(reservation);
         boolean hasReservationErrors = availabilityService.containsFalse(reservationErrors);
@@ -190,7 +191,7 @@ public class ReservationController extends AbstractReservationController {
     private FieldError getError(int index, Reservation reservation) {
         /*startDateAvailable, endDateAvailable, startTimeAvailable, endTimeAvailable, startTimeInTime, endTimeInTime*/
         System.out.println("GET ERRORS");
-        String res = "reservation";
+        String res = LOW_RESERVATION;
         switch (index) {
             case 0: {
                 System.out.println("ERROR 0");
