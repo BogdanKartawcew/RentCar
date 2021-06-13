@@ -1,0 +1,92 @@
+div.car_calendar {
+    margin: 0;
+    padding: 0;
+}
+
+div.car_calendar .table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div.car_calendar .table th,
+div.car_calendar .table td {
+    padding: 2px 2px;
+    text-align: center;
+}
+
+div.car_calendar .table tr th,
+div.car_calendar .table tr td {
+    background-color: #151515;
+    color: #ffffff;
+}
+
+/* month header */
+div.car_calendar .table tr.calendar-month-header td {
+    background-color: #151515;
+    font-weight: bold;
+}
+
+div.car_calendar .table tr.calendar-month-header td span {
+    cursor: pointer;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+div.car_calendar .table tr.calendar-month-header td {
+    padding-top: 12px;
+    padding-bottom: 4px;
+}
+
+div.car_calendar .table-bordered tr.calendar-month-header td {
+    border-left: 0;
+    border-right: 0;
+}
+
+
+div.car_calendar div.calendar-month-navigation {
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    padding-top: 5px;
+}
+
+/* day-of-week header */
+div.car_calendar .table tr.calendar-dow-header th {
+    background-color: #151515;
+}
+
+div.car_calendar tr.calendar-dow-header th,
+div.car_calendar tr.calendar-dow td {
+    width: 14%;
+}
+
+/* day */
+div.car_calendar .table tr td div.day {
+    margin: 0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+/* actions and events */
+div.car_calendar .table tr td.event div.day,
+div.car_calendar ul.legend li.event {
+    background-color: #12bbad;
+}
+
+/* badge */
+div.car_calendar .badge-today,
+div.car_calendar div.legend span.badge-today {
+    background-color: #ffffff;
+    color: #12bbad;
+    text-shadow: none;
+
+}
+
+/* responsive */
+@media (max-width: 979px) {
+    div.car_calendar .table th,
+    div.car_calendar .table td {
+        padding: 1px 1px;
+    }
+}

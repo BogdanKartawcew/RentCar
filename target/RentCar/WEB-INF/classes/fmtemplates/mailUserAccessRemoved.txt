@@ -1,0 +1,15 @@
+<html>
+<body>
+<h3>Dear ${user}, </h3>
+<div>
+    <p>It's annoyingly for us to announce you, that your access has been removed.<br>
+        From now your login <b>${login}</b> is inactive and you can't use it.
+    <p>We really hope that your choise will change in the future and you will join us again.<br>
+    In any time you can do it through this <a href="http://java-experience.eu/accessrequest">link</a>
+</div>
+<p>
+    Wish you all the best,<br>
+    Bogdan Kartawcew<br>
+    <a href="http://java-experience.eu/login">java-experience.eu</a>
+</body>
+</html>

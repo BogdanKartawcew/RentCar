@@ -1,0 +1,18 @@
+<html>
+<body>
+<h3>Dear ${user}, </h3>
+<div>
+    <p>Happy to inform you that your access is accepted by administrator and successfully granted to you.<br>
+        Now you can login to your account and to use the whole authority with the next credentials:</p>
+</div>
+
+Login: ${login}<br>
+Password: ${password}<br>
+
+During tests try to click every button, create user, cars, modify them, delete etc. - feel free to do anything with the data.
+<p>
+    Best regards,<br>
+    Bogdan Kartawcew<br>
+    Welcome page and login: <a href="http://java-experience.eu/login">java-experience.eu</a>
+</body>
+</html>
