@@ -9,12 +9,91 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f4785c1-a9fb-4445-83e2-0c9ded7349cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/RentCar_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/RentCar_war.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/RentCar_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/RentCar_war_exploded.xml" afterDir="false" />
+    <list default="true" id="3f4785c1-a9fb-4445-83e2-0c9ded7349cf" name="Default Changelist" comment="updating github">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RentCar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/RentCar.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rentcar/configuration/HibernateConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rentcar/configuration/HibernateConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tables.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/AbstractController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/AbstractController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/CarController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/CarController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/MyPageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/MyPageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/ReservationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/ReservationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/abstractcontrollers/AbstractReservationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/controller/support/abstractcontrollers/AbstractReservationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/car/CarDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/car/CarDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/client/ClientDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/client/ClientDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/common/HibernateTokenRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/common/HibernateTokenRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/reservation/ReservationHistoryDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/reservation/ReservationHistoryDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/user/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/dao/user/UserDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Availability.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Availability.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Car.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Car.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/CarImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/CarImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Reservation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Reservation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/ReservationHistory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/ReservationHistory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/ReservationStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/ReservationStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/Role.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/UserImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/model/UserImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/security/CustomUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/security/CustomUserDetailsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/security/SecurityConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/security/SecurityConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/access/AccessServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/access/AccessServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/car/CarImageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/car/CarImageServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/car/CarServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/car/CarServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/client/ClientServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/client/ClientServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/CommonInfoServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/CommonInfoServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/MailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/MailServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/PaginatorServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/PaginatorServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/RoleCheckerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/common/RoleCheckerServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/fillintables/FillUsers.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/fillintables/FillUsers.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/AvailabilityCheckerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/AvailabilityCheckerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/AvailabilityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/AvailabilityServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/ReservationServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/ReservationServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/ReservationStatusServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/reservation/ReservationStatusServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/user/UserImageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/user/UserImageServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/user/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/classes/rentcar/service/user/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/RentCar/WEB-INF/views/support/createreservation.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/RentCar/WEB-INF/views/support/createreservation.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/controller/AbstractController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/controller/AbstractController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/controller/support/CarController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/controller/support/CarController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/controller/support/MyPageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/controller/support/MyPageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/controller/support/ReservationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/controller/support/ReservationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/controller/support/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/controller/support/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/controller/support/abstractcontrollers/AbstractReservationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/controller/support/abstractcontrollers/AbstractReservationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/dao/car/CarDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/dao/car/CarDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/dao/client/ClientDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/dao/client/ClientDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/dao/common/HibernateTokenRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/dao/common/HibernateTokenRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/dao/reservation/ReservationHistoryDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/dao/reservation/ReservationHistoryDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/dao/user/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/dao/user/UserDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/Availability.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/Availability.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/Car.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/Car.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/CarImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/CarImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/Reservation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/Reservation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/ReservationHistory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/ReservationHistory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/ReservationStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/ReservationStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/Role.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/model/UserImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/model/UserImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/security/CustomUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/security/CustomUserDetailsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/security/SecurityConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/security/SecurityConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/access/AccessServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/access/AccessServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/car/CarImageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/car/CarImageServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/car/CarServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/car/CarServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/client/ClientServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/client/ClientServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/common/CommonInfoServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/common/CommonInfoServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/common/MailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/common/MailServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/common/PaginatorServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/common/PaginatorServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/common/RoleCheckerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/common/RoleCheckerServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/fillintables/FillUsers.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/fillintables/FillUsers.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/AvailabilityCheckerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/AvailabilityCheckerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/AvailabilityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/AvailabilityServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/ReservationServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/ReservationServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/ReservationStatusServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/reservation/ReservationStatusServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/user/UserImageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/user/UserImageServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rentcar/service/user/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/rentcar/service/user/UserServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +129,11 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LogFilters">
@@ -71,9 +155,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TF_FMT" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574600846053" />
@@ -82,11 +168,27 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.28850573" />
-    <property name="settings.editor.selected.configurable" value="debugger.stepping" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager">
-    <configuration name="Tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.12" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="BROWSER_ID" value="53e2f627-b1a7-4dfa-bfa7-5b83cc034776" />
+  <component name="RunManager" selected="JUnit.UserDaoImplTest.findByLogin">
+    <configuration name="UserDaoImplTest.findByLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RentCar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="rentcar.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="rentcar.dao" />
+      <option name="MAIN_CLASS_NAME" value="rentcar.dao.UserDaoImplTest" />
+      <option name="METHOD_NAME" value="findByLogin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.52" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="BROWSER_ID" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
       <option name="UPDATING_POLICY" value="redeploy-artifacts" />
       <deployment>
         <artifact name="RentCar:war exploded">
@@ -136,6 +238,21 @@
           <option name="PROGRAM_PARAMETERS" value="" />
         </SHUTDOWN>
       </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
@@ -157,6 +274,15 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.UserDaoImplTest.findByLogin" />
+      <item itemvalue="Tomcat Server.Tomcat" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserDaoImplTest.findByLogin" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -177,7 +303,10 @@
       <workItem from="1574691902375" duration="2244000" />
       <workItem from="1574797804585" duration="47000" />
       <workItem from="1578844528308" duration="5199000" />
-      <workItem from="1623584528735" duration="366000" />
+      <workItem from="1623584528735" duration="1023000" />
+      <workItem from="1628163252237" duration="27000" />
+      <workItem from="1628514647317" duration="4842000" />
+      <workItem from="1628527580780" duration="375000" />
     </task>
     <task id="LOCAL-00001" summary="new version starting">
       <created>1574600733667</created>
@@ -200,11 +329,21 @@
       <option name="project" value="LOCAL" />
       <updated>1578851236303</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="updating github">
+      <created>1623585180643</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1623585180643</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="readme" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -216,6 +355,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="new version starting" />
